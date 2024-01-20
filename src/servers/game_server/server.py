@@ -1,4 +1,18 @@
-def start_game_server():
-    # Initialize and start the Agent server here
-    # This could involve setting up a web server, connecting to a database, etc.
-    print("Game server ready to go!")
+from src.domain.game_state import GameState
+import src.services.cli_services
+
+class GameServer:
+    def __init__(self):
+        self.game_state = GameState()
+
+    def start_game(self):
+        self.game_state.start()
+        self.run_game_loop()
+
+    def run_game_loop(self):
+        # Here you would have the loop that calls the game state update
+        self.game_state.update(cli_services)
+
+    def shutdown(self):
+        # Perform any cleanup necessary for shutting down the server
+        pass
