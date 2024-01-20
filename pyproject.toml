@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "reality-agents"
+version = "0.1.0"
+description = ""
+authors = ["nworb999 <emma.nworb@gmail.com>"]
+license = "CC BY-SA 4.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

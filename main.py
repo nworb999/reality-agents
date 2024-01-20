@@ -1,8 +1,8 @@
-from src.servers.game_server.server import GameServer
+from reality_agents.servers.game_server.server import GameServer
 
 if __name__ == "__main__":
-    from src.data.models import Base
-    from src.data.database import engine
+    from reality_agents.data.models import Base
+    from reality_agents.data.database import engine
     Base.metadata.create_all(engine)
 
     game_server = GameServer()

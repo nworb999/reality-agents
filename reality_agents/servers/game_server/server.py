@@ -1,5 +1,5 @@
-from src.domain.game_state import GameState
-import src.services.cli_services
+from reality_agents.domain.game_state import GameState
+import reality_agents.services.cli_services
 
 class GameServer:
     def __init__(self):
