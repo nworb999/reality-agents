@@ -1,6 +1,7 @@
-# src/data/repositories.py
-from .database import get_session
-from .models import Game
+from database import get_session
+from models import Game
+
+# placeholder -- repository is for abstracting the data layer
 
 class GameRepository:
     def __init__(self):
@@ -13,4 +14,4 @@ class GameRepository:
         self.session.add(game)
         self.session.commit()
 
-    # Add more data access methods as needed
+

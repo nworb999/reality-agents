@@ -1,4 +1,5 @@
 import time
+from reality_agents.services import cli_service
 
 class GameState:
     def __init__(self):
@@ -8,7 +9,7 @@ class GameState:
     def start(self):
         self.is_running = True
         self.progress = 0
-        print("Game started!")
+        print("Game started!\n\n")
         self.update()
 
     def update(self):
@@ -23,5 +24,5 @@ class GameState:
     def end(self):
         self.is_running = False
         self.progress = 100
-        print("Game ended!")
+        print("\n\nGame ended!")
 
