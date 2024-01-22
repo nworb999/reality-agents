@@ -1,5 +1,5 @@
 from reality_agents.domain.game_state import GameState
-import reality_agents.services.cli_services
+from reality_agents.services import cli_service
 
 class GameServer:
     def __init__(self):
@@ -11,7 +11,7 @@ class GameServer:
 
     def run_game_loop(self):
         # Here you would have the loop that calls the game state update
-        self.game_state.update(cli_services)
+        self.game_state.update()
 
     def shutdown(self):
         # Perform any cleanup necessary for shutting down the server
