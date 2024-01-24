@@ -1,6 +1,6 @@
-from reality_agents.domain.progress_bar_race.game_logic import ProgressBarRace as GameLogic
+from reality_agents.domain.progress_bar_race.game_logic import ProgressBarRaceLogic as GameLogic
 
-class ProgressBarRace:
+class ProgressBarRaceService:
     def __init__(self):
         self.game = None # replace with gamestate?
 

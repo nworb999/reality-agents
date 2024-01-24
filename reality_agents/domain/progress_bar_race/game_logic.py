@@ -1,4 +1,4 @@
-class ProgressBarRace:
+class ProgressBarRaceLogic:
     def __init__(self):
         self.progress1 = 0
         self.progress2 = 0

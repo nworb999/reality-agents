@@ -1,4 +1,4 @@
-from reality_agents.services.progress_bar_race.game_service import ProgressBarRace as GameService
+from reality_agents.services.progress_bar_race.game_service import ProgressBarRaceService as GameService
 
 # handles game logic
 
@@ -12,6 +12,6 @@ class GameController:
     def play_turn(self, player_number):
         winner = self.game_service.play_turn(player_number)
         if winner:
-            return {"message": f"Player {winner} wins!"}
+            return {"message": f"Player {winner} wins!", "winner": winner}
         else:
             return {"message": f"Player {player_number} has rolled. Next player's turn."}
