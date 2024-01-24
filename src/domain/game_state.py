@@ -1,5 +1,5 @@
 import time
-from reality_agents.services import cli_service
+from src.services import cli_service
 
 class GameState:
     def __init__(self):
@@ -14,7 +14,7 @@ class GameState:
 
     def update(self):
         while self.progress < 100:
-            time.sleep(0.5)  # Simulate work
+            time.sleep(0.5)  
             self.progress += 10
             cli_service.update_progress_bar(self.progress)
             if self.progress >= 100:
