@@ -1,6 +1,8 @@
-# src/data/repositories.py
-from .database import get_session
-from .models import Game
+from database import get_session
+from models import Game
+
+# repository implementations are classes that encapsulate the logic required to access data sources
+# you should only define one repository for each aggregate root
 
 class GameRepository:
     def __init__(self):
@@ -13,4 +15,4 @@ class GameRepository:
         self.session.add(game)
         self.session.commit()
 
-    # Add more data access methods as needed
+
