@@ -1,7 +1,8 @@
 from database import get_session
 from models import Game
 
-# placeholder -- repository is for abstracting the data layer
+# repository implementations are classes that encapsulate the logic required to access data sources
+# you should only define one repository for each aggregate root
 
 class GameRepository:
     def __init__(self):
