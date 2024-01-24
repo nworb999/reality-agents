@@ -11,6 +11,7 @@ class ProgressBarRaceLogic:
 
     def roll(self):
         import random
+
         return random.randint(1, 10)
 
     def update_progress(self, player_number):
@@ -18,7 +19,7 @@ class ProgressBarRaceLogic:
         if player_number == 1:
             self.progress1 = min(self.progress1 + roll_value, self.target)
         else:
-             self.progress2 = min(self.progress2 + roll_value, self.target)  # Cap at 100
+            self.progress2 = min(self.progress2 + roll_value, self.target)  # Cap at 100
 
         self.check_winner()
 

@@ -4,6 +4,7 @@ from models import Game
 # repository implementations are classes that encapsulate the logic required to access data sources
 # you should only define one repository for each aggregate root
 
+
 class GameRepository:
     def __init__(self):
         self.session = get_session()
@@ -14,5 +15,3 @@ class GameRepository:
     def add_game(self, game):
         self.session.add(game)
         self.session.commit()
-
-
