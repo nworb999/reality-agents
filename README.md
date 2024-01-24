@@ -15,3 +15,7 @@ This layer will define RESTful endpoints such as starting a game, getting the cu
 ### service layer
 
 This layer processes requests from the API layer, applying business rules that are not directly part of the core game logic.  This includes determining which game type a request refers to.  It will also act as a mediator between the API layer and the domain layer, calling upon the domain layer to carry out game-related operations.  The domain layer and the API layer should remain separate, otherwise.  The service layer will also handle interactions with the database.
+
+## frameworks
+
+In the future, I might need to convert this project into a web-based application. In that case, I would use a framework like FastAPI. 
