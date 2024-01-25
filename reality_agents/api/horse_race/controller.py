@@ -1,5 +1,5 @@
-from reality_agents.services.progress_bar_race.game_service import (
-    ProgressBarRaceService as GameService,
+from reality_agents.services.horse_race.game_service import (
+    HorseRaceService as GameService,
 )
 
 # handles game logic

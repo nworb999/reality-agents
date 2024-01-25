@@ -1,7 +1,8 @@
-from reality_agents.api.progress_bar_race.controller import (
-    GameController as ProgressBarGameController,
+from reality_agents.api.horse_race.controller import (
+    GameController as HorseGameController,
 )
 from reality_agents.view.terminal_output import display_progress, display_winner
+from utils.constants import ascii_intro_2
 import time
 import sys
 
@@ -9,8 +10,8 @@ import sys
 def main():
     game_type = input("Please enter the game type: ")
 
-    if game_type.lower() == "progress bar":
-        game_controller = ProgressBarGameController()
+    if game_type.lower() == "horse race":
+        game_controller = HorseGameController()
 
         print(game_controller.start_game()["message"])
 
@@ -43,4 +44,6 @@ def main():
 
 
 if __name__ == "__main__":
+    print(ascii_intro_2)
+
     main()

@@ -1,25 +1,30 @@
-class ProgressBarRaceLogic:
+class HorseRaceLogic:
     def __init__(self):
         self.progress1 = 0
         self.progress2 = 0
         self.target = 100
 
     def reset_game(self):
-        # Reset the progress of both players to 0
         self.progress1 = 0
         self.progress2 = 0
 
     def roll(self):
         import random
 
-        return random.randint(1, 10)
+        return random.randint(10, 20)
+
+    def play_round(self):
+        self.update_progress(1)
+        # should i check for a winner immediately after a roll?
+        self.update_progress(2)
+        return None
 
     def update_progress(self, player_number):
         roll_value = self.roll()
         if player_number == 1:
             self.progress1 = min(self.progress1 + roll_value, self.target)
         else:
-            self.progress2 = min(self.progress2 + roll_value, self.target)  # Cap at 100
+            self.progress2 = min(self.progress2 + roll_value, self.target)
 
         self.check_winner()
 
