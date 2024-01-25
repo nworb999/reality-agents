@@ -1,46 +1,51 @@
-from reality_agents.api.progress_bar_race.controller import (
-    GameController as ProgressBarGameController,
+from reality_agents.api.horse_race.controller import (
+    GameController as HorseGameController,
 )
 from reality_agents.view.terminal_output import display_progress, display_winner
+from utils.constants import ascii_intro_2
 import time
 import sys
 
 
 def main():
-    game_type = input("Please enter the game type: ")
+    game_type = input("Please enter the game type: ") or "horse race"
 
-    if game_type.lower() == "progress bar":
-        game_controller = ProgressBarGameController()
+    if game_type.lower().strip() == "horse race":
+        num_players_input = input("Enter the number of players: ")
+        num_players = int(num_players_input) if num_players_input else 2
+        game_controller = HorseGameController(num_players)
 
         print(game_controller.start_game()["message"])
 
-        current_player = 1
+        round_counter = 0
 
         while True:
-            response = game_controller.play_turn(current_player)
-            print(response["message"])
+            for current_player in range(1, num_players + 1):
+                _, round_completed = game_controller.play_turn()
 
-            # Display progress here
-            # You need to add a method in your game logic to retrieve current progress
-            progress1, progress2 = (
-                game_controller.game_service.game.progress1,
-                game_controller.game_service.game.progress2,
-            )
-            display_progress(progress1, progress2)
+                if current_player == num_players:
+                    round_completed = True
+                else:
+                    round_completed = False
+                if round_completed:
+                    winner = game_controller.game_service.game.check_winner()
+                    if winner:
+                        display_progress(*progress)
+                        display_winner(winner)
+                        return
 
-            if "wins" in response["message"]:
-                display_winner(response["winner"])
-                break
+                    progress = game_controller.game_service.game.progress
+                    round_counter += 1
+                    display_progress(*progress)
 
-            # Switch player
-            current_player = 1 if current_player == 2 else 2
-
-            # Delay for readability
-            time.sleep(1)
+                time.sleep(1)
 
     else:
         print("Unknown game type. Exiting.")
 
 
 if __name__ == "__main__":
+    print("\033[2J\033[H", end="")
+    print(ascii_intro_2)
+
     main()
