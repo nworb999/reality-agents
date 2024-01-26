@@ -1,36 +1,38 @@
+import random
+
+
 class HorseRaceLogic:
-    def __init__(self):
-        self.progress1 = 0
-        self.progress2 = 0
+    def __init__(self, num_players=2):
+        self.num_players = num_players
+        self.progress = [0] * num_players
+        self.current_turn = 0
         self.target = 100
+        self.round_values = [0] * num_players
 
     def reset_game(self):
-        self.progress1 = 0
-        self.progress2 = 0
+        self.progress = [0] * self.num_players
+        self.current_turn = 0
+        self.round_values = [0] * self.num_players
 
-    def roll(self):
-        import random
+    def play_turn(self):
+        roll = random.randint(10, 20)
+        self.round_values[self.current_turn] = roll
 
-        return random.randint(10, 20)
+        round_completed = False
+        if self.current_turn == self.num_players - 1:
+            self.update_progress()
+            round_completed = True
 
-    def play_round(self):
-        self.update_progress(1)
-        # should i check for a winner immediately after a roll?
-        self.update_progress(2)
-        return None
+        self.current_turn = (self.current_turn + 1) % self.num_players
+        return None, round_completed
 
-    def update_progress(self, player_number):
-        roll_value = self.roll()
-        if player_number == 1:
-            self.progress1 = min(self.progress1 + roll_value, self.target)
-        else:
-            self.progress2 = min(self.progress2 + roll_value, self.target)
-
-        self.check_winner()
+    def update_progress(self):
+        for i in range(self.num_players):
+            self.progress[i] = min(self.progress[i] + self.round_values[i], self.target)
+        self.round_values = [0] * self.num_players
 
     def check_winner(self):
-        if self.progress1 >= self.target:
-            return 1
-        elif self.progress2 >= self.target:
-            return 2
+        for i, progress in enumerate(self.progress):
+            if progress >= self.target:
+                return i + 1
         return None

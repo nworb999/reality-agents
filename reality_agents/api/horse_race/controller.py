@@ -6,17 +6,11 @@ from reality_agents.services.horse_race.game_service import (
 
 
 class GameController:
-    def __init__(self):
-        self.game_service = GameService()
+    def __init__(self, num_players=2):
+        self.game_service = GameService(num_players)
 
     def start_game(self):
         return {"message": self.game_service.start_game()}
 
-    def play_turn(self, player_number):
-        winner = self.game_service.play_turn(player_number)
-        if winner:
-            return {"message": f"Player {winner} wins!", "winner": winner}
-        else:
-            return {
-                "message": f"Player {player_number} has rolled. Next player's turn."
-            }
+    def play_turn(self):
+        return self.game_service.play_round()

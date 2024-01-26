@@ -1,22 +1,38 @@
 from colorama import Fore, Style
-from utils.constants import race_horse, carousel_horse
+from utils.constants import race_horse, carousel_horse, ascii_intro_2
 
+COLORS = [
+    Fore.MAGENTA,
+    Fore.CYAN,
+    Fore.RED,
+    Fore.GREEN,
+    Fore.YELLOW,
+    Fore.BLUE,
+    Fore.WHITE,
+]
 
 # horse race
-def display_progress(progress1, progress2):
-    print(
-        Fore.MAGENTA
-        + f"Player 1: [{' ' * (100 - progress1)}{carousel_horse + ' '}{'=' * progress1}]\n"
-        + Style.RESET_ALL
-    )
-    print(
-        Fore.CYAN
-        + f"Player 2: [{ ' ' * (100 - progress2)}{race_horse + ' '}{'=' * progress2}]\n\n"
-        + Style.RESET_ALL
-    )
+def display_progress(*progress):
+    for i, player_progress in enumerate(progress):
+        horse = carousel_horse if i % 2 == 0 else race_horse
+        color = COLORS[i % len(COLORS)]
+
+        print(
+            color
+            + f"Player {i + 1}: [{' ' * (100 - player_progress)}{horse + ' '}{'=' * player_progress}]"
+            + Style.RESET_ALL
+        )
 
 
 def display_winner(winner):
-    if winner:
-        color = Fore.MAGENTA if winner == 1 else Fore.CYAN
-        print(color + f"\nPlayer {winner}" + Style.RESET_ALL + " wins the game!")
+    winner_int = int(winner)
+
+    color_index = (winner_int - 1) % len(COLORS)
+    color = COLORS[color_index]
+    print(
+        "Congratulations! Player "
+        + color
+        + str(winner)
+        + Style.RESET_ALL
+        + " wins the race!"
+    )
