@@ -12,5 +12,5 @@ class GameController:
     def start_game(self):
         return {"message": self.game_service.start_game()}
 
-    def play_round(self):
-        return self.game_service.play_round()
+    def update(self):
+        return self.game_service.update()
