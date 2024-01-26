@@ -18,3 +18,4 @@ class HorseRaceService:
         else:
             next_player = self.game.current_turn + 1
             return {"message": f"Player's turn completed. Player {next_player}'s turn."}
+
