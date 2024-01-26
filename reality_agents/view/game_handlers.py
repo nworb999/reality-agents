@@ -15,7 +15,7 @@ def play_horse_race_game(num_players_input):
 
     while True:
         for current_player in range(1, num_players + 1):
-            _, round_completed = game_controller.play_round()
+            _, round_completed = game_controller.update()
 
             if current_player == num_players:
                 round_completed = True
