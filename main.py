@@ -37,6 +37,7 @@ def main():
                     progress = game_controller.game_service.game.progress
                     round_counter += 1
                     display_progress(*progress)
+                    print("\n")
 
                 time.sleep(1)
 

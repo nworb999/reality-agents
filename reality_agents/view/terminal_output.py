@@ -11,6 +11,7 @@ COLORS = [
     Fore.WHITE,
 ]
 
+
 # horse race
 def display_progress(*progress):
     for i, player_progress in enumerate(progress):
