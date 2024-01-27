@@ -1,7 +1,7 @@
 from reality_agents.api.horse_race.controller import (
     GameController as HorseGameController,
 )
-from reality_agents.view.terminal_output import display_progress, display_winner
+from reality_agents.view.terminal_output import display_progress, display_winners
 import time
 
 
@@ -15,17 +15,17 @@ def play_horse_race_game(num_players_input):
 
     while True:
         for current_player in range(1, num_players + 1):
-            _, round_completed = game_controller.update()
+            _ = game_controller.update()
 
             if current_player == num_players:
                 round_completed = True
             else:
                 round_completed = False
             if round_completed:
-                winner = game_controller.game_service.game.check_winner()
-                if winner:
+                winners = game_controller.game_service.game.check_winners()
+                if winners:
                     display_progress(*progress)
-                    display_winner(winner)
+                    display_winners(winners)
                     return
 
                 progress = game_controller.game_service.game.progress

@@ -25,15 +25,13 @@ def display_progress(*progress):
         )
 
 
-def display_winner(winner):
-    winner_int = int(winner)
+def display_winners(winners):
+    if not winners:
+        print("No winners yet.")
+        return
 
-    color_index = (winner_int - 1) % len(COLORS)
-    color = COLORS[color_index]
-    print(
-        "Congratulations! Player "
-        + color
-        + str(winner)
-        + Style.RESET_ALL
-        + " wins the race!"
-    )
+    if len(winners) == 1:
+        print(f"Player {winners[0]} wins the race!")
+    else:
+        winners_str = ", ".join(str(winner) for winner in winners)
+        print(f"Players: {winners_str} tied the race.")

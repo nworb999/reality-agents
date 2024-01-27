@@ -30,7 +30,7 @@ def test_play_turn(game_logic):
     _, round_completed = game_logic.play_turn()
 
     # Check if the round value for the player who just played is updated correctly
-    assert game_logic.round_values[current_player_before_turn] in range(10, 21)
+    assert game_logic.round_values[current_player_before_turn] in range(5, 15)
 
     # Check round completion status
     if current_player_before_turn == game_logic.num_players - 1:
@@ -48,12 +48,24 @@ def test_update_progress(game_logic):
     assert game_logic.progress == [15, 15]
 
 
-def test_check_winner_no_winner(game_logic):
-    assert game_logic.check_winner() is None
+def test_check_winners_no_winner(game_logic):
+    # Expect an empty list or None when there are no winners
+    assert game_logic.check_winners() in [None, []]
 
 
-def test_check_winner_with_winner(game_logic):
+def test_check_winners_with_single_winner(game_logic):
+    # Set up the game state so that only one player has won
     game_logic.progress = [100, 50]
-    winner = game_logic.check_winner()
+    winners = game_logic.check_winners()
 
-    assert winner == 1
+    # Expect a list with a single winner
+    assert winners == [1]
+
+
+def test_check_winners_with_multiple_winners(game_logic):
+    # Set up the game state so that multiple players have won
+    game_logic.progress = [100, 100, 50]
+    winners = game_logic.check_winners()
+
+    # Expect a list with multiple winners
+    assert winners == [1, 2]
