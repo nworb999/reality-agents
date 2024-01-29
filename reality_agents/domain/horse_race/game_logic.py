@@ -15,7 +15,7 @@ class HorseRaceLogic:
         self.round_values = [0] * self.num_players
 
     def play_turn(self):
-        roll = random.randint(10, 20)
+        roll = int(random.gauss(5, 15))
         self.round_values[self.current_turn] = roll
 
         round_completed = False
@@ -31,8 +31,8 @@ class HorseRaceLogic:
             self.progress[i] = min(self.progress[i] + self.round_values[i], self.target)
         self.round_values = [0] * self.num_players
 
-    def check_winner(self):
-        for i, progress in enumerate(self.progress):
-            if progress >= self.target:
-                return i + 1
-        return None
+    def finish_game(self):
+        winners = [
+            i + 1 for i, progress in enumerate(self.progress) if progress >= self.target
+        ]
+        return winners if winners else None

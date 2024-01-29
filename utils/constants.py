@@ -1,7 +1,10 @@
-ascii_intro_2 = """
+ASCII_INTRO = """
 █▀█ █░█ █▄▄ █░░ █ █▀▀   █▀▀ ▀▄▀ █▀█ █▀▀ █▀█ █ █▀▄▀█ █▀▀ █▄░█ ▀█▀   █ █
 █▀▀ █▄█ █▄█ █▄▄ █ █▄▄   ██▄ █░█ █▀▀ ██▄ █▀▄ █ █░▀░█ ██▄ █░▀█ ░█░   █ █
 """
 
-carousel_horse = "🎠"
-race_horse = "🏇"
+CAROUSEL_HORSE = "🎠"
+RACE_HORSE = "🏇"
+
+
+VALID_GAME_TYPES = ["conversation", "convo", "horse race"]

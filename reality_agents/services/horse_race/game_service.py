@@ -12,7 +12,7 @@ class HorseRaceService:
         return f"New game started. Player 1 goes first."
 
     def update(self):
-        winner, round_completed = self.game.play_turn()  # i think i need this up there
+        winner, _ = self.game.play_turn()  # i think i need this up there
         if winner:
             return {"message": f"Player {winner} wins!", "winner": winner}
         else:

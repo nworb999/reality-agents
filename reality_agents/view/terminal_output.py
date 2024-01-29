@@ -1,5 +1,7 @@
 from colorama import Fore, Style
-from utils.constants import race_horse, carousel_horse, ascii_intro_2
+import os
+from utils.constants import RACE_HORSE, CAROUSEL_HORSE
+from reality_agents.view.utils import get_emoji_by_index
 
 COLORS = [
     Fore.MAGENTA,
@@ -11,11 +13,24 @@ COLORS = [
     Fore.WHITE,
 ]
 
+TERMINAL_WIDTH = os.get_terminal_size().columns
+
+
+# conversation game
+def display_dialogue(character, input, position):
+    if position == "left":
+        line = f"{get_emoji_by_index(character)} :: {input['dialogue']}"
+    else:
+        line = f"{input['dialogue']} :: {get_emoji_by_index(character)}".rjust(
+            TERMINAL_WIDTH - 1
+        )
+    print(line)
+
 
 # horse race
 def display_progress(*progress):
     for i, player_progress in enumerate(progress):
-        horse = carousel_horse if i % 2 == 0 else race_horse
+        horse = CAROUSEL_HORSE if i % 2 == 0 else RACE_HORSE
         color = COLORS[i % len(COLORS)]
 
         print(
@@ -25,15 +40,13 @@ def display_progress(*progress):
         )
 
 
-def display_winner(winner):
-    winner_int = int(winner)
+def display_winners(winners):
+    if not winners:
+        print("No winners yet.")
+        return
 
-    color_index = (winner_int - 1) % len(COLORS)
-    color = COLORS[color_index]
-    print(
-        "Congratulations! Player "
-        + color
-        + str(winner)
-        + Style.RESET_ALL
-        + " wins the race!"
-    )
+    if len(winners) == 1:
+        print(f"Player {winners[0]} wins the race!")
+    else:
+        winners_str = ", ".join(str(winner) for winner in winners)
+        print(f"Players: {winners_str} tied the race.")
