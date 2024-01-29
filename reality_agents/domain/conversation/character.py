@@ -1,4 +1,4 @@
 class Character:
-    def __init__(self, name, emoji):
+    def __init__(self, name, personality):
         self.name = name
-        self.emoji = emoji
+        self.personality = personality

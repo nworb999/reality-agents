@@ -48,24 +48,24 @@ def test_update_progress(game_logic):
     assert game_logic.progress == [15, 15]
 
 
-def test_check_winners_no_winner(game_logic):
+def test_finish_game_no_winner(game_logic):
     # Expect an empty list or None when there are no winners
-    assert game_logic.check_winners() in [None, []]
+    assert game_logic.finish_game() in [None, []]
 
 
-def test_check_winners_with_single_winner(game_logic):
+def test_finish_game_with_single_winner(game_logic):
     # Set up the game state so that only one player has won
     game_logic.progress = [100, 50]
-    winners = game_logic.check_winners()
+    winners = game_logic.finish_game()
 
     # Expect a list with a single winner
     assert winners == [1]
 
 
-def test_check_winners_with_multiple_winners(game_logic):
+def test_finish_game_with_multiple_winners(game_logic):
     # Set up the game state so that multiple players have won
     game_logic.progress = [100, 100, 50]
-    winners = game_logic.check_winners()
+    winners = game_logic.finish_game()
 
     # Expect a list with multiple winners
     assert winners == [1, 2]

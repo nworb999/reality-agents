@@ -1,5 +1,7 @@
 from colorama import Fore, Style
-from utils.constants import race_horse, carousel_horse, ascii_intro_2
+import os
+from utils.constants import RACE_HORSE, CAROUSEL_HORSE
+from reality_agents.view.utils import get_emoji_by_index
 
 COLORS = [
     Fore.MAGENTA,
@@ -11,11 +13,24 @@ COLORS = [
     Fore.WHITE,
 ]
 
+TERMINAL_WIDTH = os.get_terminal_size().columns
+
+
+# conversation game
+def display_dialogue(character, input, position):
+    if position == "left":
+        line = f"{get_emoji_by_index(character)} :: {input['dialogue']}"
+    else:
+        line = f"{input['dialogue']} :: {get_emoji_by_index(character)}".rjust(
+            TERMINAL_WIDTH - 1
+        )
+    print(line)
+
 
 # horse race
 def display_progress(*progress):
     for i, player_progress in enumerate(progress):
-        horse = carousel_horse if i % 2 == 0 else race_horse
+        horse = CAROUSEL_HORSE if i % 2 == 0 else RACE_HORSE
         color = COLORS[i % len(COLORS)]
 
         print(

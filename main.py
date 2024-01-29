@@ -1,18 +1,23 @@
-from utils.constants import ascii_intro_2
-from reality_agents.view.game_handlers import play_horse_race_game
+from utils.constants import ASCII_INTRO, VALID_GAME_TYPES
+from reality_agents.view.game_handlers import (
+    play_horse_race_game,
+    play_conversation_game,
+)
 
 
 def main():
-    game_type = input("Please enter the game type: ") or "horse race"
-    num_players_input = input("Enter the number of players: ")
-    if game_type.lower().strip() == "horse race":
-        play_horse_race_game(num_players_input)
-    else:
+    game_type = input("Please enter the game type: ").lower().strip() or "convo"
+
+    if game_type in ["conversation", "convo"]:
+        play_conversation_game()
+    elif game_type == "horse race":
+        play_horse_race_game()
+    elif game_type not in VALID_GAME_TYPES:
         print("Unknown game type. Exiting.")
 
 
 if __name__ == "__main__":
     print("\033[2J\033[H", end="")
-    print(ascii_intro_2)
+    print(ASCII_INTRO)
 
     main()

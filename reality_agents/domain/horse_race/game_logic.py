@@ -31,7 +31,7 @@ class HorseRaceLogic:
             self.progress[i] = min(self.progress[i] + self.round_values[i], self.target)
         self.round_values = [0] * self.num_players
 
-    def check_winners(self):
+    def finish_game(self):
         winners = [
             i + 1 for i, progress in enumerate(self.progress) if progress >= self.target
         ]
