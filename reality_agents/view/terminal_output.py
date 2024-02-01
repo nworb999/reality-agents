@@ -17,6 +17,8 @@ TERMINAL_WIDTH = os.get_terminal_size().columns
 
 
 # conversation game
+# TODO center it more so it looks like a screenplay
+# also prints out char by char
 def display_dialogue(character, input, position):
     if position == "left":
         line = f"{get_emoji_by_index(character)} :: {input['dialogue']}"

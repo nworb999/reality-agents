@@ -16,6 +16,7 @@ class SpeakingOrderLogic:
         if self.order_type == "random":
             self.current_turn = random.randint(0, len(self.characters) - 1)
         else:
+            print(self.current_turn)
             self.current_turn = (self.current_turn + 1) % len(self.characters)
         return self.order[self.current_turn]
 
@@ -37,14 +38,17 @@ class ConversationLogic:
         )
 
     def play_turn(self):
-        current_speaker_index = self.speaking_order_logic.next_speaker()
+        if sum(self.speaking_turns) == 0:  # Check if it's the first round
+            current_speaker_index = 0
+        else:
+            current_speaker_index = self.speaking_order_logic.next_speaker()
+
         self.speaking_turns[current_speaker_index] += 1
         current_speaker_name = self.characters[current_speaker_index].name
 
         announcement = f"{current_speaker_name} spoke"
-        round_completed = self.speaking_order_logic.current_turn == 0
+        round_completed = current_speaker_index == len(self.characters) - 1
 
-        # Update speaking order based on conversation results
         self.speaking_order_logic.update_order_based_on_conversation(
             self.speaking_turns
         )

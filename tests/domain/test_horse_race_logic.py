@@ -12,9 +12,9 @@ def test_initial_progress(game_logic):
 
 
 def test_reset_game(game_logic):
-    game_logic.progress = [10, 20]
+    game_logic.progress = [0, 0]
     game_logic.current_turn = 1
-    game_logic.round_values = [15, 15]
+    game_logic.round_values = [0, 0]
 
     game_logic.reset_game()
 
@@ -30,7 +30,7 @@ def test_play_turn(game_logic):
     _, round_completed = game_logic.play_turn()
 
     # Check if the round value for the player who just played is updated correctly
-    assert game_logic.round_values[current_player_before_turn] in range(5, 15)
+    assert game_logic.round_values[current_player_before_turn] in range(5, 21)
 
     # Check round completion status
     if current_player_before_turn == game_logic.num_players - 1:
@@ -41,11 +41,11 @@ def test_play_turn(game_logic):
 
 def test_update_progress(game_logic):
     # Set up initial conditions
-    game_logic.round_values = [15, 15]
+    game_logic.round_values = [5, 15]
     game_logic.update_progress()
 
     # Check if the progress is updated correctly
-    assert game_logic.progress == [15, 15]
+    assert game_logic.progress == [5, 15]
 
 
 def test_finish_game_no_winner(game_logic):

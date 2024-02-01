@@ -1,4 +1,4 @@
-import random
+from utils.statistics import roll_dice
 
 
 class HorseRaceLogic:
@@ -15,7 +15,7 @@ class HorseRaceLogic:
         self.round_values = [0] * self.num_players
 
     def play_turn(self):
-        roll = int(random.gauss(5, 15))
+        roll = roll_dice()
         self.round_values[self.current_turn] = roll
 
         round_completed = False
