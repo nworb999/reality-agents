@@ -1,7 +1,13 @@
 name: Python application test with Poetry
 
-on: [pull_request]
-
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+      
 jobs:
   build:
 
