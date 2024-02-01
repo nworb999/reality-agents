@@ -19,20 +19,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install Poetry
+      env:
+        POETRY_VERSION: 1.7.1  # Specify the version of Poetry you want to use
       run: |
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+        curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION
+      
     - name: Configure Poetry
       run: |
         poetry config virtualenvs.create false
+
     - name: Install dependencies
       run: |
         poetry install
+        
     - name: Run pytest
       run: |
         poetry run pytest
