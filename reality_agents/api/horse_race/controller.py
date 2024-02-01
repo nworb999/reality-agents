@@ -6,8 +6,8 @@ from reality_agents.services.horse_race.game_service import (
 
 
 class GameController:
-    def __init__(self, characters):
-        self.game_service = GameService(characters)
+    def __init__(self, num_players):
+        self.game_service = GameService(num_players)
 
     def start_game(self):
         return {"message": self.game_service.start_game()}
