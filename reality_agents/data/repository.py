@@ -2,7 +2,8 @@ from reality_agents.data.models import Memory
 from datetime import datetime
 from sqlalchemy.orm import Session
 
-# crud operations
+
+# CRUD operations
 
 
 def create_memory_entry(

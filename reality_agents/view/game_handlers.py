@@ -12,6 +12,8 @@ from reality_agents.view.terminal_output import (
 )
 import time
 
+# break into two files
+
 
 # conversation game
 def play_conversation_game():

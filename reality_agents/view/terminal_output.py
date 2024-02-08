@@ -1,19 +1,10 @@
-from colorama import Fore, Style
-import os
+from colorama import Style
 from utils.constants import RACE_HORSE, CAROUSEL_HORSE
+from utils.ascii import TERMINAL_WIDTH, COLORS
 from reality_agents.view.utils import get_emoji_by_index
 
-COLORS = [
-    Fore.MAGENTA,
-    Fore.CYAN,
-    Fore.RED,
-    Fore.GREEN,
-    Fore.YELLOW,
-    Fore.BLUE,
-    Fore.WHITE,
-]
 
-TERMINAL_WIDTH = os.get_terminal_size().columns
+# game specific terminal output
 
 
 # conversation game

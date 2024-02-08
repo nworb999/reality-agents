@@ -1,6 +1,6 @@
 import pytest
 from reality_agents.domain.horse_race.game_logic import HorseRaceLogic
-from reality_agents.services.horse_race.game_service import HorseRaceService
+from reality_agents.services.game.horse_race.game_service import HorseRaceService
 
 
 @pytest.fixture

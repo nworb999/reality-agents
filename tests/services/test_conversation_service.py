@@ -1,10 +1,10 @@
 import pytest
 from reality_agents.domain.conversation.game_logic import (
-    ConversationGameLogic as GameLogic,
+    GameLogic,
 )
 from reality_agents.domain.conversation.character import Character
 from reality_agents.domain.conversation.scene import Scene
-from reality_agents.services.conversation.game_service import ConversationService
+from reality_agents.services.game.conversation.game_service import ConversationService
 
 
 @pytest.fixture
@@ -16,7 +16,7 @@ def conversation_service(mocker):
     scene = "A quiet garden"
 
     # Mock dependencies
-    mocker.patch("reality_agents.domain.conversation.game_logic.ConversationGameLogic")
+    mocker.patch("reality_agents.domain.conversation.game_logic.GameLogic")
     mocker.patch("reality_agents.domain.conversation.character.Character")
     mocker.patch("reality_agents.domain.conversation.scene.Scene")
 

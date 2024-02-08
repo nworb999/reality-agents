@@ -1,5 +1,5 @@
 from reality_agents.domain.conversation.game_logic import (
-    ConversationGameLogic as GameLogic,
+    GameLogic,
 )
 from reality_agents.domain.conversation.character import Character
 from reality_agents.domain.conversation.scene import Scene
@@ -26,10 +26,10 @@ class ConversationService:
         if self.game.is_game_over():
             return {"status": "FINISHED"}
 
-        current_turn, round_completed = self.game.play_turn()
+        utterance, current_turn, round_completed = self.game.play_turn()
         turn_data = {
             "name": self.characters[current_turn].name,
-            "dialogue": "spoke",
+            "dialogue": utterance,
             "status": "ONGOING",
             "round_completed": round_completed,
         }

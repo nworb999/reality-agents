@@ -1,4 +1,4 @@
-from reality_agents.services.conversation.game_service import (
+from reality_agents.services.game.conversation.game_service import (
     ConversationService as GameService,
 )
 

@@ -1,11 +1,13 @@
 import pytest
 from reality_agents.api.horse_race.controller import GameController
-from reality_agents.services.horse_race.game_service import HorseRaceService
+from reality_agents.services.game.horse_race.game_service import HorseRaceService
 
 
 @pytest.fixture
 def game_controller(mocker):
-    mocker.patch("reality_agents.services.horse_race.game_service.HorseRaceService")
+    mocker.patch(
+        "reality_agents.services.game.horse_race.game_service.HorseRaceService"
+    )
     return GameController(num_players=2)
 
 
