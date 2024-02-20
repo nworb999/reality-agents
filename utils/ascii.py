@@ -36,7 +36,7 @@ def clear_screen():
         os.system("cls")
 
 
-def spin(duration=2):
+def spin(duration=3):
     start_time = time.time()
     while True:
         for symbol in spinner_symbols:

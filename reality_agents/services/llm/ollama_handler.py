@@ -3,7 +3,8 @@ import json
 
 
 def get_response(prompt, history=[]):
-    print(prompt)
+    # print(prompt)
+    print()
     url = "http://localhost:12345/api/chat"
     if history is not None:
         history.append({"role": "user", "content": prompt})
@@ -19,15 +20,15 @@ def get_response(prompt, history=[]):
     data_json = json.dumps(data)
 
     headers = {"Content-Type": "application/json"}
-    print(data)
     response = requests.post(url, data=data_json, headers=headers)
-    print(response)
-    print(response.text)
-    return
+    if response.status_code == 200:
+        response_data = response.json()
+    else:
+        print(f"Request failed with status code {response.status_code}")
+    return response_data["message"]["content"]
 
-    # with history
 
-
+# with history
 note = """ 
      "messages": [
     {

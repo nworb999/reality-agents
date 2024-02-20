@@ -1,7 +1,14 @@
 import random
+import time
 
 
-# conversation game
+def slow_type(text, delay=0.1):
+    for char in text:
+        print(char, end="", flush=True)
+        time.sleep(delay)
+    print()
+
+
 def get_player_info():
     players = []
     while True:
