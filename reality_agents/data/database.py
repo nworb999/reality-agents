@@ -4,6 +4,8 @@ from reality_agents.data.models import Base
 
 DATABASE_URL = "sqlite:///reality_agents/data/memory.db"
 
+CLEAR_DB = True
+
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -15,8 +17,9 @@ def init_db(clear_db=False):
 
 
 def setup_db():
-    init_db(clear_db=True)
-    print("Database initialized.")
+    init_db(clear_db=CLEAR_DB)
+    print(f"Database initialized.")
+    print(f"Clear DB set to {CLEAR_DB}.")
 
 
 def get_db():

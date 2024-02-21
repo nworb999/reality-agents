@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from utils.constants import VALID_GAME_TYPES
 from utils.ssh_tunnel import start_tunnel, stop_tunnel
 from reality_agents.data.database import get_db, setup_db
@@ -7,6 +8,17 @@ from reality_agents.view.conversation.game_handler import (
 )
 from reality_agents.view.horse_race.game_handler import play_horse_race_game
 from utils.ascii import intro_text, spin
+
+
+@contextmanager
+def initialize_db_session():
+    setup_db()
+    db_session_gen = get_db()
+    db = next(db_session_gen)
+    try:
+        yield db
+    finally:
+        next(db_session_gen, None)
 
 
 def main():
@@ -20,17 +32,14 @@ def main():
         local_port=12345,
     )
 
-    setup_db()
-
-    # retrieve_data()
-
-    game_type = input("Please enter the game type: ").lower().strip() or "convo"
-    if game_type in ["conversation", "convo"]:
-        play_conversation_game()
-    elif game_type == "horse race":
-        play_horse_race_game()
-    elif game_type not in VALID_GAME_TYPES:
-        print("Unknown game type. Exiting.")
+    with initialize_db_session() as db:
+        game_type = input("Please enter the game type: ").lower().strip() or "convo"
+        if game_type in ["conversation", "convo"]:
+            play_conversation_game(db)
+        elif game_type == "horse race":
+            play_horse_race_game()
+        elif game_type not in VALID_GAME_TYPES:
+            print("Unknown game type. Exiting.")
 
     stop_tunnel()
 

@@ -39,7 +39,7 @@ class ConversationLogic:
             self.characters, self.speaking_order_logic.order_type
         )
 
-    def next_line(self, target=None):
+    def next_line(self, script):
         # check if it's the first round, otherwise default to next logic
         if sum(self.speaking_turns) == 0:
             current_speaker_index = 0
@@ -48,10 +48,12 @@ class ConversationLogic:
             current_speaker_index = self.speaking_order_logic.next_speaker()
             convo_state = "ongoing"
 
-        self.speaking_turns[current_speaker_index] += 1
-
         current_speaker = self.characters[current_speaker_index]
-        current_speaker_name = current_speaker["name"]
+        next_character = self.characters[
+            (current_speaker_index + 1) % len(self.characters)
+        ]
+
+        target = next_character
 
         prompt = format_prompt(
             convo_state=convo_state,
@@ -61,10 +63,9 @@ class ConversationLogic:
 
         utterance = get_response(prompt=prompt)
 
-        # utterance = f"{current_speaker_name} spoke"
-
         self.speaking_order_logic.update_order_based_on_conversation(
             self.speaking_turns
         )
+        self.speaking_turns[current_speaker_index] += 1
 
-        return utterance
+        return utterance, current_speaker

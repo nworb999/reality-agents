@@ -3,8 +3,9 @@ import json
 
 
 def get_response(prompt, history=[]):
+    # print()
     # print(prompt)
-    print()
+    # print()
     url = "http://localhost:12345/api/chat"
     if history is not None:
         history.append({"role": "user", "content": prompt})
@@ -12,7 +13,8 @@ def get_response(prompt, history=[]):
         history = [{"role": "user", "content": prompt}]
 
     data = {
-        "model": "llama2:70b",
+        # "model": "llama2:70b",
+        "model": "mixtral:latest",
         "messages": history,
         "stream": False,
     }

@@ -15,7 +15,7 @@ def display_end():
 
 def display_dialogue(char_index, character, dialogue):
     formatted_name = f"{character} {get_emoji_by_index(char_index)}"
-    formatted_dialogue = f"{dialogue}"
+    formatted_dialogue = f"{dialogue}\n\n"
 
     print(center_text(formatted_name))
     print(center_text(formatted_dialogue))

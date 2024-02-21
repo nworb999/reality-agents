@@ -40,7 +40,7 @@ def update_last_accessed(session: Session, memory_id: int):
 
 
 def get_memory_entries(session: Session, game_id: str):
-    # currently updating all last accessed
+    print("currently updating all last accessed!")
     entries = session.query(Memory).filter(Memory.game_id == game_id).all()
     for entry in entries:
         entry.last_accessed = datetime.utcnow()
