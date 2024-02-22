@@ -4,8 +4,6 @@ import time
 from colorama import Fore
 from utils.constants import ASCII_INTRO
 
-TERMINAL_WIDTH = os.get_terminal_size().columns
-
 COLORS = [
     Fore.MAGENTA,
     Fore.CYAN,

@@ -18,7 +18,9 @@ class GameLogic:
     def play_turn(self, script):
         round_completed = False
 
-        utterance, current_speaker = self.conversation.next_line(script)
+        current_turn, current_speaker, target, utterance = self.conversation.next_line(
+            script
+        )
         self.current_character = current_speaker
 
         # this will not always be the case
@@ -26,7 +28,7 @@ class GameLogic:
         #     self.current_round += 1
         #     round_completed = True
 
-        return utterance, self.current_character, round_completed
+        return current_turn, self.current_character, target, utterance, round_completed
 
     def is_game_over(self):
         return self.current_round >= self.max_rounds

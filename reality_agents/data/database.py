@@ -19,7 +19,7 @@ def init_db(clear_db=False):
 def setup_db():
     init_db(clear_db=CLEAR_DB)
     print(f"Database initialized.")
-    print(f"Clear DB set to {CLEAR_DB}.")
+    print(f"clear_db set to {CLEAR_DB}.")
 
 
 def get_db():

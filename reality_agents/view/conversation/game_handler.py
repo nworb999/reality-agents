@@ -15,18 +15,18 @@ def play_conversation_game(db):
     characters = get_player_info()
     if not characters:
         return
-    num_characters = len(characters)
+
     conversation_game_controller = ConversationGameController(db, characters, scene)
 
     round_counter = 0
     clear_screen()
     intro_text()
+    print("\n\n")
     while True:
         for current_character in range(0, len(characters)):
-            spin()
             full_response = conversation_game_controller.update()
             response = full_response["message"]
-            if round_counter >= num_characters:
+            if round_counter == 10:
                 display_end()
                 return
             else:

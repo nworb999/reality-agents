@@ -17,3 +17,6 @@ class Memory(Base):
     speaker_id = Column(String(50), nullable=False)
     directed_at_id = Column(String(50), nullable=True)
     statement = Column(Text, nullable=False)
+
+    def __repr__(self):
+        return f"<Memory(id={self.id}, game_id={self.game_id}, last_accessed={self.last_accessed}, statement={self.statement})>"

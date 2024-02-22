@@ -1,6 +1,7 @@
 import random
 from reality_agents.services.llm.prompt_injection import format_prompt
 from reality_agents.services.llm.ollama_handler import get_response
+from utils.string import strip_text
 
 
 class SpeakingOrderLogic:
@@ -29,11 +30,13 @@ class SpeakingOrderLogic:
 class ConversationLogic:
     def __init__(self, characters, order_type="sequential"):
         self.characters = characters
+        self.turn = 0
         # in order to track how active each character has been in the conversation
         self.speaking_turns = [0] * len(characters)
         self.speaking_order_logic = SpeakingOrderLogic(characters, order_type)
 
     def reset_game(self):
+        self.turn = 0
         self.speaking_turns = [0] * len(self.characters)
         self.speaking_order_logic = SpeakingOrderLogic(
             self.characters, self.speaking_order_logic.order_type
@@ -58,6 +61,12 @@ class ConversationLogic:
         prompt = format_prompt(
             convo_state=convo_state,
             character=current_speaker,
+            prev_statement=strip_text(
+                script[self.turn - 1]["dialogue"],
+                [character["name"] for character in self.characters],
+            )
+            if script
+            else None,
             target=target,
         )
 
@@ -67,5 +76,6 @@ class ConversationLogic:
             self.speaking_turns
         )
         self.speaking_turns[current_speaker_index] += 1
+        self.turn += 1
 
-        return utterance, current_speaker
+        return self.turn, current_speaker, target, utterance

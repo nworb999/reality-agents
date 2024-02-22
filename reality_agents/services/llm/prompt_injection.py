@@ -19,7 +19,7 @@ def format_convo_context(character, convo_state, prev_statement, target):
         str = f"how would you respond to {prev_statement} from {target['name']}? "
     return (
         str
-        + f"Please keep the dialogue in the style of a screenplay.  Only include {character['name']}'s next line, so just one line of dialogue."
+        + f"Please keep the dialogue in the style of a screenplay.  Only include {character['name']}'s next line, so just one line of dialogue.  No parentheticals.  Overall tone is the style of a trashy 2000's reality TV show."
     )
 
 
