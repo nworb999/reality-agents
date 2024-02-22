@@ -1,4 +1,4 @@
-from reality_agents.services.horse_race.game_service import (
+from reality_agents.services.game.horse_race.game_service import (
     HorseRaceService as GameService,
 )
 

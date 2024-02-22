@@ -1,35 +1,8 @@
-from colorama import Fore, Style
-import os
+from colorama import Style
 from utils.constants import RACE_HORSE, CAROUSEL_HORSE
-from reality_agents.view.utils import get_emoji_by_index
-
-COLORS = [
-    Fore.MAGENTA,
-    Fore.CYAN,
-    Fore.RED,
-    Fore.GREEN,
-    Fore.YELLOW,
-    Fore.BLUE,
-    Fore.WHITE,
-]
-
-TERMINAL_WIDTH = os.get_terminal_size().columns
+from utils.ascii import COLORS
 
 
-# conversation game
-# TODO center it more so it looks like a screenplay
-# also prints out char by char
-def display_dialogue(character, input, position):
-    if position == "left":
-        line = f"{get_emoji_by_index(character)} :: {input['dialogue']}"
-    else:
-        line = f"{input['dialogue']} :: {get_emoji_by_index(character)}".rjust(
-            TERMINAL_WIDTH - 1
-        )
-    print(line)
-
-
-# horse race
 def display_progress(*progress):
     for i, player_progress in enumerate(progress):
         horse = CAROUSEL_HORSE if i % 2 == 0 else RACE_HORSE

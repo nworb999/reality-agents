@@ -1,7 +1,14 @@
 import random
+import time
 
 
-# conversation game
+def slow_type(text, delay=0.1):
+    for char in text:
+        print(char, end="", flush=True)
+        time.sleep(delay)
+    print()
+
+
 def get_player_info():
     players = []
     while True:
@@ -14,13 +21,20 @@ def get_player_info():
 
         if not player_name:
             if len(players) < 2:
-                print("Not enough players to start the game. Exiting.")
-                return None
+                return [
+                    {
+                        "name": "Mark",
+                        "personality": "a bit of a hothead, but passionate and kind",
+                    },
+                    {
+                        "name": "Billy",
+                        "personality": "cool calm and collected, but a schemer",
+                    },
+                ]
             else:
                 break
 
         personality = input("What is their personality like? ")
-
         players.append({"name": player_name, "personality": personality})
 
     return players

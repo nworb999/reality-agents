@@ -21,15 +21,15 @@ def test_speaking_order_initialization(conversation_logic):
 
 
 def test_play_turn_sequential(conversation_logic):
-    announcement, round_completed = conversation_logic.play_turn()
+    utterance, round_completed = conversation_logic.play_turn()
 
-    # Check announcement
-    assert announcement == "Alice spoke"
+    # Check utterance
+    assert utterance == "Alice spoke"
     assert not round_completed
 
     # Second call to play_turn
-    announcement, round_completed = conversation_logic.play_turn()
-    assert announcement == "Bob spoke"
+    utterance, round_completed = conversation_logic.play_turn()
+    assert utterance == "Bob spoke"
     assert round_completed
 
 

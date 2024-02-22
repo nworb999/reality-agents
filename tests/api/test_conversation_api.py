@@ -1,6 +1,6 @@
 import pytest
 from reality_agents.api.conversation.controller import GameController
-from reality_agents.services.conversation.game_service import ConversationService
+from reality_agents.services.game.conversation.game_service import ConversationService
 
 
 @pytest.fixture
@@ -11,7 +11,7 @@ def game_controller(mocker):
     ]
     scene = "Scene1"
     mocker.patch(
-        "reality_agents.services.conversation.game_service.ConversationService"
+        "reality_agents.services.game.conversation.game_service.ConversationService"
     )
     return GameController(characters, scene)
 

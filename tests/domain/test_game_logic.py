@@ -1,13 +1,13 @@
 import pytest
 from reality_agents.domain.conversation.game_logic import (
-    ConversationGameLogic,
+    GameLogic,
 )  # Adjust the import path according to your project structure
 
 
 @pytest.fixture
 def game_logic():
     characters = ["Alice", "Bob"]  # Example characters
-    return ConversationGameLogic(characters)
+    return GameLogic(characters)
 
 
 def test_reset_game(game_logic):

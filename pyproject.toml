@@ -10,6 +10,8 @@ readme = "README.md"
 python = "^3.11"
 sqlalchemy = "^2.0.25"
 colorama = "^0.4.6"
+sshtunnel = "^0.4.0"
+requests = "^2.31.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

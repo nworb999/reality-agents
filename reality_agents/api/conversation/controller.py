@@ -1,4 +1,4 @@
-from reality_agents.services.conversation.game_service import (
+from reality_agents.services.game.conversation.game_service import (
     ConversationService as GameService,
 )
 
@@ -8,8 +8,8 @@ from reality_agents.services.conversation.game_service import (
 
 
 class GameController:
-    def __init__(self, characters, scene):
-        self.game_service = GameService(characters, scene)
+    def __init__(self, db, characters, scene):
+        self.game_service = GameService(db, characters, scene)
 
     def start_game(self):
         return {"message": self.game_service.start_game()}

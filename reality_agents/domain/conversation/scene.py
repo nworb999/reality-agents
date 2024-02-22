@@ -1,11 +1,16 @@
 import random
+from utils.ascii import clear_screen, intro_text, spin
 
 
 class Scene:
     def __init__(self, scene):
         self.scene = scene.lower()
+        clear_screen()
+        intro_text()
+        spin()
         print(f"Initializing new workplace scene: {self.scene}...")
         self.areas = self.generate_areas()
+        spin()
 
     def log_sim_style(self, message):
         actions = ["Gathering", "Arranging", "Setting up", "Preparing"]
