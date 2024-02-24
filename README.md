@@ -8,6 +8,7 @@ After cloning the repository, you need to set up the project environment using P
  poetry install
  poetry shell # use virtual environment
  poetry run python --version # confirm version matches the pyproject.toml
+ poetry run python main.py
 ```
 
 ## tests
