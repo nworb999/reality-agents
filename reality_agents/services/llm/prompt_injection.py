@@ -1,4 +1,4 @@
-premise = "Billy and Mark work in an auto shop."
+premise = "Billy and Mark work in an auto shop.  Billy is 70-year old the owner of the shop and Mark is his 40-year old son.  They are discussing how to commit insurance fraud without actually calling it that."
 
 
 def format_persona(character):
@@ -19,7 +19,7 @@ def format_convo_context(character, convo_state, prev_statement, target):
         str = f"how would you respond to {prev_statement} from {target['name']}? "
     return (
         str
-        + f"Please keep the dialogue in the style of a screenplay.  Only include {character['name']}'s next line, so just one line of dialogue.  No parentheticals.  Overall tone is the style of a trashy 2000's reality TV show."
+        + f"Please keep the dialogue in the style of a screenplay.  Only include {character['name']}'s next line, so just one line of dialogue.  Keep it messy and unscripted sounding, like they are half-listening to each other.  Overall tone is the style of a trashy 2000's reality TV show."
     )
 
 

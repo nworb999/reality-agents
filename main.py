@@ -6,7 +6,6 @@ from reality_agents.data.repository import get_memory_entries
 from reality_agents.view.conversation.game_handler import (
     play_conversation_game,
 )
-from reality_agents.view.horse_race.game_handler import play_horse_race_game
 from utils.ascii import intro_text, spin
 
 
@@ -36,8 +35,6 @@ def main():
         game_type = input("Please enter the game type: ").lower().strip() or "convo"
         if game_type in ["conversation", "convo"]:
             play_conversation_game(db)
-        elif game_type == "horse race":
-            play_horse_race_game()
         elif game_type not in VALID_GAME_TYPES:
             print("Unknown game type. Exiting.")
 
