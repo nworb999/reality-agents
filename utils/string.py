@@ -1,6 +1,6 @@
 def strip_text(input_string, remove_strings):
     # Remove all occurrences of '\n'
-    cleaned_string = input_string.replace("\n", "")
+    cleaned_string = input_string.replace("\n", "").replace("[", "(").replace("]", ")")
 
     for remove_string in remove_strings:
         # Remove text that is in all caps and matches any string in the array

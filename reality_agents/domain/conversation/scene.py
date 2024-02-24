@@ -98,6 +98,7 @@ class Scene:
             areas = []
             for area in response:
                 self.log_sim_style(f"{area['area']} area with interactive objects")
+                spin(1)
                 areas.append({"Area": area["area"], "Objects": area["objects"]})
             return areas
 
