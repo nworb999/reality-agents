@@ -22,18 +22,18 @@ def play_conversation_game(db):
     clear_screen()
     intro_text()
     print("\n\n")
-    while True:
-        for current_character in range(0, len(characters)):
+
+    while round_counter < 10:
+        for current_character in range(len(characters)):
             full_response = conversation_game_controller.update()
             response = full_response["message"]
-            if round_counter == 10:
-                display_end()
-                return
-            else:
-                display_dialogue(
-                    current_character,
-                    characters[current_character]["name"],
-                    response["dialogue"],
-                )
+
+            display_dialogue(
+                current_character,
+                characters[current_character]["name"],
+                response["dialogue"],
+            )
             round_counter += 1
             time.sleep(1)
+
+    display_end()
