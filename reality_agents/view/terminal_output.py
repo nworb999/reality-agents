@@ -19,8 +19,9 @@ def justify_center(text, width):
             spaces_to_add = width - len(line)
             spaces_between_words = line.count(" ")
             if spaces_between_words > 0:
-                extra_space = spaces_to_add // spaces_between_words
-                remaining_space = spaces_to_add % spaces_between_words
+                extra_space, remaining_space = divmod(
+                    spaces_to_add, spaces_between_words
+                )
                 line = line.replace(" ", " " * (extra_space + 1), remaining_space)
                 line = line.replace(" ", " " * extra_space)
             yield line
@@ -36,10 +37,7 @@ def center_text(text):
         for line in wrapped_text.split("\n")
     ]
     centered_lines = [line.center(effective_width, " ") for line in justified_lines]
-    return (
-        "\n".join([" " * PADDING + line + " " * PADDING for line in centered_lines])
-        + "\n\n"
-    )
+    return "\n".join([" " * PADDING + line for line in centered_lines]) + "\n\n"
 
 
 def center_name(name):

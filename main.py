@@ -3,7 +3,7 @@ from utils.constants import VALID_GAME_TYPES
 from utils.ssh_tunnel import start_tunnel, stop_tunnel
 from reality_agents.data.database import get_db, setup_db
 from reality_agents.data.repository import get_memory_entries
-from reality_agents.view.conversation.game_handler import (
+from reality_agents.view.game_handler import (
     play_conversation_game,
 )
 from utils.ascii import intro_text, spin

@@ -1,11 +1,11 @@
-from reality_agents.domain.conversation.conversation import ConversationLogic
+from reality_agents.domain.conversation import ConversationManager
 
 
 # includes creation of character logic
 class GameLogic:
     def __init__(self, characters, max_rounds=5):
         self.characters = characters
-        self.conversation = ConversationLogic(characters=self.characters)
+        self.conversation = ConversationManager(characters=self.characters)
         self.max_rounds = max_rounds
         # how to make this flexible for different speaking order?
         self.current_character = 0

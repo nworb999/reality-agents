@@ -12,12 +12,11 @@ def slow_type(text, delay=0.1):
 def get_player_info():
     players = []
     while True:
-        if len(players) < 2:
-            player_name = input("What is the player's name? ")
-        else:
-            player_name = input(
-                f"What is the player's name? (or enter to continue with {len(players)} players) "
-            )
+        prompt = "What is the player's name? "
+        if len(players) >= 2:
+            prompt += f"(or enter to continue with {len(players)} players) "
+
+        player_name = input(prompt)
 
         if not player_name:
             if len(players) < 2:
@@ -31,8 +30,7 @@ def get_player_info():
                         "personality": "cool calm and collected, but a schemer",
                     },
                 ]
-            else:
-                break
+            break
 
         personality = input("What is their personality like? ")
         players.append({"name": player_name, "personality": personality})
@@ -59,8 +57,7 @@ ANIMAL_EMOJIS = {
     "koala": "🐨",
 }
 
-EMOJI_LIST = list(ANIMAL_EMOJIS.values())
-random.shuffle(EMOJI_LIST)
+EMOJI_LIST = random.sample(list(ANIMAL_EMOJIS.values()), k=len(ANIMAL_EMOJIS))
 
 
 def get_emoji_by_index(index):
@@ -69,14 +66,13 @@ def get_emoji_by_index(index):
 
 def assign_characters_to_sides(num_characters):
     character_indices = list(range(num_characters))
-
     random.shuffle(character_indices)
 
     half_size = len(character_indices) // 2
     left_side_indices = character_indices[:half_size]
     right_side_indices = character_indices[half_size:]
 
-    character_sides = dict((index, "left") for index in left_side_indices)
-    character_sides.update(dict((index, "right") for index in right_side_indices))
+    character_sides = {index: "left" for index in left_side_indices}
+    character_sides.update({index: "right" for index in right_side_indices})
 
     return character_sides

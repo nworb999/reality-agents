@@ -1,61 +1,53 @@
 import pytest
-from reality_agents.domain.conversation.conversation import (
-    ConversationLogic,
-    SpeakingOrderLogic,
-)  # Adjust the import path according to your project structure
+import requests_mock
+from unittest.mock import patch
+from reality_agents.domain.conversation import SpeakingOrder, ConversationManager
 
 
-class MockCharacter:
-    def __init__(self, name):
-        self.name = name
+# Test SpeakingOrder class
+def test_speaking_order_sequential():
+    order = SpeakingOrder(num_characters=3, order_type="sequential")
+    assert order.next_speaker_index() == 0
+    assert order.next_speaker_index() == 1
+    assert order.next_speaker_index() == 2
+    assert order.next_speaker_index() == 0  # Loop back to the first speaker
 
 
+# Test ConversationManager class
 @pytest.fixture
-def conversation_logic():
-    characters = [MockCharacter("Alice"), MockCharacter("Bob")]
-    return ConversationLogic(characters, order_type="sequential")
+def conversation_manager():
+    characters = [
+        {"name": "Alice", "personality": "Friendly"},
+        {"name": "Bob", "personality": "Serious"},
+    ]
+    return ConversationManager(characters, order_type="sequential")
 
 
-def test_speaking_order_initialization(conversation_logic):
-    assert conversation_logic.speaking_order_logic.order == [0, 1]
+def test_reset(conversation_manager):
+    conversation_manager.reset()
+    assert conversation_manager.turn == 0
+    assert conversation_manager.speaking_turns == [0, 0]
 
 
-def test_play_turn_sequential(conversation_logic):
-    utterance, round_completed = conversation_logic.play_turn()
-
-    # Check utterance
-    assert utterance == "Alice spoke"
-    assert not round_completed
-
-    # Second call to play_turn
-    utterance, round_completed = conversation_logic.play_turn()
-    assert utterance == "Bob spoke"
-    assert round_completed
-
-
-def test_reset_game(conversation_logic):
-    # Simulate a few turns
-    conversation_logic.play_turn()
-    conversation_logic.play_turn()
-
-    conversation_logic.reset_game()
-
-    # Check if the game is reset properly
-    assert conversation_logic.speaking_turns == [0, 0]
-    assert conversation_logic.speaking_order_logic.current_turn == 0
-    assert conversation_logic.speaking_order_logic.order == [0, 1]
-
-
-@pytest.fixture
-def conversation_logic_random():
-    characters = [MockCharacter("Alice"), MockCharacter("Bob")]
-    return ConversationLogic(characters, order_type="random")
-
-
-def test_speaking_order_random(conversation_logic_random):
-    first_speaker = conversation_logic_random.speaking_order_logic.next_speaker()
-    assert first_speaker in [0, 1]
-
-    second_speaker = conversation_logic_random.speaking_order_logic.next_speaker()
-    # In random mode, the same speaker could be selected again
-    assert second_speaker in [0, 1]
+@patch.object(ConversationManager, "_get_prompt", return_value="Prompt for Alice")
+def test_next_line(mock_get_prompt, conversation_manager):
+    with requests_mock.Mocker() as m:
+        # Mock the POST request
+        m.post(
+            "http://localhost:12345/api/chat",
+            json={"message": {"content": "Hello, Bob!"}},
+        )
+        script = [{"dialogue": "Hi, Alice!"}]
+        turn, current_speaker, target, utterance = conversation_manager.next_line(
+            script
+        )
+        assert turn == 1
+        assert current_speaker["name"] == "Alice"
+        assert target["name"] == "Bob"
+        assert utterance == "Hello, Bob!"
+        mock_get_prompt.assert_called_once_with(
+            current_speaker,  # Changed from 'character' to match the actual parameter name
+            target,  # Changed from 'target' to match the actual parameter name
+            "Hi, Alice!",  # Changed from 'prev_statement' to match the actual value
+            "start",  # Changed from 'convo_state' to match the actual value
+        )
