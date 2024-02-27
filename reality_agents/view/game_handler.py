@@ -1,8 +1,8 @@
-from reality_agents.api.conversation.controller import (
+from reality_agents.api.controller import (
     GameController as ConversationGameController,
 )
 from reality_agents.view.utils import get_player_info
-from reality_agents.view.conversation.terminal_output import (
+from reality_agents.view.terminal_output import (
     display_dialogue,
     display_end,
 )

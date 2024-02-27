@@ -10,12 +10,14 @@ class SpeakingOrder:
     def __init__(self, num_characters: int, order_type: str = "sequential"):
         self.num_characters = num_characters
         self.order_type = order_type
-        self.current_turn = 0
+        self.current_turn = -1
         self.order = self._initialize_order()
 
     def _initialize_order(self) -> List[int]:
         if self.order_type == "random":
-            return random.sample(range(self.num_characters), self.num_characters)
+            order = list(range(self.num_characters))
+            random.shuffle(order)
+            return order
         return list(range(self.num_characters))
 
     def next_speaker_index(self) -> int:

@@ -57,7 +57,7 @@ ANIMAL_EMOJIS = {
     "koala": "🐨",
 }
 
-EMOJI_LIST = random.sample(ANIMAL_EMOJIS.values(), k=len(ANIMAL_EMOJIS))
+EMOJI_LIST = random.sample(list(ANIMAL_EMOJIS.values()), k=len(ANIMAL_EMOJIS))
 
 
 def get_emoji_by_index(index):

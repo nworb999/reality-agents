@@ -1,6 +1,6 @@
-from reality_agents.domain.conversation.game_logic import GameLogic
-from reality_agents.domain.conversation.character import Character
-from reality_agents.domain.conversation.scene import Scene
+from reality_agents.domain.game_logic import GameLogic
+from reality_agents.domain.character import Character
+from reality_agents.domain.scene import Scene
 from reality_agents.data.repository import create_memory_entry
 
 # handles gameplay experience, like creating the characters and managing the script
@@ -37,13 +37,14 @@ class ConversationService:
         turn_data = {
             "name": current_character["name"],
             "turn": current_turn,
-            "target": target,
+            "target": target["name"],
             "dialogue": utterance,
             "status": "ONGOING",
             "round_completed": round_completed,
         }
 
         self.script.append(turn_data)
+        # todo use turn data
         self.store_data(current_turn, current_character, target, utterance)
 
         if round_completed:

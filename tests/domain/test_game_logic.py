@@ -1,62 +1,43 @@
 import pytest
-from reality_agents.domain.conversation.game_logic import (
-    GameLogic,
-)  # Adjust the import path according to your project structure
+from unittest.mock import patch
+from reality_agents.domain.game_logic import GameLogic, ConversationManager
 
 
 @pytest.fixture
 def game_logic():
-    characters = ["Alice", "Bob"]  # Example characters
-    return GameLogic(characters)
+    characters = [
+        {"name": "Alice", "personality": "Friendly"},
+        {"name": "Bob", "personality": "Serious"},
+    ]
+    return GameLogic(characters, max_rounds=5)
 
 
 def test_reset_game(game_logic):
-    # Simulate some game activity
-    for _ in range(3):
-        game_logic.play_turn()
     game_logic.reset_game()
-
-    # Assert reset state
-    assert game_logic.current_turn == 0
+    assert game_logic.current_character == 0
     assert game_logic.current_round == 0
-    assert all(turn == 0 for turn in game_logic.speaking_turns)
 
 
-def test_play_turn(game_logic):
-    # Play one turn
-    current_turn, round_completed = game_logic.play_turn()
-
-    # Assert correct turn and round not completed
-    assert current_turn == 1
+@patch.object(
+    ConversationManager,
+    "next_line",
+    return_value=(1, {"name": "Alice"}, {"name": "Bob"}, "Hello, Bob!"),
+)
+def test_play_turn(mock_next_line, game_logic):
+    script = [{"dialogue": "Hi, Alice!"}]
+    turn, current_character, target, utterance, round_completed = game_logic.play_turn(
+        script
+    )
+    assert turn == 1
+    assert current_character == {"name": "Alice"}
+    assert target == {"name": "Bob"}
+    assert utterance == "Hello, Bob!"
     assert not round_completed
-    assert game_logic.speaking_turns == [1, 0]
-
-    # Play another turn to complete a round
-    current_turn, round_completed = game_logic.play_turn()
-
-    # Assert round completed and turns updated
-    assert current_turn == 0
-    assert round_completed
-    assert game_logic.speaking_turns == [1, 1]
-    assert game_logic.current_round == 1
-
-
-def test_is_game_over_not_over(game_logic):
-    # Game should not be over immediately
-    assert not game_logic.is_game_over()
-
-    # Simulate playing until just before game over
-    for _ in range(game_logic.max_rounds * len(game_logic.characters) - 1):
-        game_logic.play_turn()
-
-    # Game should still not be over
-    assert not game_logic.is_game_over()
+    mock_next_line.assert_called_once_with(script)
 
 
 def test_is_game_over(game_logic):
-    # Simulate playing through max rounds
-    for _ in range(game_logic.max_rounds * len(game_logic.characters)):
-        game_logic.play_turn()
-
-    # Game should be over
+    game_logic.current_round = 5
     assert game_logic.is_game_over()
+    game_logic.current_round = 4
+    assert not game_logic.is_game_over()

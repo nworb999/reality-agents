@@ -1,4 +1,4 @@
-from reality_agents.domain.conversation.conversation import ConversationManager
+from reality_agents.domain.conversation import ConversationManager
 
 
 # includes creation of character logic

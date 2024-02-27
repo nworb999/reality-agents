@@ -1,19 +1,18 @@
 import pytest
-from reality_agents.api.conversation.controller import GameController
-from reality_agents.services.game.conversation.game_service import ConversationService
+from reality_agents.api.controller import GameController
+from reality_agents.services.game.game_service import ConversationService
 
 
 @pytest.fixture
 def game_controller(mocker):
+    db = mocker.Mock()  # Mock the database object
     characters = [
         {"name": "Character1", "personality": "Personality1"},
         {"name": "Character2", "personality": "Personality2"},
     ]
     scene = "Scene1"
-    mocker.patch(
-        "reality_agents.services.game.conversation.game_service.ConversationService"
-    )
-    return GameController(characters, scene)
+    mocker.patch("reality_agents.services.game.game_service.ConversationService")
+    return GameController(db, characters, scene)
 
 
 def test_start_game(game_controller, mocker):

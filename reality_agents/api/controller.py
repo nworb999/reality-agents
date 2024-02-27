@@ -1,9 +1,8 @@
-from reality_agents.services.game.conversation.game_service import (
+from reality_agents.services.game.game_service import (
     ConversationService as GameService,
 )
 
 # handles game logic
-
 # return messages with status codes for when it's FINISHED
 
 
