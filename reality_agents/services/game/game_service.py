@@ -33,7 +33,7 @@ class ConversationService:
             target,
             utterance,
             round_completed,
-        ) = self.game.play_turn(self.script)
+        ) = self.game.update_game(self.script)
         turn_data = {
             "name": current_character["name"],
             "turn": current_turn,
@@ -44,11 +44,16 @@ class ConversationService:
         }
 
         self.script.append(turn_data)
-        # todo use turn data
-        self.store_data(current_turn, current_character, target, utterance)
+
+        self.store_data(
+            turn_data["turn"],
+            turn_data["name"],
+            turn_data["target"],
+            turn_data["dialogue"],
+        )
 
         if round_completed:
-            round_message = f"--- Round {self.game.current_round} completed ---"
+            round_message = f"--- Round completed ---"
             self.script.append(round_message)
 
         return turn_data
@@ -63,7 +68,7 @@ class ConversationService:
             conversation_id,
             round_id,
             current_turn,
-            speaker["name"],
-            target["name"],
+            speaker,
+            target,
             utterance,
         )

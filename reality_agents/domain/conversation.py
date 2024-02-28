@@ -34,7 +34,7 @@ class ConversationManager:
     ):
         self.characters = characters
         self.turn = 0
-        # in order to track how active each character has been in the conversation
+        # (in order to track how active each character has been in the conversation)
         self.speaking_turns = [0] * len(characters)
         self.speaking_order = SpeakingOrder(len(characters), order_type)
 

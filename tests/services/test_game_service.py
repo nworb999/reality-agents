@@ -38,10 +38,10 @@ def test_start_game(conversation_service, mocker):
 
 
 def test_update_game_ongoing(conversation_service, mocker):
-    # Assuming play_turn returns current_turn index and round_completed boolean
-    mocked_play_turn = mocker.patch.object(
+    # Assuming update returns current_turn index and round_completed boolean
+    mocked_update_game = mocker.patch.object(
         GameLogic,
-        "play_turn",
+        "update_game",
         return_value=(0, {"name": "Alice"}, {"name": "Bob"}, "Hi Bob!", False),
     )
     mocked_is_game_over = mocker.patch.object(
@@ -53,7 +53,7 @@ def test_update_game_ongoing(conversation_service, mocker):
     assert response["name"] == "Alice"
     assert response["dialogue"] == "Hi Bob!"
     assert not response["round_completed"]
-    mocked_play_turn.assert_called_once()
+    mocked_update_game.assert_called_once()
     mocked_is_game_over.assert_called_once()
 
 
