@@ -23,11 +23,17 @@ def play_conversation_game(db):
     intro_text()
     print("\n\n")
 
-    while round_counter < 10:
+    game_finished = False
+
+    while not game_finished:
         for current_character in range(len(characters)):
             full_response = conversation_game_controller.update()
-            response = full_response["message"]
 
+            response = full_response["message"]
+            if response == "FINISHED":
+                display_end()
+                game_finished = True
+                break
             display_dialogue(
                 current_character,
                 characters[current_character]["name"],
@@ -35,5 +41,3 @@ def play_conversation_game(db):
             )
             round_counter += 1
             time.sleep(1)
-
-    display_end()

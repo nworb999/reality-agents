@@ -34,6 +34,7 @@ class ConversationService:
             utterance,
             round_completed,
         ) = self.game.update_game(self.script)
+
         turn_data = {
             "name": current_character["name"],
             "turn": current_turn,

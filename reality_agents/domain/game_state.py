@@ -4,7 +4,7 @@ DEFAULT_ORDER_TYPE = "sequential"
 
 
 class GameState:
-    def __init__(self, characters, max_turns=5):
+    def __init__(self, characters, max_turns=10):
         self.characters = characters
         self.max_turns = max_turns
         self.conversations = []

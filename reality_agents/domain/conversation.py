@@ -79,8 +79,12 @@ class ConversationManager:
         )
         convo_state = self._get_convo_state()
         prompt = self._get_prompt(current_speaker, target, prev_statement, convo_state)
-
-        utterance = get_response(prompt=prompt)
+        utterance = get_response(
+            prompt=prompt,
+            past_responses=None
+            if self.turn == 0
+            else [entry["dialogue"] for entry in script],
+        )
 
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1

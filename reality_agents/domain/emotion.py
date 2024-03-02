@@ -2,7 +2,7 @@ from reality_agents.services.llm.prompt_injection import format_emotion_init_pro
 from reality_agents.services.llm.ollama_handler import get_response
 
 
-# will have to init based on persona + premise + relationship to other character
+# will have to init based on persona + situation + relationship to other character
 class EmotionState:
     def __init__(self):
         self.happiness = 1
@@ -12,9 +12,10 @@ class EmotionState:
         self.fear = 1
         self.boredom = 1
 
-    def initialize_emotions(persona, premise, relationship_to_target):
-        prompt = format_emotion_init_prompt(persona, premise, relationship_to_target)
+    def initialize_emotion_state(persona, situation, relationship_to_target):
+        prompt = format_emotion_init_prompt(persona, situation, relationship_to_target)
         response = get_response(prompt)
+        print(response)
 
     def update_emotion(self, emotion, value):
         if emotion in self.__dict__:
