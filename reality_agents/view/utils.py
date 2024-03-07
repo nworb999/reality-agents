@@ -9,31 +9,59 @@ def slow_type(text, delay=0.1):
     print()
 
 
+def create_player(name, pronouns=None, personality=None, relationship_to_target=None):
+    player = {"name": name}
+    if pronouns:
+        player["pronouns"] = pronouns
+    if personality:
+        player["personality"] = personality
+    if relationship_to_target:
+        player["relationship_to_target"] = relationship_to_target
+    return player
+
+
+def collect_player_info(player_number):
+    name = input(f"What is the name of character {player_number}?: ").strip()
+    if name.lower() == "test":
+        return None  # Signal to use default players
+    pronouns = input(f"What are {name}'s pronouns?: ").strip()
+    personality = input(f"What is {name}'s personality?: ").strip()
+    return create_player(name, pronouns, personality)
+
+
 def get_player_info():
     players = []
-    while True:
-        prompt = "What is the player's name? "
-        if len(players) >= 2:
-            prompt += f"(or enter to continue with {len(players)} players) "
+    default_players = [
+        create_player(
+            "Mark",
+            "he/him",
+            "a bit of a hothead, but passionate and kind",
+            "Mark is Billy's 40-year-old son. He thinks Billy can be patronizing. He also thinks Billy is too old to make decisions and is losing his touch.",
+        ),
+        create_player(
+            "Billy",
+            "he/him",
+            "cool, calm, and collected, but a schemer",
+            "Billy is Mark's 70-year-old father and the owner of the shop. He thinks Mark is too rash and emotionally unstable to make decisions.",
+        ),
+    ]
 
-        player_name = input(prompt)
+    first_player = collect_player_info(1)
+    if first_player is None:
+        return default_players
 
-        if not player_name:
-            if len(players) < 2:
-                return [
-                    {
-                        "name": "Mark",
-                        "personality": "a bit of a hothead, but passionate and kind",
-                    },
-                    {
-                        "name": "Billy",
-                        "personality": "cool calm and collected, but a schemer",
-                    },
-                ]
-            break
+    players.append(first_player)
+    second_player = collect_player_info(2)
+    players.append(second_player)
 
-        personality = input("What is their personality like? ")
-        players.append({"name": player_name, "personality": personality})
+    for i in range(2):
+        target = (i + 1) % 2
+        relation = input(
+            f"What is the relationship of {players[i]['name']} to {players[target]['name']}?: "
+        ).strip()
+        if not relation:
+            relation = "Is an acquaintance of the other character."
+        players[i]["relationship_to_target"] = relation
 
     return players
 

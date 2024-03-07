@@ -6,17 +6,24 @@ from reality_agents.view.terminal_output import (
     display_dialogue,
     display_end,
 )
-from utils.ascii import clear_screen, intro_text, spin
+from utils.ascii import clear_screen, intro_text
 import time
 
 
 def play_conversation_game(db):
     scene = input("Enter a setting: ") or "auto shop"
+    situation = (
+        input("Enter a situation: ")
+        or """The characters work in an auto shop. They are discussing a tough fix on a customer's classic car."""
+    )
     characters = get_player_info()
     if not characters:
         return
 
-    conversation_game_controller = ConversationGameController(db, characters, scene)
+    conversation_game_controller = ConversationGameController(
+        db, characters, situation, scene
+    )
+    conversation_game_controller.start_game()
 
     round_counter = 0
     clear_screen()

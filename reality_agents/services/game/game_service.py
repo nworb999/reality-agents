@@ -9,13 +9,19 @@ from reality_agents.data.repository import create_memory_entry
 
 
 class ConversationService:
-    def __init__(self, db, characters, scene):
+    def __init__(self, db, characters, situation, scene):
         self.db = db
-        self.game = GameLogic(characters)
         self.characters = [
-            Character(character["name"], character["personality"])
+            Character(
+                character["name"],
+                character["pronouns"],
+                character["personality"],
+                character["relationship_to_target"],
+            )
             for character in characters
         ]
+        self.game = GameLogic(self.characters, situation)
+
         self.scene = Scene(scene)
         self.script = []
 
@@ -36,9 +42,9 @@ class ConversationService:
         ) = self.game.update_game(self.script)
 
         turn_data = {
-            "name": current_character["name"],
+            "name": current_character.name,
             "turn": current_turn,
-            "target": target["name"],
+            "target": target.name,
             "dialogue": utterance,
             "status": "ONGOING",
             "round_completed": round_completed,

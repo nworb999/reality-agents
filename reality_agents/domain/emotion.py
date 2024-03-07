@@ -1,9 +1,13 @@
-from reality_agents.services.llm.prompt_injection import format_emotion_init_prompt
+from reality_agents.services.llm.prompt_injection import (
+    format_emotion_init_prompt,
+    format_emotion_update_prompt,
+)
 from reality_agents.services.llm.ollama_handler import get_response
+from utils.string import parse_emotion_response
+from utils.statistics import clamp
 
 
-# will have to init based on persona + situation + relationship to other character
-class EmotionState:
+class EmotionalState:
     def __init__(self):
         self.happiness = 1
         self.sadness = 1
@@ -12,16 +16,25 @@ class EmotionState:
         self.fear = 1
         self.boredom = 1
 
-    def initialize_emotion_state(persona, situation, relationship_to_target):
+    def initialize_emotional_state(self, persona, situation, relationship_to_target):
         prompt = format_emotion_init_prompt(persona, situation, relationship_to_target)
-        response = get_response(prompt)
-        print(response)
+        response = parse_emotion_response(get_response(prompt))
+        for key, value in response.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
 
-    def update_emotion(self, emotion, value):
-        if emotion in self.__dict__:
-            self.__dict__[emotion] = value
-        else:
-            print(f"{emotion} is not a valid emotion.")
+    def update_emotional_state_from_utterance(self, utterance):
+        prompt = format_emotion_update_prompt(utterance, self.__str__())
+        while True:
+            try:
+                response = parse_emotion_response(get_response(prompt))
+                for key, value in response.items():
+                    if hasattr(self, key.lower()):
+                        clamped_value = clamp(value, 1, 5)
+                        setattr(self, key.lower(), clamped_value)
+                break  # Exit the loop once the update is successful
+            except Exception as e:
+                print(f"Error updating emotions: {e}. Retrying...")
 
     def get_emotion(self, emotion):
         return self.__dict__.get(emotion, "Invalid emotion")

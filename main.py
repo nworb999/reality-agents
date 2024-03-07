@@ -1,8 +1,6 @@
 from contextlib import contextmanager
-from utils.constants import VALID_GAME_TYPES
 from utils.ssh_tunnel import start_tunnel, stop_tunnel
 from reality_agents.data.database import get_db, setup_db
-from reality_agents.data.repository import get_memory_entries
 from reality_agents.view.game_handler import (
     play_conversation_game,
 )
@@ -32,11 +30,7 @@ def main():
     )
 
     with initialize_db_session() as db:
-        game_type = input("Please enter the game type: ").lower().strip() or "convo"
-        if game_type in ["conversation", "convo"]:
-            play_conversation_game(db)
-        elif game_type not in VALID_GAME_TYPES:
-            print("Unknown game type. Exiting.")
+        play_conversation_game(db)
 
     stop_tunnel()
 

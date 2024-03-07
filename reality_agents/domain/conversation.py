@@ -3,7 +3,7 @@ from typing import List, Dict, Tuple
 
 from reality_agents.services.llm.prompt_injection import format_prompt
 from reality_agents.services.llm.ollama_handler import get_response
-from utils.string import strip_text
+from utils.string import parse_utterance
 
 
 class SpeakingOrder:
@@ -30,9 +30,13 @@ class SpeakingOrder:
 
 class ConversationManager:
     def __init__(
-        self, characters: List[Dict[str, str]], order_type: str = "sequential"
+        self,
+        characters: List[Dict[str, str]],
+        situation: str,
+        order_type: str = "sequential",
     ):
         self.characters = characters
+        self.situation = situation
         self.turn = 0
         # (in order to track how active each character has been in the conversation)
         self.speaking_turns = [0] * len(characters)
@@ -52,13 +56,12 @@ class ConversationManager:
         self,
         current_speaker: Dict[str, str],
         target: Dict[str, str],
-        prev_statement: str,
         convo_state: str,
     ) -> str:
         return format_prompt(
             convo_state=convo_state,
+            situation=self.situation,
             character=current_speaker,
-            prev_statement=prev_statement,
             target=target,
         )
 
@@ -69,22 +72,16 @@ class ConversationManager:
         current_speaker = self.characters[current_speaker_index]
         target = self.characters[(current_speaker_index + 1) % len(self.characters)]
 
-        prev_statement = (
-            strip_text(
-                script[self.turn - 1]["dialogue"],
-                [character["name"] for character in self.characters],
-            )
-            if script
-            else None
-        )
         convo_state = self._get_convo_state()
-        prompt = self._get_prompt(current_speaker, target, prev_statement, convo_state)
+        prompt = self._get_prompt(current_speaker, target, convo_state)
         utterance = get_response(
             prompt=prompt,
             past_responses=None
             if self.turn == 0
             else [entry["dialogue"] for entry in script],
         )
+
+        target.emotional_state.update_emotional_state_from_utterance(utterance)
 
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1

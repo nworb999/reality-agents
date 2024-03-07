@@ -1,6 +1,14 @@
-def strip_text(input_string, remove_strings):
+import re
+import ast
+import re
+
+
+def parse_utterance(input_string, remove_strings):
     # Remove all occurrences of '\n'
     cleaned_string = input_string.replace("\n", "").replace("[", "(").replace("]", ")")
+
+    # Remove anything within parentheses (including the parentheses)
+    cleaned_string = re.sub(r"\(.*?\)", "", cleaned_string)
 
     for remove_string in remove_strings:
         # Remove text that is in all caps and matches any string in the array
@@ -15,3 +23,15 @@ def strip_text(input_string, remove_strings):
     cleaned_string = cleaned_string.replace(')"', ")").replace(') "', ") ")
 
     return cleaned_string.strip().strip('"')
+
+
+def parse_emotion_response(input_string):
+    # print(input_string)
+    match = re.search(r"\{(.*?)\}", input_string, re.DOTALL)
+
+    if match:
+        # Extract the dictionary string and convert it to a dictionary using ast.literal_eval
+        dict_string = match.group(0)
+        return ast.literal_eval(dict_string)
+    else:
+        return None

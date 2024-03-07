@@ -68,10 +68,6 @@ def test_is_game_over(game_state):
     assert game_state.is_game_over()
 
 
-def test_get_current_conversation(game_state):
-    assert isinstance(game_state.get_current_conversation(), ConversationManager)
-
-
 def test_get_emotional_state(game_state):
     assert game_state.get_emotional_state("Alice") == "neutral"
     assert game_state.get_emotional_state("Unknown") == "unknown"

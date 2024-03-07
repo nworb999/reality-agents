@@ -7,13 +7,16 @@ def get_response(prompt, past_responses=None):
     if past_responses is None:
         history = []
     else:
-        history = [{"role": "user", "content": message} for message in past_responses]
+        history = [
+            {"role": "assistant", "content": message} for message in past_responses
+        ]
     history.append({"role": "user", "content": prompt})
-    print("the history", history)
+
     data = {
         "model": "mixtral:latest",
         # "model": "llama2:70b",
-        "messages": history[:5],
+        # "model": "dolphin-mixtral",
+        "messages": history[:10],
         "stream": False,
     }
     # print()
