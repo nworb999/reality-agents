@@ -16,25 +16,38 @@ class EmotionalState:
         self.fear = 1
         self.boredom = 1
 
-    def initialize_emotional_state(self, persona, situation, relationship_to_target):
-        prompt = format_emotion_init_prompt(persona, situation, relationship_to_target)
-        response = parse_emotion_response(get_response(prompt))
-        for key, value in response.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
-
-    def update_emotional_state_from_utterance(self, utterance):
-        prompt = format_emotion_update_prompt(utterance, self.__str__())
-        while True:
+    def handle_response_errors(self, prompt, max_retries=1, update=False):
+        for attempt in range(1, max_retries + 1):
             try:
                 response = parse_emotion_response(get_response(prompt))
                 for key, value in response.items():
                     if hasattr(self, key.lower()):
-                        clamped_value = clamp(value, 1, 5)
-                        setattr(self, key.lower(), clamped_value)
-                break  # Exit the loop once the update is successful
+                        if update:
+                            clamped_value = clamp(value, 1, 5)
+                            setattr(self, key.lower(), clamped_value)
+                        else:
+                            setattr(self, key, value)
+                break
+            except SyntaxError as e:
+                return
             except Exception as e:
-                print(f"Error updating emotions: {e}. Retrying...")
+                if attempt < max_retries:
+                    print(
+                        f"Error updating emotions: {e}. Retrying... ({max_retries - attempt} attempts left)"
+                    )
+                else:
+                    print(
+                        f"Error updating emotions: {e}. Maximum retries reached. Moving on..."
+                    )
+
+    def initialize_emotional_state(self, persona, conflict, relationship_to_target):
+        prompt = format_emotion_init_prompt(persona, conflict, relationship_to_target)
+        self.handle_response_errors(prompt)
+
+    def update_emotional_state_from_utterance(self, utterance):
+        prompt = format_emotion_update_prompt(utterance, self.__str__())
+        max_retries = 3
+        self.handle_response_errors(prompt, max_retries, update=True)
 
     def get_emotion(self, emotion):
         return self.__dict__.get(emotion, "Invalid emotion")

@@ -4,7 +4,8 @@ from reality_agents.data.database import get_db, setup_db
 from reality_agents.view.game_handler import (
     play_conversation_game,
 )
-from utils.ascii import intro_text, spin
+from utils.ascii import intro_text, spin, clear_screen
+import time
 
 
 @contextmanager
@@ -19,20 +20,28 @@ def initialize_db_session():
 
 
 def main():
-    intro_text()
-    spin()
-    start_tunnel(
-        remote_server="imagination.mat.ucsb.edu",
-        ssh_username="emma",
-        ssh_pkey="~/.ssh/id_rsa",
-        remote_port=11434,
-        local_port=12345,
-    )
+    try:
+        intro_text()
+        spin()
+        start_tunnel(
+            remote_server="imagination.mat.ucsb.edu",
+            ssh_username="emma",
+            ssh_pkey="~/.ssh/id_rsa",
+            remote_port=11434,
+            local_port=12345,
+        )
 
-    with initialize_db_session() as db:
-        play_conversation_game(db)
+        with initialize_db_session() as db:
+            play_conversation_game(db)
 
-    stop_tunnel()
+        stop_tunnel()
+    except KeyboardInterrupt:
+        clear_screen()
+        intro_text()
+        print()
+        print("Goodbye!")
+        print()
+        time.sleep(2)
 
 
 if __name__ == "__main__":

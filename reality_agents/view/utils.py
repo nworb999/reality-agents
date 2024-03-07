@@ -1,5 +1,7 @@
 import random
 import time
+from utils.string import THEN_PRESS_ENTER
+from utils.ascii import spin
 
 
 def slow_type(text, delay=0.1):
@@ -21,11 +23,16 @@ def create_player(name, pronouns=None, personality=None, relationship_to_target=
 
 
 def collect_player_info(player_number):
-    name = input(f"What is the name of character {player_number}?: ").strip()
+    name = input(
+        f"What is the name of character {player_number}?" + THEN_PRESS_ENTER
+    ).strip()
+    spin(1)
     if name.lower() == "test":
         return None  # Signal to use default players
-    pronouns = input(f"What are {name}'s pronouns?: ").strip()
-    personality = input(f"What is {name}'s personality?: ").strip()
+    pronouns = input(f"What are {name}'s pronouns?" + THEN_PRESS_ENTER).strip()
+    spin(1)
+    personality = input(f"What is {name}'s personality?" + THEN_PRESS_ENTER).strip()
+    spin(1)
     return create_player(name, pronouns, personality)
 
 
@@ -36,13 +43,13 @@ def get_player_info():
             "Mark",
             "he/him",
             "a bit of a hothead, but passionate and kind",
-            "Mark is Billy's 40-year-old son. He thinks Billy can be patronizing. He also thinks Billy is too old to make decisions and is losing his touch.",
+            "He is Billy' son, and he thinks Billy is too old to make decisions and is losing his touch.  He calls Billy dad.",
         ),
         create_player(
             "Billy",
             "he/him",
             "cool, calm, and collected, but a schemer",
-            "Billy is Mark's 70-year-old father and the owner of the shop. He thinks Mark is too rash and emotionally unstable to make decisions.",
+            "He is Mark's 70-year-old dad and the owner of the shop. He thinks Mark is too rash and emotionally unstable to make decisions.",
         ),
     ]
 
@@ -57,11 +64,20 @@ def get_player_info():
     for i in range(2):
         target = (i + 1) % 2
         relation = input(
-            f"What is the relationship of {players[i]['name']} to {players[target]['name']}?: "
+            f"How does {players[i]['name']} feel about {players[target]['name']}?"
+            + THEN_PRESS_ENTER
         ).strip()
+        spin(1)
         if not relation:
-            relation = "Is an acquaintance of the other character."
+            relation = "They are just acquaintances."
         players[i]["relationship_to_target"] = relation
+
+    if all(
+        player["name"] == ""
+        and player["relationship_to_target"] == "They are just acquaintances."
+        for player in players
+    ):
+        players = default_players
 
     return players
 

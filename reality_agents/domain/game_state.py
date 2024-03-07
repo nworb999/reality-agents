@@ -4,29 +4,29 @@ DEFAULT_ORDER_TYPE = "sequential"
 
 
 class GameState:
-    def __init__(self, characters, situation, max_turns):
+    def __init__(self, characters, conflict, max_turns):
         self.characters = characters
-        self.situation = situation
+        self.conflict = conflict
         self.max_turns = max_turns
         self.conversations = []
         self.current_conversation = ConversationManager(
             characters=self.characters,
-            situation=self.situation,
+            conflict=self.conflict,
             order_type=DEFAULT_ORDER_TYPE,
         )
         self.current_character = 0
         self.current_turn = 0
         self.emotional_states = {character.name: "neutral" for character in characters}
 
-    def start_new_conversation(self, situation=None, order_type=DEFAULT_ORDER_TYPE):
+    def start_new_conversation(self, conflict=None, order_type=DEFAULT_ORDER_TYPE):
         if self.current_conversation:
             self.conversations.append(self.current_conversation)
         self.current_conversation = ConversationManager(
-            characters=self.characters, situation=self.situation, order_type=order_type
+            characters=self.characters, conflict=self.conflict, order_type=order_type
         )
         for char in self.characters:
             char.initialize_state(
-                situation if situation else self.situation, char.relationship_to_target
+                conflict if conflict else self.conflict, char.relationship_to_target
             )
 
         self.current_turn += 1

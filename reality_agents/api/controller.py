@@ -7,8 +7,8 @@ from reality_agents.services.game.game_service import (
 
 
 class GameController:
-    def __init__(self, db, characters, situation, scene):
-        self.game_service = GameService(db, characters, situation, scene)
+    def __init__(self, db, characters, conflict, scene):
+        self.game_service = GameService(db, characters, conflict, scene)
 
     def start_game(self):
         response = self.game_service.start_game()

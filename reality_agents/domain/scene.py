@@ -14,13 +14,14 @@ class Scene:
     def initialize_scene(self) -> None:
         clear_screen()
         intro_text()
-        spin()
+        spin(2)
         print(f"Initializing new workplace scene: {self.scene}...")
-        spin()
+        spin(2)
 
     def log_sim_style(self, message: str) -> None:
         actions: List[str] = ["Gathering", "Arranging", "Setting up", "Preparing"]
         print(f"{random.choice(actions)} {message}...")
+        spin(1)
 
     def llm_service_simulation(
         self, scene: str

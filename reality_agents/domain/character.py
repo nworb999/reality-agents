@@ -14,7 +14,7 @@ class Character:
         self.emotional_state: Dict[str, int] = EmotionalState()
         self.relationship_to_target = relationship_to_target
 
-    def initialize_state(self, situation: str, relationship_to_target: str):
+    def initialize_state(self, conflict: str, relationship_to_target: str):
         self.emotional_state.initialize_emotional_state(
-            self.personality, situation, relationship_to_target
+            self.personality, conflict, relationship_to_target
         )

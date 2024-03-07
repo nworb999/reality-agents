@@ -32,11 +32,11 @@ class ConversationManager:
     def __init__(
         self,
         characters: List[Dict[str, str]],
-        situation: str,
+        conflict: str,
         order_type: str = "sequential",
     ):
         self.characters = characters
-        self.situation = situation
+        self.conflict = conflict
         self.turn = 0
         # (in order to track how active each character has been in the conversation)
         self.speaking_turns = [0] * len(characters)
@@ -60,7 +60,7 @@ class ConversationManager:
     ) -> str:
         return format_prompt(
             convo_state=convo_state,
-            situation=self.situation,
+            conflict=self.conflict,
             character=current_speaker,
             target=target,
         )

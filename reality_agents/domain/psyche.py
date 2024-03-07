@@ -23,8 +23,8 @@ class Psyche:
         self.intention: Dict[str, str] = intention
         self.relationship_to_target = relationship_to_target
 
-    def initialize_state(self, situation: str, relationship_to_target: str):
-        self._initialize_emotional_state(situation, relationship_to_target)
+    def initialize_state(self, conflict: str, relationship_to_target: str):
+        self._initialize_emotional_state(conflict, relationship_to_target)
         self._initialize_intention()
         self._initialize_objective()
 
@@ -33,17 +33,17 @@ class Psyche:
         self.update_objective(utterance)
         self.update_intention(utterance)
 
-    def _initialize_emotional_state(self, situation: str, relationship_to_target: str):
+    def _initialize_emotional_state(self, conflict: str, relationship_to_target: str):
         self.emotional_state.initialize_emotional_state(
-            self.personality, situation, relationship_to_target
+            self.personality, conflict, relationship_to_target
         )
 
     def update_emotional_state(self, utterance: str):
         self.emotional_state.update_emotional_state_from_utterance(utterance)
 
-    def _initialize_intention(self, situation: str, relationship_to_target: str):
+    def _initialize_intention(self, conflict: str, relationship_to_target: str):
         self.intention.initialize_intention(
-            self.emotional_state, situation, relationship_to_target
+            self.emotional_state, conflict, relationship_to_target
         )
         return
 
@@ -51,9 +51,9 @@ class Psyche:
         self.intention.update_intention(self.emotional_state, utterance)
         return
 
-    def _initialize_objective(self, situation: str, relationship_to_target: str):
+    def _initialize_objective(self, conflict: str, relationship_to_target: str):
         self.intention.update_objective(
-            self.emotional_state, situation, relationship_to_target
+            self.emotional_state, conflict, relationship_to_target
         )
         pass
 

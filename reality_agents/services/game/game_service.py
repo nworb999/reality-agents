@@ -9,7 +9,7 @@ from reality_agents.data.repository import create_memory_entry
 
 
 class ConversationService:
-    def __init__(self, db, characters, situation, scene):
+    def __init__(self, db, characters, conflict, scene):
         self.db = db
         self.characters = [
             Character(
@@ -20,7 +20,7 @@ class ConversationService:
             )
             for character in characters
         ]
-        self.game = GameLogic(self.characters, situation)
+        self.game = GameLogic(self.characters, conflict)
 
         self.scene = Scene(scene)
         self.script = []

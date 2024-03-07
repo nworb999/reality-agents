@@ -6,22 +6,34 @@ from reality_agents.view.terminal_output import (
     display_dialogue,
     display_end,
 )
-from utils.ascii import clear_screen, intro_text
+from utils.string import THEN_PRESS_ENTER
+from utils.ascii import clear_screen, intro_text, spin
 import time
 
 
 def play_conversation_game(db):
-    scene = input("Enter a setting: ") or "auto shop"
-    situation = (
-        input("Enter a situation: ")
+    clear_screen()
+    intro_text()
+    spin()
+    print("You are setting up a scene for a reality TV show.")
+    spin(2)
+    print()
+    print("There are two characters.")
+    print()
+    spin(3)
+    scene = input("What is the setting?" + THEN_PRESS_ENTER) or "auto shop"
+    spin(1)
+    conflict = (
+        input("What is the conflict?" + THEN_PRESS_ENTER)
         or """The characters work in an auto shop. They are discussing a tough fix on a customer's classic car."""
     )
+    spin(1)
     characters = get_player_info()
     if not characters:
         return
 
     conversation_game_controller = ConversationGameController(
-        db, characters, situation, scene
+        db, characters, conflict, scene
     )
     conversation_game_controller.start_game()
 
@@ -47,4 +59,4 @@ def play_conversation_game(db):
                 response["dialogue"],
             )
             round_counter += 1
-            time.sleep(1)
+            spin(1)
