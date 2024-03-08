@@ -51,11 +51,11 @@ class Scene:
         # actions: List[str] = ["Gathering", "Arranging", "Setting up", "Preparing"]
         selected_statements = random.sample(GENERIC_SIMS_STATEMENTS, 3)
         print(selected_statements[0])
-        spin(1)
+        spin(2)
         print(selected_statements[1])
-        spin(1)
+        spin(2)
         print(selected_statements[2])
-        spin(1)
+        spin(2)
 
     def llm_service_simulation(
         self, scene: str

@@ -1,4 +1,4 @@
-template = "Use the previous dialogue and respond accordingly.  Provide one sentence."
+template = "Use the previous dialogue and disagree accordingly.  Provide one sentence."
 
 
 def format_persona(character):
@@ -43,7 +43,7 @@ def format_objective_init_prompt(
     persona, conflict, relationship_to_target, emotional_state
 ):
     return f"""Given persona: {persona}, in conflict: {conflict}, talking to someone who: {relationship_to_target}, and emotional state: {emotional_state},
-    what would a sensible objective for the conversation be?  Please only return a one sentence objective."""
+    what would a sensible objective for the conversation be?  It should be selfish and contentious.  Please only return a one sentence objective."""
 
 
 # relies on history of conversation, or feed in utterance
@@ -58,7 +58,7 @@ def format_should_update_objective_prompt(
 def format_update_objective_prompt(
     old_objective, conflict, persona, emotional_state, convo_history=None
 ):
-    return f"""What would a sensible new objective for the conversation be considering the old objective: {old_objective}, the conflict: {conflict}, the agent's personality: {persona}, and their current emotional state: {emotional_state}?  Please only return a one sentence objective."""
+    return f"""What would a sensible new objective for the conversation be considering the old objective: {old_objective}, the conflict: {conflict}, the agent's personality: {persona}, and their current emotional state: {emotional_state}?  Please only return a one sentence objective.  It should be selfish."""
 
 
 def format_is_objective_fulfilled_prompt(
@@ -71,7 +71,7 @@ def format_is_objective_fulfilled_prompt(
 
 def format_init_intention_prompt(objective, persona, conflict, emotional_state):
     return f"""Given Persona: {persona}, Conflict: {conflict}, Objective: {objective} and emotional state: {emotional_state} -- 
-    what would be a sensible intention for the next response of a character?  Please only return a one sentence intention."""
+    what would be a sensible intention for the next response of a character?  Please only return a one sentence intention. It should be inflammatory."""
 
 
 def format_update_intention_prompt(emotional_state, objective, utterance):

@@ -1,4 +1,5 @@
 from reality_agents.domain.conversation import ConversationManager
+from utils.ascii import clear_screen, intro_text
 
 DEFAULT_ORDER_TYPE = "sequential"
 
@@ -22,6 +23,9 @@ class GameState:
     def start_new_conversation(
         self, conflict=None, scene=None, order_type=DEFAULT_ORDER_TYPE
     ):
+        clear_screen()
+        intro_text()
+        print("Generating conversation, this might take a while...")
         if self.current_conversation:
             self.conversations.append(self.current_conversation)
         self.current_conversation = ConversationManager(

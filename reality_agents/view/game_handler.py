@@ -10,6 +10,8 @@ from utils.string import THEN_PRESS_ENTER
 from utils.ascii import clear_screen, intro_text, spin
 import time
 
+# from main import SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE
+
 
 def play_conversation_game(db):
     clear_screen()
@@ -21,17 +23,22 @@ def play_conversation_game(db):
     print("There are two characters.")
     print()
     spin(3)
-    scene = input("[1/10] What is the setting?" + THEN_PRESS_ENTER) or "auto shop"
+    scene = (
+        input("[1/10] What is the setting? e.g. auto shop" + THEN_PRESS_ENTER)
+        or "auto shop"
+    )
+    # SCENE_CACHE = scene
     spin(1)
     conflict = (
-        input("[2/10] What is the conflict?" + THEN_PRESS_ENTER)
-        or """The characters work in an auto shop. They are discussing a tough fix on a customer's classic car."""
+        input("[2/10] What is the conflict? e.g. money" + THEN_PRESS_ENTER)
+        or """Money."""
     )
+    # CONFLICT_CACHE = conflict
     spin(1)
     characters = get_player_info()
     if not characters:
         return
-
+    # CHARACTERS_CACHE = characters
     conversation_game_controller = ConversationGameController(
         db, characters, conflict, scene
     )

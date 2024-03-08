@@ -8,6 +8,10 @@ from utils.ascii import intro_text, spin, clear_screen
 import time
 import traceback
 
+CHARACTERS_CACHE = {}
+SCENE_CACHE = {}
+CONFLICT_CACHE = {}
+
 
 @contextmanager
 def initialize_db_session():
@@ -21,35 +25,37 @@ def initialize_db_session():
 
 
 def main():
-    try:
-        intro_text()
-        spin()
-        start_tunnel(
-            remote_server="imagination.mat.ucsb.edu",
-            ssh_username="emma",
-            ssh_pkey="~/.ssh/id_rsa",
-            remote_port=11434,
-            local_port=12345,
-        )
-
-        with initialize_db_session() as db:
-            play_conversation_game(db)
-
-        stop_tunnel()
-    except KeyboardInterrupt:
-        clear_screen()
-        intro_text()
-        print()
-        print("Goodbye!")
-        print()
-        spin(2)
-    except Exception as e:
-        print("Error! Sorry, it's an experiment after all! :)")
-        spin(1)
-        traceback_lines = traceback.format_exc().splitlines()
-        # Print the last 3 lines of the traceback
-        for line in traceback_lines[-3:]:
-            print(f"Details: {line}")
+    intro_text()
+    spin()
+    start_tunnel(
+        remote_server="imagination.mat.ucsb.edu",
+        ssh_username="emma",
+        ssh_pkey="~/.ssh/id_rsa",
+        remote_port=11434,
+        local_port=12345,
+    )
+    while True:
+        try:
+            with initialize_db_session() as db:
+                play_conversation_game(db)
+        # except ConnectionError:
+        #     play_conversation_game(db, SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE)
+        except KeyboardInterrupt:
+            clear_screen()
+            intro_text()
+            print()
+            print("Goodbye!")
+            print()
+            spin(2)
+            break  # Exit the while loop on KeyboardInterrupt
+        except Exception as e:
+            print("Error! Sorry, it's an experiment after all! :)")
+            spin(1)
+            traceback_lines = traceback.format_exc().splitlines()
+            # Print the last 3 lines of the traceback
+            for line in traceback_lines[-3:]:
+                print(f"Details: {line}")
+    stop_tunnel()
 
 
 if __name__ == "__main__":
