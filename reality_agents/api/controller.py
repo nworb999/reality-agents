@@ -16,6 +16,8 @@ class GameController:
 
     def update(self):
         game_status = self.game_service.update()
-        if game_status["status"] == "FINISHED":
-            return {"message": "FINISHED"}
+        if game_status["status"] == "Game over: conversation ended":
+            return {"message": "Game over: conversation ended"}
+        if game_status["status"] == "Game over: cutoff reached":
+            return {"message": "Game over: cutoff reached"}
         return {"message": game_status}

@@ -23,15 +23,21 @@ def create_player(name, pronouns=None, personality=None, relationship_to_target=
 
 
 def collect_player_info(player_number):
+    base_index = 3 if player_number == 1 else 6
     name = input(
-        f"What is the name of character {player_number}?" + THEN_PRESS_ENTER
+        f"[{base_index}/10] What is the name of character {player_number}?"
+        + THEN_PRESS_ENTER
     ).strip()
     spin(1)
     if name.lower() == "test":
         return None  # Signal to use default players
-    pronouns = input(f"What are {name}'s pronouns?" + THEN_PRESS_ENTER).strip()
+    pronouns = input(
+        f"[{base_index + 1}/10] What are {name}'s pronouns?" + THEN_PRESS_ENTER
+    ).strip()
     spin(1)
-    personality = input(f"What is {name}'s personality?" + THEN_PRESS_ENTER).strip()
+    personality = input(
+        f"[{base_index + 2}/10] What is {name}'s personality?" + THEN_PRESS_ENTER
+    ).strip()
     spin(1)
     return create_player(name, pronouns, personality)
 
@@ -42,14 +48,14 @@ def get_player_info():
         create_player(
             "Mark",
             "he/him",
-            "a bit of a hothead, but passionate and kind",
-            "He is Billy' son, and he thinks Billy is too old to make decisions and is losing his touch.  He calls Billy dad.",
+            "hothead",
+            "He calls Billy dad. He thinks he's too old to run things.",
         ),
         create_player(
             "Billy",
             "he/him",
-            "cool, calm, and collected, but a schemer",
-            "He is Mark's 70-year-old dad and the owner of the shop. He thinks Mark is too rash and emotionally unstable to make decisions.",
+            "calm, but a schemer",
+            "He thinks Mark is too rash and emotionally unstable to make decisions.",
         ),
     ]
 
@@ -62,9 +68,10 @@ def get_player_info():
     players.append(second_player)
 
     for i in range(2):
+        base_index = 8 + i
         target = (i + 1) % 2
         relation = input(
-            f"How does {players[i]['name']} feel about {players[target]['name']}?"
+            f"[{base_index + 1}/10] How does {players[i]['name']} feel about {players[target]['name']}?"
             + THEN_PRESS_ENTER
         ).strip()
         spin(1)

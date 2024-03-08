@@ -45,14 +45,11 @@ class EmotionalState:
         self.handle_response_errors(prompt)
 
     def update_emotional_state_from_utterance(self, utterance):
-        prompt = format_emotion_update_prompt(utterance, self.__str__())
+        prompt = format_emotion_update_prompt(utterance, self.get())
         max_retries = 3
         self.handle_response_errors(prompt, max_retries, update=True)
 
-    def get_emotion(self, emotion):
-        return self.__dict__.get(emotion, "Invalid emotion")
-
-    def __str__(self):
+    def get(self):
         return (
             f"Happiness: {self.happiness}, Sadness: {self.sadness}, Anxiety: {self.anxiety}, "
             f"Anger: {self.anger}, Fear: {self.fear}, Boredom: {self.boredom}"

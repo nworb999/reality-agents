@@ -4,28 +4,34 @@ DEFAULT_ORDER_TYPE = "sequential"
 
 
 class GameState:
-    def __init__(self, characters, conflict, max_turns):
+    def __init__(self, characters, conflict, scene, max_turns):
         self.characters = characters
         self.conflict = conflict
+        self.scene = scene
         self.max_turns = max_turns
         self.conversations = []
         self.current_conversation = ConversationManager(
             characters=self.characters,
             conflict=self.conflict,
+            scene=self.scene,
             order_type=DEFAULT_ORDER_TYPE,
         )
         self.current_character = 0
         self.current_turn = 0
-        self.emotional_states = {character.name: "neutral" for character in characters}
 
-    def start_new_conversation(self, conflict=None, order_type=DEFAULT_ORDER_TYPE):
+    def start_new_conversation(
+        self, conflict=None, scene=None, order_type=DEFAULT_ORDER_TYPE
+    ):
         if self.current_conversation:
             self.conversations.append(self.current_conversation)
         self.current_conversation = ConversationManager(
-            characters=self.characters, conflict=self.conflict, order_type=order_type
+            characters=self.characters,
+            conflict=conflict if conflict else self.conflict,
+            scene=scene if scene else self.scene,
+            order_type=order_type,
         )
         for char in self.characters:
-            char.initialize_state(
+            char.initialize_psyche(
                 conflict if conflict else self.conflict, char.relationship_to_target
             )
 
@@ -47,12 +53,10 @@ class GameState:
         self.current_character = current_speaker
         return self.current_turn, self.current_character, target, utterance
 
-    def update_emotional_state(self, character_name, new_state):
-        if character_name in self.emotional_states:
-            self.emotional_states[character_name] = new_state
-
     def is_game_over(self):
-        return self.current_turn >= self.max_turns
-
-    def get_emotional_state(self, character_name):
-        return self.emotional_states.get(character_name, "unknown")
+        if self.current_conversation.game_over:
+            return "Game over: conversation ended"
+        if self.current_turn >= self.max_turns:
+            return "Game over: cutoff reached"
+        else:
+            return False

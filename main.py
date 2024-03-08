@@ -6,6 +6,7 @@ from reality_agents.view.game_handler import (
 )
 from utils.ascii import intro_text, spin, clear_screen
 import time
+import traceback
 
 
 @contextmanager
@@ -41,7 +42,14 @@ def main():
         print()
         print("Goodbye!")
         print()
-        time.sleep(2)
+        spin(2)
+    except Exception as e:
+        print("Error! Sorry, it's an experiment after all! :)")
+        spin(1)
+        traceback_lines = traceback.format_exc().splitlines()
+        # Print the last 3 lines of the traceback
+        for line in traceback_lines[-3:]:
+            print(f"Details: {line}")
 
 
 if __name__ == "__main__":

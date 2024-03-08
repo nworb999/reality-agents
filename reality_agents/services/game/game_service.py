@@ -20,8 +20,8 @@ class ConversationService:
             )
             for character in characters
         ]
-        self.game = GameLogic(self.characters, conflict)
-
+        self.game = GameLogic(self.characters, conflict, scene)
+        # TODO fix scene logic
         self.scene = Scene(scene)
         self.script = []
 
@@ -30,8 +30,10 @@ class ConversationService:
         return f"New game started. {self.characters[0].name} goes first."
 
     def update(self):
-        if self.game.is_game_over():
-            return {"status": "FINISHED"}
+        if self.game.is_game_over() == "Game over: conversation ended":
+            return {"status": "Game over: conversation ended"}
+        if self.game.is_game_over() == "Game over: cutoff reached":
+            return {"status": "Game over: cutoff reached"}
 
         (
             current_turn,

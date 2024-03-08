@@ -21,10 +21,10 @@ def play_conversation_game(db):
     print("There are two characters.")
     print()
     spin(3)
-    scene = input("What is the setting?" + THEN_PRESS_ENTER) or "auto shop"
+    scene = input("[1/10] What is the setting?" + THEN_PRESS_ENTER) or "auto shop"
     spin(1)
     conflict = (
-        input("What is the conflict?" + THEN_PRESS_ENTER)
+        input("[2/10] What is the conflict?" + THEN_PRESS_ENTER)
         or """The characters work in an auto shop. They are discussing a tough fix on a customer's classic car."""
     )
     spin(1)
@@ -49,7 +49,11 @@ def play_conversation_game(db):
             full_response = conversation_game_controller.update()
 
             response = full_response["message"]
-            if response == "FINISHED":
+            if response == "Game over: cutoff reached":
+                print("GAME OVER: CUTOFF REACHED")
+                game_finished = True
+                break
+            if response == "Game over: conversation ended":
                 display_end()
                 game_finished = True
                 break

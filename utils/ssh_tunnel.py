@@ -27,4 +27,4 @@ def stop_tunnel():
     global tunnel
     if tunnel:
         tunnel.stop()
-        print("Tunnel closed")
+        print("SSH tunnel closed")

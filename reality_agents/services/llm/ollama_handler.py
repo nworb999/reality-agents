@@ -1,6 +1,8 @@
 import requests
 import json
 
+# TODO put this in utils, not in service layer
+
 
 def get_response(prompt, past_responses=None):
     url = "http://localhost:12345/api/chat"
@@ -16,7 +18,7 @@ def get_response(prompt, past_responses=None):
         "model": "mixtral:latest",
         # "model": "llama2:70b",
         # "model": "dolphin-mixtral",
-        "messages": history[:10],
+        "messages": history,
         "stream": False,
     }
     # print()

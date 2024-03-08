@@ -2,7 +2,7 @@ import re
 import ast
 import re
 
-THEN_PRESS_ENTER = " (then press enter)"
+THEN_PRESS_ENTER = " (then press enter) "
 
 
 def parse_utterance(input_string, remove_strings):
