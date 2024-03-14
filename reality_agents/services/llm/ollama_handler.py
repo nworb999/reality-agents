@@ -21,9 +21,9 @@ def get_response(prompt, past_responses=None):
         "messages": history,
         "stream": False,
     }
-    # print()
-    # print(data)
-    # print()
+    print()
+    print(data)
+    print()
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, data=json.dumps(data), headers=headers)
 
