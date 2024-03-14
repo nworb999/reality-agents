@@ -2,25 +2,60 @@ import random
 from typing import List, Dict, Union
 from utils.ascii import clear_screen, intro_text, spin
 
+GENERIC_SIMS_STATEMENTS = [
+    "Fluffing the clouds...",
+    "Adjusting the ambiance...",
+    "Ensuring the microphones are hidden...",
+    "Infusing the air with aroma...",
+    "Charging the crystals...",
+    "Tidying up the place...",
+    "Testing the lighting...",
+    "Arranging the scenery...",
+    "Adjusting the camera angles...",
+    "Infusing the set with suspense...",
+    "Charging the contestant's egos...",
+    "Tidying up the plot twists...",
+    "Polishing the on-screen chemistry...",
+    "Setting the temperature...",
+    "Aligning the stars...",
+    "Cueing the background music...",
+    "Ensuring the Wi-Fi is strong...",
+    "Polishing the atmosphere...",
+    "Balancing the energy levels...",
+    "Harmonizing the surroundings...",
+    "Refreshing the ambiance...",
+    "Fine-tuning the vibes...",
+    "Saturating the colors...",
+    "Smoothing the edges...",
+    "Summoning the spirits...",
+    "Synchronizing the elements...",
+    "Recharging the atmosphere...",
+    "Chewing the scenery...",
+]
+
 
 class Scene:
     def __init__(self, scene: str):
         self.scene: str = scene.lower()
         self.initialize_scene()
-        self.areas: Union[
-            str, List[Dict[str, Union[str, List[Dict[str, Union[bool, List[bool]]]]]]]
-        ] = self.generate_areas()
+        self.generate_areas()
 
     def initialize_scene(self) -> None:
         clear_screen()
         intro_text()
-        spin()
+        spin(2)
         print(f"Initializing new workplace scene: {self.scene}...")
-        spin()
+        spin(2)
 
-    def log_sim_style(self, message: str) -> None:
-        actions: List[str] = ["Gathering", "Arranging", "Setting up", "Preparing"]
-        print(f"{random.choice(actions)} {message}...")
+    def log_sim_style(self) -> None:
+        # actions: List[str] = ["Gathering", "Arranging", "Setting up", "Preparing"]
+        selected_statements = random.sample(GENERIC_SIMS_STATEMENTS, 3)
+        print(selected_statements[0])
+        spin(2)
+        print(selected_statements[1])
+        spin(2)
+        print(selected_statements[2])
+        spin(2)
 
     def llm_service_simulation(
         self, scene: str
@@ -63,16 +98,7 @@ class Scene:
     ) -> Union[
         str, List[Dict[str, Union[str, List[Dict[str, Union[bool, List[bool]]]]]]]
     ]:
-        response = self.llm_service_simulation(self.scene)
-        if isinstance(response, str):
-            return response
-        else:
-            areas = []
-            for area in response:
-                self.log_sim_style(f"{area['area']} area with interactive objects")
-                spin(1)
-                areas.append({"Area": area["area"], "Objects": area["objects"]})
-            return areas
+        self.log_sim_style()
 
     def display_areas(self) -> None:
         if isinstance(self.areas, str):
@@ -82,5 +108,5 @@ class Scene:
                 print(f"Area: {area['Area']}")
                 for obj in area["Objects"]:
                     occupied_status = "Yes" if obj["occupied"] else "No"
-                    self.log_sim_style(f"{obj['name']} (Occupied: {occupied_status})")
+                    self.log_sim_style()
                 print()

@@ -1,9 +1,23 @@
 import random
 from typing import List, Dict, Tuple
 
-from reality_agents.services.llm.prompt_injection import format_prompt
+from reality_agents.services.llm.prompt_injection import (
+    format_did_conversation_end_prompt,
+    format_intention_to_end_conversation_prompt,
+    format_prompt,
+)
 from reality_agents.services.llm.ollama_handler import get_response
-from utils.string import strip_text
+from utils.string import parse_utterance
+
+
+def check_yes_or_no(input_string):
+    input_string = input_string.lower().strip()
+    if "yes" in input_string:
+        return True
+    elif "no" or "not" in input_string:
+        return False
+    else:
+        return None
 
 
 class SpeakingOrder:
@@ -30,13 +44,20 @@ class SpeakingOrder:
 
 class ConversationManager:
     def __init__(
-        self, characters: List[Dict[str, str]], order_type: str = "sequential"
+        self,
+        characters: List[Dict[str, str]],
+        scene: str,
+        conflict: str,
+        order_type: str = "sequential",
     ):
         self.characters = characters
+        self.conflict = conflict
+        self.scene = scene
         self.turn = 0
-        # in order to track how active each character has been in the conversation
+        # (in order to track how active each character has been in the conversation)
         self.speaking_turns = [0] * len(characters)
         self.speaking_order = SpeakingOrder(len(characters), order_type)
+        self.game_over = False
 
     def reset(self):
         self.turn = 0
@@ -45,20 +66,22 @@ class ConversationManager:
             len(self.characters), self.speaking_order.order_type
         )
 
-    def _get_convo_state(self) -> str:
+    def _get_convo_state(self, current_speaker) -> str:
+        if current_speaker.is_ending_conversation():
+            return "ending"
         return "start" if sum(self.speaking_turns) == 0 else "ongoing"
 
     def _get_prompt(
         self,
         current_speaker: Dict[str, str],
         target: Dict[str, str],
-        prev_statement: str,
         convo_state: str,
     ) -> str:
         return format_prompt(
             convo_state=convo_state,
+            conflict=self.conflict,
             character=current_speaker,
-            prev_statement=prev_statement,
+            scene=self.scene,
             target=target,
         )
 
@@ -69,18 +92,36 @@ class ConversationManager:
         current_speaker = self.characters[current_speaker_index]
         target = self.characters[(current_speaker_index + 1) % len(self.characters)]
 
-        prev_statement = (
-            strip_text(
-                script[self.turn - 1]["dialogue"],
-                [character["name"] for character in self.characters],
+        convo_state = self._get_convo_state(current_speaker=current_speaker)
+        if convo_state == "ending":
+            prompt = format_intention_to_end_conversation_prompt(
+                current_speaker.personality,
+                [entry["dialogue"] for entry in script] if script else None,
+                current_speaker.get_objective(),
             )
-            if script
-            else None
-        )
-        convo_state = self._get_convo_state()
-        prompt = self._get_prompt(current_speaker, target, prev_statement, convo_state)
-
-        utterance = get_response(prompt=prompt)
+            utterance = get_response(prompt, past_responses=None)
+            # TODO is conversation over?
+            over_prompt = format_did_conversation_end_prompt(
+                utterances=None
+                if self.turn == 0
+                else [entry["dialogue"] for entry in script[:5]]
+            )
+            over_response = get_response(over_prompt)
+            if check_yes_or_no(over_response):
+                self.game_over = True
+        else:
+            prompt = self._get_prompt(current_speaker, target, convo_state)
+            utterance = get_response(
+                prompt=prompt,
+                past_responses=None
+                if self.turn == 0
+                else [entry["dialogue"] for entry in script[:3]],
+            )
+        if self.turn != 0:
+            target.update_psyche(
+                conflict=self.conflict,
+                convo_history=[entry["dialogue"] for entry in script[:3]],
+            )
 
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1

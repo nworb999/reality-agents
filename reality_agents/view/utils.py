@@ -1,5 +1,7 @@
 import random
 import time
+from utils.string import THEN_PRESS_ENTER
+from utils.ascii import spin
 
 
 def slow_type(text, delay=0.1):
@@ -9,31 +11,80 @@ def slow_type(text, delay=0.1):
     print()
 
 
+def create_player(name, pronouns=None, personality=None, relationship_to_target=None):
+    player = {"name": name}
+    if pronouns:
+        player["pronouns"] = pronouns
+    if personality:
+        player["personality"] = personality
+    if relationship_to_target:
+        player["relationship_to_target"] = relationship_to_target
+    return player
+
+
+def collect_player_info(player_number):
+    base_index = 3 if player_number == 1 else 6
+    name = input(
+        f"[{base_index}/10] What is the name of character {player_number}?"
+        + THEN_PRESS_ENTER
+    ).strip()
+    spin(1)
+    if name.lower() == "test":
+        return None  # Signal to use default players
+    pronouns = input(
+        f"[{base_index + 1}/10] What are {name}'s pronouns?" + THEN_PRESS_ENTER
+    ).strip()
+    spin(1)
+    personality = input(
+        f"[{base_index + 2}/10] What is {name}'s personality?" + THEN_PRESS_ENTER
+    ).strip()
+    spin(1)
+    return create_player(name, pronouns, personality)
+
+
 def get_player_info():
     players = []
-    while True:
-        prompt = "What is the player's name? "
-        if len(players) >= 2:
-            prompt += f"(or enter to continue with {len(players)} players) "
+    default_players = [
+        create_player(
+            "Mark",
+            "he/him",
+            "hothead",
+            "He calls Billy dad. He thinks he's too old to run things.",
+        ),
+        create_player(
+            "Billy",
+            "he/him",
+            "calm, but a schemer",
+            "He thinks Mark is too rash and emotionally unstable to make decisions.",
+        ),
+    ]
 
-        player_name = input(prompt)
+    first_player = collect_player_info(1)
+    if first_player is None:
+        return default_players
 
-        if not player_name:
-            if len(players) < 2:
-                return [
-                    {
-                        "name": "Mark",
-                        "personality": "a bit of a hothead, but passionate and kind",
-                    },
-                    {
-                        "name": "Billy",
-                        "personality": "cool calm and collected, but a schemer",
-                    },
-                ]
-            break
+    players.append(first_player)
+    second_player = collect_player_info(2)
+    players.append(second_player)
 
-        personality = input("What is their personality like? ")
-        players.append({"name": player_name, "personality": personality})
+    for i in range(2):
+        base_index = 8 + i
+        target = (i + 1) % 2
+        relation = input(
+            f"[{base_index + 1}/10] How does {players[i]['name']} feel about {players[target]['name']}?"
+            + THEN_PRESS_ENTER
+        ).strip()
+        spin(1)
+        if not relation:
+            relation = "They are just acquaintances."
+        players[i]["relationship_to_target"] = relation
+
+    if all(
+        player["name"] == ""
+        and player["relationship_to_target"] == "They are just acquaintances."
+        for player in players
+    ):
+        players = default_players
 
     return players
 

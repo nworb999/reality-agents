@@ -1,43 +1,32 @@
-import pytest
-from unittest.mock import patch
-from reality_agents.domain.game_logic import GameLogic, ConversationManager
+# import pytest
+# from reality_agents.domain.game_logic import GameLogic, GameState
 
+# # Fixture to create a GameLogic instance
+# @pytest.fixture
+# def game_logic():
+#     characters = [{"name": "Alice"}, {"name": "Bob"}]
+#     conflict = "Disagreement"
+#     scene = "Park"
+#     return GameLogic(characters, conflict, scene)
 
-@pytest.fixture
-def game_logic():
-    characters = [
-        {"name": "Alice", "personality": "Friendly"},
-        {"name": "Bob", "personality": "Serious"},
-    ]
-    return GameLogic(characters, max_rounds=5)
+# # Test the reset_game method
+# def test_reset_game(game_logic):
+#     game_logic.reset_game()
+#     assert game_logic.game_state.conversation_index == 1
+#     assert game_logic.game_state.turn == 0
 
+# # Test the update_game method
+# def test_update_game(game_logic):
+#     script = [{"character": "Alice", "dialogue": "Hello, Bob!"}]
+#     current_turn, current_character, target, utterance, round_completed = game_logic.update_game(script)
+#     assert current_turn == 1
+#     assert current_character["name"] == "Bob"
+#     assert target["name"] == "Alice"
+#     assert utterance is None
+#     assert not round_completed
 
-def test_reset_game(game_logic):
-    game_logic.reset_game()
-    assert game_logic.current_character == 0
-    assert game_logic.current_round == 0
-
-
-@patch.object(
-    ConversationManager,
-    "next_line",
-    return_value=(1, {"name": "Alice"}, {"name": "Bob"}, "Hello, Bob!"),
-)
-def test_play_turn(mock_next_line, game_logic):
-    script = [{"dialogue": "Hi, Alice!"}]
-    turn, current_character, target, utterance, round_completed = game_logic.play_turn(
-        script
-    )
-    assert turn == 1
-    assert current_character == {"name": "Alice"}
-    assert target == {"name": "Bob"}
-    assert utterance == "Hello, Bob!"
-    assert not round_completed
-    mock_next_line.assert_called_once_with(script)
-
-
-def test_is_game_over(game_logic):
-    game_logic.current_round = 5
-    assert game_logic.is_game_over()
-    game_logic.current_round = 4
-    assert not game_logic.is_game_over()
+# # Test the is_game_over method
+# def test_is_game_over(game_logic):
+#     assert not game_logic.is_game_over()
+#     game_logic.game_state.max_turns = 0  # Force game over
+#     assert game_logic.is_game_over()

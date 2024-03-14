@@ -9,13 +9,19 @@ from reality_agents.data.repository import create_memory_entry
 
 
 class ConversationService:
-    def __init__(self, db, characters, scene):
+    def __init__(self, db, characters, conflict, scene):
         self.db = db
-        self.game = GameLogic(characters)
         self.characters = [
-            Character(character["name"], character["personality"])
+            Character(
+                character["name"],
+                character["pronouns"],
+                character["personality"],
+                character["relationship_to_target"],
+            )
             for character in characters
         ]
+        self.game = GameLogic(self.characters, conflict, scene)
+        # TODO fix scene logic
         self.scene = Scene(scene)
         self.script = []
 
@@ -24,8 +30,10 @@ class ConversationService:
         return f"New game started. {self.characters[0].name} goes first."
 
     def update(self):
-        if self.game.is_game_over():
-            return {"status": "FINISHED"}
+        if self.game.is_game_over() == "Game over: conversation ended":
+            return {"status": "Game over: conversation ended"}
+        if self.game.is_game_over() == "Game over: cutoff reached":
+            return {"status": "Game over: cutoff reached"}
 
         (
             current_turn,
@@ -33,22 +41,28 @@ class ConversationService:
             target,
             utterance,
             round_completed,
-        ) = self.game.play_turn(self.script)
+        ) = self.game.update_game(self.script)
+
         turn_data = {
-            "name": current_character["name"],
+            "name": current_character.name,
             "turn": current_turn,
-            "target": target["name"],
+            "target": target.name,
             "dialogue": utterance,
             "status": "ONGOING",
             "round_completed": round_completed,
         }
 
         self.script.append(turn_data)
-        # todo use turn data
-        self.store_data(current_turn, current_character, target, utterance)
+
+        self.store_data(
+            turn_data["turn"],
+            turn_data["name"],
+            turn_data["target"],
+            turn_data["dialogue"],
+        )
 
         if round_completed:
-            round_message = f"--- Round {self.game.current_round} completed ---"
+            round_message = f"--- Round completed ---"
             self.script.append(round_message)
 
         return turn_data
@@ -63,7 +77,7 @@ class ConversationService:
             conversation_id,
             round_id,
             current_turn,
-            speaker["name"],
-            target["name"],
+            speaker,
+            target,
             utterance,
         )
