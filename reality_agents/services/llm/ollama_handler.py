@@ -21,13 +21,14 @@ def get_response(prompt, past_responses=None):
         "messages": history,
         "stream": False,
     }
-    print()
-    print(data)
-    print()
+    # print()
+    # print(data)
+    # print()
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, data=json.dumps(data), headers=headers)
 
     if response.status_code == 200:
+        print(response.json()["message"]["content"])
         return response.json()["message"]["content"]
     else:
         print(f"Request failed with status code {response.status_code}")

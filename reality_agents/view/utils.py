@@ -1,7 +1,39 @@
 import random
 import time
 from utils.string import THEN_PRESS_ENTER
-from utils.ascii import spin
+from utils.ascii import clear_screen, intro_text, spin
+
+
+def setup_game():
+    clear_screen()
+    intro_text()
+    spin()
+    print("You are setting up a scene for a reality TV show.")
+    spin(2)
+    print("\nThere are two characters.\n")
+    spin(3)
+
+
+def get_game_setup(scene_cache, conflict_cache, characters_cache):
+    scene = scene_cache or get_input_with_default(
+        "Where do they work? e.g. auto shop", "auto shop"
+    )
+    conflict = conflict_cache or get_input_with_default(
+        "What is the conflict? e.g. money", "money."
+    )
+    characters = characters_cache or get_player_info()
+    return scene, conflict, characters
+
+
+def get_input_with_default(prompt, default_value):
+    return input(f"{prompt}{THEN_PRESS_ENTER}") or default_value
+
+
+def start_conversation_game(conversation_game_controller):
+    conversation_game_controller.start_game()
+    clear_screen()
+    intro_text()
+    print("\n\n")
 
 
 def slow_type(text, delay=0.1):
@@ -11,10 +43,8 @@ def slow_type(text, delay=0.1):
     print()
 
 
-def create_player(name, pronouns=None, personality=None, relationship_to_target=None):
+def create_player(name, personality=None, relationship_to_target=None):
     player = {"name": name}
-    if pronouns:
-        player["pronouns"] = pronouns
     if personality:
         player["personality"] = personality
     if relationship_to_target:
@@ -23,23 +53,18 @@ def create_player(name, pronouns=None, personality=None, relationship_to_target=
 
 
 def collect_player_info(player_number):
-    base_index = 3 if player_number == 1 else 6
+    ordinal_dict = {1: "first", 2: "second", 3: "third", 4: "fourth", 5: "fifth"}
+    ordinal = ordinal_dict.get(player_number, str(player_number) + "th")
+
     name = input(
-        f"[{base_index}/10] What is the name of character {player_number}?"
-        + THEN_PRESS_ENTER
+        f"What is the name of the {ordinal} character?" + THEN_PRESS_ENTER
     ).strip()
     spin(1)
     if name.lower() == "test":
         return None  # Signal to use default players
-    pronouns = input(
-        f"[{base_index + 1}/10] What are {name}'s pronouns?" + THEN_PRESS_ENTER
-    ).strip()
+    personality = input(f"What is {name}'s personality?" + THEN_PRESS_ENTER).strip()
     spin(1)
-    personality = input(
-        f"[{base_index + 2}/10] What is {name}'s personality?" + THEN_PRESS_ENTER
-    ).strip()
-    spin(1)
-    return create_player(name, pronouns, personality)
+    return create_player(name, personality)
 
 
 def get_player_info():
@@ -47,13 +72,11 @@ def get_player_info():
     default_players = [
         create_player(
             "Mark",
-            "he/him",
             "hothead",
             "He calls Billy dad. He thinks he's too old to run things.",
         ),
         create_player(
             "Billy",
-            "he/him",
             "calm, but a schemer",
             "He thinks Mark is too rash and emotionally unstable to make decisions.",
         ),
@@ -68,10 +91,9 @@ def get_player_info():
     players.append(second_player)
 
     for i in range(2):
-        base_index = 8 + i
         target = (i + 1) % 2
         relation = input(
-            f"[{base_index + 1}/10] How does {players[i]['name']} feel about {players[target]['name']}?"
+            f"How does {players[i]['name']} feel about {players[target]['name']}?"
             + THEN_PRESS_ENTER
         ).strip()
         spin(1)

@@ -13,7 +13,6 @@ GENERIC_SIMS_STATEMENTS = [
     "Arranging the scenery...",
     "Adjusting the camera angles...",
     "Infusing the set with suspense...",
-    "Charging the contestant's egos...",
     "Tidying up the plot twists...",
     "Polishing the on-screen chemistry...",
     "Setting the temperature...",

@@ -14,12 +14,12 @@ class ConversationService:
         self.characters = [
             Character(
                 character["name"],
-                character["pronouns"],
                 character["personality"],
                 character["relationship_to_target"],
             )
             for character in characters
         ]
+        print(self.characters)
         self.game = GameLogic(self.characters, conflict, scene)
         # TODO fix scene logic
         self.scene = Scene(scene)

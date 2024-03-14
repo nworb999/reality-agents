@@ -7,6 +7,7 @@ from reality_agents.view.game_handler import (
     play_conversation_game,
 )
 from utils.ascii import intro_text, spin, clear_screen
+import sys
 
 SCENE_CACHE = {}
 CONFLICT_CACHE = {}
@@ -25,8 +26,7 @@ def initialize_db_session():
 
 
 def main():
-    intro_text()
-    spin()
+    setup_main()
     start_tunnel(
         remote_server="imagination.mat.ucsb.edu",
         ssh_username="emma",
@@ -34,30 +34,52 @@ def main():
         remote_port=11434,
         local_port=12345,
     )
+    game_loop()
+    stop_tunnel()
+
+
+def setup_main():
+    intro_text()
+    spin()
+
+
+def game_loop():
     while True:
         try:
-            with initialize_db_session() as db:
-                play_conversation_game(
-                    db, SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE
-                )
+            play_game()
         except ConnectionError:
-            play_conversation_game(db, SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE)
+            handle_connection_error()
         except KeyboardInterrupt:
-            clear_screen()
-            intro_text()
-            print()
-            print("Goodbye!")
-            print()
-            spin(2)
+            handle_keyboard_interrupt()
             break  # Exit the while loop on KeyboardInterrupt
-        except Exception as e:
-            print("Error! Sorry, it's an experiment after all! :)")
-            spin(1)
-            traceback_lines = traceback.format_exc().splitlines()
-            # Print the last 3 lines of the traceback
-            for line in traceback_lines[-3:]:
-                print(f"Details: {line}")
-    stop_tunnel()
+        except Exception:
+            handle_unexpected_error()
+
+
+def play_game():
+    with initialize_db_session() as db:
+        play_conversation_game(db, SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE)
+
+
+def handle_connection_error():
+    play_conversation_game(db, SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE)
+
+
+def handle_keyboard_interrupt():
+    clear_screen()
+    intro_text()
+    print("\nGoodbye!\n")
+    spin(2)
+
+
+def handle_unexpected_error():
+    print("Error! Sorry, it's an experiment after all! :)")
+    spin(1)
+    traceback_lines = traceback.format_exc().splitlines()
+    # Print the last 3 lines of the traceback
+    for line in traceback_lines[-3:]:
+        print(f"Details: {line}")
+    sys.exit(1)
 
 
 if __name__ == "__main__":

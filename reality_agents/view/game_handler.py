@@ -1,13 +1,18 @@
 from reality_agents.api.controller import (
     GameController as ConversationGameController,
 )
-from reality_agents.view.utils import get_player_info
+from reality_agents.view.utils import (
+    get_player_info,
+    setup_game,
+    get_game_setup,
+    start_conversation_game,
+)
 from reality_agents.view.terminal_output import (
     display_dialogue,
     display_end,
 )
 from utils.string import THEN_PRESS_ENTER
-from utils.ascii import clear_screen, intro_text, spin
+from utils.ascii import spin
 
 
 def play_conversation_game(
@@ -25,38 +30,6 @@ def play_conversation_game(
     )
     start_conversation_game(conversation_game_controller)
     game_loop(conversation_game_controller, characters)
-
-
-def setup_game():
-    clear_screen()
-    intro_text()
-    spin()
-    print("You are setting up a scene for a reality TV show.")
-    spin(2)
-    print("\nThere are two characters.\n")
-    spin(3)
-
-
-def get_game_setup(scene_cache, conflict_cache, characters_cache):
-    scene = scene_cache or get_input_with_default(
-        "[1/10] What is the setting? e.g. auto shop", "auto shop"
-    )
-    conflict = conflict_cache or get_input_with_default(
-        "[2/10] What is the conflict? e.g. money", "Money."
-    )
-    characters = characters_cache or get_player_info()
-    return scene, conflict, characters
-
-
-def get_input_with_default(prompt, default_value):
-    return input(f"{prompt}{THEN_PRESS_ENTER}") or default_value
-
-
-def start_conversation_game(conversation_game_controller):
-    conversation_game_controller.start_game()
-    clear_screen()
-    intro_text()
-    print("\n\n")
 
 
 def game_loop(conversation_game_controller, characters):
@@ -92,4 +65,3 @@ def process_character_turn(conversation_game_controller, current_character, char
         )
     spin(1)
     return response
-  
