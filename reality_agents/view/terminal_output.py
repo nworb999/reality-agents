@@ -1,6 +1,6 @@
 import os
 import textwrap
-from utils.string import strip_text
+from utils.string import parse_utterance
 from reality_agents.view.utils import get_emoji_by_index
 
 TERMINAL_WIDTH = os.get_terminal_size().columns
@@ -51,7 +51,7 @@ def display_end():
 
 def display_dialogue(char_index, character, dialogue):
     formatted_name = f"{character} {get_emoji_by_index(char_index)}"
-    formatted_dialogue = f"{strip_text(dialogue, [character])}\n\n"
+    formatted_dialogue = f"{parse_utterance(dialogue, [character])}\n\n"
 
     print(center_name(formatted_name.upper()))
     print(center_text(formatted_dialogue))

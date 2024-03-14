@@ -4,10 +4,11 @@ from reality_agents.domain.game_state import GameState
 
 
 class GameLogic:
-    def __init__(self, characters, max_turns=5):
+    def __init__(self, characters, conflict, scene, max_turns=10):
         self.characters = characters
-        self.game_state = GameState(characters=characters, max_turns=max_turns)
-        self.max_turns = max_turns
+        self.game_state = GameState(
+            characters=characters, conflict=conflict, scene=scene, max_turns=max_turns
+        )
 
     def reset_game(self):
         self.game_state.end_current_conversation()

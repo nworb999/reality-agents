@@ -1,6 +1,8 @@
+import time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from reality_agents.data.models import Base
+from utils.ascii import spin
 
 DATABASE_URL = "sqlite:///reality_agents/data/memory.db"
 
@@ -19,7 +21,9 @@ def init_db(clear_db=False):
 def setup_db():
     init_db(clear_db=CLEAR_DB)
     print(f"Database initialized.")
+    spin(2)
     print(f"clear_db set to {CLEAR_DB}.")
+    spin(2)
 
 
 def get_db():

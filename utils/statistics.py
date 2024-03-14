@@ -8,3 +8,7 @@ def roll_dice():
     roll = max(5, roll)  # Ensure the roll is at least 5
     roll = min(20, roll)  # Ensure the roll does not exceed 20
     return roll
+
+
+def clamp(value, min_value, max_value):
+    return max(min_value, min(value, max_value))

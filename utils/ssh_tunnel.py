@@ -1,4 +1,6 @@
+import time
 from sshtunnel import SSHTunnelForwarder
+from utils.ascii import spin
 
 tunnel = None
 
@@ -13,7 +15,9 @@ def start_tunnel(remote_server, ssh_username, ssh_pkey, remote_port, local_port)
         local_bind_address=("localhost", local_port),
     )
     tunnel.start()
+    spin(2)
     print(f"Tunnel opened at localhost:{tunnel.local_bind_port}")
+    spin(2)
 
 
 def stop_tunnel():
@@ -23,4 +27,4 @@ def stop_tunnel():
     global tunnel
     if tunnel:
         tunnel.stop()
-        print("Tunnel closed")
+        print("SSH tunnel closed")
