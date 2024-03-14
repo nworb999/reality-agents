@@ -32,14 +32,14 @@ class EmotionalState:
                 return
             except Exception as e:
                 return
-                # if attempt < max_retries:
-                # print(
-                #     f"Error updating emotions: {e}. Retrying... ({max_retries - attempt} attempts left)"
-                # )
-                # else:
-                # print(
-                #     f"Error updating emotions: {e}. Maximum retries reached. Moving on..."
-                # )
+                if attempt < max_retries:
+                    print(
+                        f"Error updating emotions: {e}. Retrying... ({max_retries - attempt} attempts left)"
+                    )
+                else:
+                    print(
+                        f"Error updating emotions: {e}. Maximum retries reached. Moving on..."
+                    )
 
     def initialize_emotional_state(self, persona, conflict, relationship_to_target):
         prompt = format_emotion_init_prompt(persona, conflict, relationship_to_target)
