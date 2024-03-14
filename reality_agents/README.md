@@ -1,5 +1,7 @@
 # architecture
 
+Originally this app was designed to support multiple talking agents, but it was challenge enough to have a believable dialogue between two, so the focus narrowed to just two conversing agents.
+
 ## domain layer
 This layer will handle game logic, game state, entities/models, and game types.
 

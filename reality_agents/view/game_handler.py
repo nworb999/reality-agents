@@ -6,6 +6,7 @@ from reality_agents.view.terminal_output import (
     display_dialogue,
     display_end,
 )
+from utils.string import THEN_PRESS_ENTER
 from utils.ascii import clear_screen, intro_text, spin
 
 
@@ -91,3 +92,4 @@ def process_character_turn(conversation_game_controller, current_character, char
         )
     spin(1)
     return response
+  

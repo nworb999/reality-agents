@@ -28,6 +28,13 @@ spinner_symbols = [
 ]
 
 
+def clear_line():
+    # Move the cursor to the beginning of the line
+    print("\033[1G", end="")
+    # Clear the line from the cursor position to the end of the line
+    print("\033[0K", end="")
+
+
 def clear_screen():
     # (used to use print("\033[2J\033[H", end=""))
     if os.name == "posix":
@@ -37,12 +44,17 @@ def clear_screen():
 
 
 def spin(duration=3):
+    # Hide cursor
+    sys.stdout.write("\033[?25l")
+    sys.stdout.flush()
+
     start_time = time.time()
     while True:
         for symbol in spinner_symbols:
             if time.time() - start_time >= duration:
-                sys.stdout.write("\r" + " " * len(symbol))
-                sys.stdout.write("\r")
+                clear_line()
+                # Show cursor
+                sys.stdout.write("\033[?25h")
                 sys.stdout.flush()
                 return
             sys.stdout.write("\r" + symbol)

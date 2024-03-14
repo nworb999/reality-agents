@@ -1,34 +1,28 @@
-from reality_agents.domain.conversation import ConversationManager
+from reality_agents.domain.game_state import GameState
+
+# includes creation of character logic, should not know details of conversation
 
 
-# includes creation of character logic
 class GameLogic:
-    def __init__(self, characters, max_rounds=5):
+    def __init__(self, characters, conflict, scene, max_turns=10):
         self.characters = characters
-        self.conversation = ConversationManager(characters=self.characters)
-        self.max_rounds = max_rounds
-        # how to make this flexible for different speaking order?
-        self.current_character = 0
-        self.current_round = 0
+        self.game_state = GameState(
+            characters=characters, conflict=conflict, scene=scene, max_turns=max_turns
+        )
 
     def reset_game(self):
-        self.current_character = 0
-        self.current_round = 0
+        self.game_state.end_current_conversation()
+        self.game_state.start_new_conversation()
 
-    def play_turn(self, script):
+    def update_game(self, script):
         round_completed = False
-
-        current_turn, current_speaker, target, utterance = self.conversation.next_line(
-            script
-        )
-        self.current_character = current_speaker
-
-        # this will not always be the case
-        # if self.current_character == len(self.characters) - 1:
-        #     self.current_round += 1
-        #     round_completed = True
-
-        return current_turn, self.current_character, target, utterance, round_completed
+        (
+            current_turn,
+            current_character,
+            target,
+            utterance,
+        ) = self.game_state.continue_conversation(script)
+        return current_turn, current_character, target, utterance, round_completed
 
     def is_game_over(self):
-        return self.current_round >= self.max_rounds
+        return self.game_state.is_game_over()
