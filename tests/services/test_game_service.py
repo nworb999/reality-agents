@@ -14,8 +14,8 @@
 # def conversation_service():
 #     db = MagicMock()
 #     characters = [
-#         {"name": "Alice", "pronouns": "she/her", "personality": "Assertive", "relationship_to_target": "Friend"},
-#         {"name": "Bob", "pronouns": "he/him", "personality": "Calm", "relationship_to_target": "Stranger"},
+#         {"name": "Alice", "personality": "Assertive", "relationship_to_target": "Friend"},
+#         {"name": "Bob", "personality": "Calm", "relationship_to_target": "Stranger"},
 #     ]
 #     conflict = "Disagreement"
 #     scene = "Park"

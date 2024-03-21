@@ -6,11 +6,8 @@ from reality_agents.domain.psyche import Psyche
 
 
 class Character:
-    def __init__(
-        self, name: str, pronouns: str, personality: str, relationship_to_target: str
-    ):
+    def __init__(self, name: str, personality: str, relationship_to_target: str):
         self.name: str = name
-        self.pronouns: str = pronouns
         self.personality: str = personality
         self.relationship_to_target = relationship_to_target
         self.psyche: Psyche = Psyche(self.personality, self.relationship_to_target)

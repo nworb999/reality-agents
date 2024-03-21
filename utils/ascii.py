@@ -1,31 +1,7 @@
 import os
 import sys
 import time
-from colorama import Fore
-from utils.constants import ASCII_INTRO
-
-COLORS = [
-    Fore.MAGENTA,
-    Fore.CYAN,
-    Fore.RED,
-    Fore.GREEN,
-    Fore.YELLOW,
-    Fore.BLUE,
-    Fore.WHITE,
-]
-
-spinner_symbols = [
-    "⠋",
-    "⠙",
-    "⠹",
-    "⠸",
-    "⠼",
-    "⠴",
-    "⠦",
-    "⠧",
-    "⠇",
-    "⠏",
-]
+from utils.constants import ASCII_INTRO, SPINNER_SYMBOLS, COLORS
 
 
 def clear_line():
@@ -50,7 +26,7 @@ def spin(duration=3):
 
     start_time = time.time()
     while True:
-        for symbol in spinner_symbols:
+        for symbol in SPINNER_SYMBOLS:
             if time.time() - start_time >= duration:
                 clear_line()
                 # Show cursor

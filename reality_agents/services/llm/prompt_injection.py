@@ -2,14 +2,14 @@ template = "Use the previous dialogue and disagree accordingly.  Provide one sen
 
 
 def format_persona(character):
-    return f"""Speak exactly like {character.name}, a person who is {character.personality} with {character.pronouns} pronouns. Avoid reusing any of the adjectives from the personality."""
+    return f"""Speak exactly like {character.name}, a person who is {character.personality}. Avoid reusing any of the adjectives from the personality."""
 
 
 def format_convo_context(character, convo_state, conflict, scene, target):
     if convo_state == "start":
-        context = f" You are {character.name} starting a conversation with {target.name} who is {target.personality} and uses {target.pronouns} pronouns.  You are currently having conflict: {conflict} in {scene}"
+        context = f" You are {character.name} starting a conversation with {target.name} who is {target.personality}.  You are currently having conflict: {conflict} in workplace: {scene}"
     elif convo_state == "ongoing":
-        context = f"How would you respond to the last statement from {target.name}?"
+        context = f"How would you respond to the last statement from {target.name}?  They are {target.personality}.  You are in workplace: {scene}."
     else:
         context = ""
 
@@ -29,9 +29,22 @@ def format_prompt(convo_state, character, conflict, scene, target=None):
 
 
 def format_emotion_init_prompt(persona, conflict, relationship_to_target):
-    return f"""Given persona: {persona}, in conflict: {conflict}, talking to someone who: {relationship_to_target},
-      how would you initialize values for the following emotional states from 1-5: happiness, sadness, anxiety, anger, fear, boredom.
-          Please only return them in a Python dictionary."""
+    return f"""
+        Given a persona: {persona}, who is in a conflict: {conflict}, and is talking to someone who: {relationship_to_target},
+    we need to initialize the values for the following emotional states: happiness, sadness, anxiety, anger, fear, and boredom. 
+    The values should range from 1 to 5, where 1 indicates a low intensity of the emotion and 5 indicates a high intensity. 
+    Considering the given persona, conflict, and relationship, let's reason through each emotion:
+
+    - Happiness: [Explain the reasoning for the chosen value based on the persona, conflict, and relationship]
+    - Sadness: [Explain the reasoning for the chosen value]
+    - Anxiety: [Explain the reasoning for the chosen value]
+    - Anger: [Explain the reasoning for the chosen value]
+    - Fear: [Explain the reasoning for the chosen value]
+    - Boredom: [Explain the reasoning for the chosen value]
+
+    Based on the above reasoning, the initial values for the emotional states can be represented as a Python dictionary:
+    {{'happiness': [Value], 'sadness': [Value], 'anxiety': [Value], 'anger': [Value], 'fear': [Value], 'boredom': [Value]}}
+    """
 
 
 def format_emotion_update_prompt(utterance, states):

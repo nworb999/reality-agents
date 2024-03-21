@@ -40,3 +40,26 @@ def parse_emotion_response(input_string):
         return ast.literal_eval(dict_string)
     else:
         return None
+
+
+def check_yes_or_no(input_string):
+    input_string = input_string.lower().strip()
+    if "yes" in input_string:
+        return True
+    elif "no" or "not" in input_string:
+        return False
+    else:
+        return None
+
+
+# objective as less dynamic, intention as next-line specific
+
+
+def starts_with_yes(sentence):
+    sentence = sentence.strip().lower()
+    if sentence.startswith("yes"):
+        return "Yes"
+    elif sentence.startswith("no"):
+        return "No"
+    else:
+        return "The sentence does not start with Yes or No."
