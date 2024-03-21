@@ -18,12 +18,13 @@ def init_db(clear_db=False):
     Base.metadata.create_all(bind=engine)
 
 
-def setup_db():
+def setup_db(test_flag=False):
     init_db(clear_db=CLEAR_DB)
-    print(f"Database initialized.")
-    spin(2)
-    print(f"clear_db set to {CLEAR_DB}.")
-    spin(2)
+    if not test_flag:
+        print(f"Database initialized.")
+        spin(2)
+        print(f"clear_db set to {CLEAR_DB}.")
+        spin(2)
 
 
 def get_db():

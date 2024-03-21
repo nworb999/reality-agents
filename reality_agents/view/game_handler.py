@@ -3,7 +3,7 @@ from reality_agents.api.controller import (
 )
 from reality_agents.view.utils import (
     get_player_info,
-    setup_game,
+    game_setup_ascii,
     get_game_setup,
     start_conversation_game,
 )
@@ -16,12 +16,14 @@ from utils.ascii import spin
 
 
 def play_conversation_game(
-    db, scene_cache=None, conflict_cache=None, characters_cache=None
+    db, scene_cache=None, conflict_cache=None, characters_cache=None, test_flag=False
 ):
-    setup_game()
+    if not test_flag:
+        game_setup_ascii()
     scene, conflict, characters = get_game_setup(
-        scene_cache, conflict_cache, characters_cache
+        scene_cache, conflict_cache, characters_cache, test_flag
     )
+
     if not characters:
         return
 
