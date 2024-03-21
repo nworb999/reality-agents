@@ -1,6 +1,6 @@
 from reality_agents.domain.game_logic import GameLogic
 from reality_agents.domain.character import Character
-from reality_agents.domain.scene import Scene
+from reality_agents.domain.scene import Scene, initialize_scene, generate_areas
 from reality_agents.data.repository import create_memory_entry
 
 # handles gameplay experience, like creating the characters and managing the script
@@ -9,7 +9,7 @@ from reality_agents.data.repository import create_memory_entry
 
 
 class ConversationService:
-    def __init__(self, db, characters, conflict, scene):
+    def __init__(self, db, characters, conflict, scene, test_flag=False):
         self.db = db
         self.characters = [
             Character(
@@ -21,11 +21,16 @@ class ConversationService:
         ]
         print(self.characters)
         self.game = GameLogic(self.characters, conflict, scene)
+
         # TODO fix scene logic
         self.scene = Scene(scene)
+
         self.script = []
+        self.test_flag = test_flag
 
     def start_game(self):
+        initialize_scene(self.scene, self.test_flag)
+        generate_areas(self.test_flag)
         self.game.reset_game()
         return f"New game started. {self.characters[0].name} goes first."
 

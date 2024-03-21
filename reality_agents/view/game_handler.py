@@ -11,7 +11,6 @@ from reality_agents.view.terminal_output import (
     display_dialogue,
     display_end,
 )
-from utils.string import THEN_PRESS_ENTER
 from utils.ascii import spin
 
 
@@ -28,7 +27,7 @@ def play_conversation_game(
         return
 
     conversation_game_controller = ConversationGameController(
-        db, characters, conflict, scene
+        db, characters, conflict, scene, test_flag
     )
     start_conversation_game(conversation_game_controller)
     game_loop(conversation_game_controller, characters)

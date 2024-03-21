@@ -28,7 +28,7 @@ def get_response(prompt, past_responses=None):
     response = requests.post(url, data=json.dumps(data), headers=headers)
 
     if response.status_code == 200:
-        print(response.json()["message"]["content"])
+        # print(response.json())
         return response.json()["message"]["content"]
     else:
         print(f"Request failed with status code {response.status_code}")

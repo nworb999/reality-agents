@@ -53,7 +53,7 @@ class ConversationManager:
         self.speaking_turns = [0] * len(self.characters)
         self.speaking_order.reset()
 
-    def _get_convo_state(self, current_speaker) -> str:
+    def _get_convo_state(self, current_speaker):
         return (
             "ending"
             if current_speaker.is_ending_conversation()
@@ -64,9 +64,13 @@ class ConversationManager:
 
     def _get_prompt(
         self, current_speaker: Dict[str, str], target: Dict[str, str], convo_state: str
-    ) -> str:
+    ):
         return format_prompt(
-            convo_state, self.conflict, current_speaker, self.scene, target
+            convo_state=convo_state,
+            conflict=self.conflict,
+            character=current_speaker,
+            scene=self.scene,
+            target=target,
         )
 
     def _update_target_psyche(
@@ -80,7 +84,7 @@ class ConversationManager:
 
     def _handle_ending_convo(
         self, current_speaker: Dict[str, str], script: List[Dict[str, str]]
-    ) -> str:
+    ):
         prompt = format_intention_to_end_conversation_prompt(
             current_speaker.personality,
             [entry["dialogue"] for entry in script] if script else None,
@@ -103,7 +107,7 @@ class ConversationManager:
         target: Dict[str, str],
         script: List[Dict[str, str]],
         convo_state: str,
-    ) -> str:
+    ):
         prompt = self._get_prompt(current_speaker, target, convo_state)
         return get_response(
             prompt,
@@ -112,21 +116,21 @@ class ConversationManager:
             else [entry["dialogue"] for entry in script[:3]],
         )
 
-    def next_line(
-        self, script: List[Dict[str, str]]
-    ) -> Tuple[int, Dict[str, str], Dict[str, str], str]:
+    def next_line(self, script: List[Dict[str, str]]):
         current_speaker_index = self.speaking_order.next_speaker_index()
         current_speaker = self.characters[current_speaker_index]
         target = self.characters[(current_speaker_index + 1) % len(self.characters)]
         convo_state = self._get_convo_state(current_speaker)
-        utterance = (
-            self._handle_ending_convo(current_speaker, script)
-            if convo_state == "ending"
-            else self._handle_ongoing_convo(
+
+        if convo_state == "ending":
+            utterance = self._handle_ending_convo(current_speaker, script)
+        else:
+            utterance = self._handle_ongoing_convo(
                 current_speaker, target, script, convo_state
             )
-        )
+
         self._update_target_psyche(target, script)
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1
+
         return self.turn, current_speaker, target, utterance

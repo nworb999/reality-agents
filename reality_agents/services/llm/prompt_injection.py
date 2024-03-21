@@ -2,8 +2,6 @@ template = "Use the previous dialogue and disagree accordingly.  Provide one sen
 
 
 def format_persona(character):
-    print(character)
-    return ""
     return f"""Speak exactly like {character.name}, a person who is {character.personality}. Avoid reusing any of the adjectives from the personality."""
 
 
