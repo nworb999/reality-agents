@@ -15,20 +15,22 @@ def get_response(prompt, past_responses=None):
     history.append({"role": "user", "content": prompt})
 
     data = {
-        "model": "mixtral:latest",
-        # "model": "llama2:70b",
+        # "model": "mixtral:latest",
+        "model": "llama2:70b",
         # "model": "dolphin-mixtral",
         "messages": history,
         "stream": False,
     }
-    # print()
-    # print(data)
-    # print()
+    print()
+    print(data)
+    print()
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, data=json.dumps(data), headers=headers)
 
     if response.status_code == 200:
-        # print(response.json())
+        print("response:")
+        print(response.json())
+        print()
         return response.json()["message"]["content"]
     else:
         print(f"Request failed with status code {response.status_code}")

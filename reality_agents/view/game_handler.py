@@ -46,6 +46,7 @@ def game_loop(conversation_game_controller, characters):
                 "Game over: cutoff reached",
                 "Game over: conversation ended",
             ]:
+                print("game status", response)
                 game_finished = True
                 break
             round_counter += 1

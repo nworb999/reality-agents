@@ -1,9 +1,14 @@
 import random
 from colorama import Fore
 
-ASCII_INTRO = """
+ASCII_INTRO_OLD = """
 █▀█ █░█ █▄▄ █░░ █ █▀▀   █▀▀ ▀▄▀ █▀█ █▀▀ █▀█ █ █▀▄▀█ █▀▀ █▄░█ ▀█▀   █ █
 █▀▀ █▄█ █▄█ █▄▄ █ █▄▄   ██▄ █░█ █▀▀ ██▄ █▀▄ █ █░▀░█ ██▄ █░▀█ ░█░   █ █
+"""
+
+ASCII_INTRO = """
+█▀█ █▀▀ ▄▀█ █░░ █ ▀█▀ █▄█   ▄▀█ █▀▀ █▀▀ █▄░█ ▀█▀ █▀
+█▀▄ ██▄ █▀█ █▄▄ █ ░█░ ░█░   █▀█ █▄█ ██▄ █░▀█ ░█░ ▄█
 """
 
 COLORS = [
@@ -57,7 +62,7 @@ DEFAULT_PLAYERS = [
     {
         "name": "Mark",
         "personality": "hothead",
-        "relationship_to_target": "He calls Billy dad. He thinks he's too old to run things.",
+        "relationship_to_target": "Billy is Mark's dad, Mark thinks Billy is too old to run things.",
     },
     {
         "name": "Billy",

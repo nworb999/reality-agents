@@ -121,7 +121,6 @@ class ConversationManager:
         current_speaker = self.characters[current_speaker_index]
         target = self.characters[(current_speaker_index + 1) % len(self.characters)]
         convo_state = self._get_convo_state(current_speaker)
-
         if convo_state == "ending":
             utterance = self._handle_ending_convo(current_speaker, script)
         else:
