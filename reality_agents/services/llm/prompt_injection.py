@@ -135,7 +135,7 @@ def format_rerun_objective_init_prompt(objective, raw_tactics):
 
 def format_intention_to_end_conversation_prompt(persona, utterance, objective):
     return f"""Persona: {persona}, previous statement: {utterance}.  You are trying
-     to end the conversation, what would you say next?"""
+     to end the conversation whose objective was: {objective}, what would you say next?"""
 
 
 def format_did_conversation_end_prompt(utterances):
