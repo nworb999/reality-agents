@@ -1,9 +1,14 @@
 import random
 from colorama import Fore
 
-ASCII_INTRO = """
+ASCII_INTRO_OLD = """
 █▀█ █░█ █▄▄ █░░ █ █▀▀   █▀▀ ▀▄▀ █▀█ █▀▀ █▀█ █ █▀▄▀█ █▀▀ █▄░█ ▀█▀   █ █
 █▀▀ █▄█ █▄█ █▄▄ █ █▄▄   ██▄ █░█ █▀▀ ██▄ █▀▄ █ █░▀░█ ██▄ █░▀█ ░█░   █ █
+"""
+
+ASCII_INTRO = """
+█▀█ █▀▀ ▄▀█ █░░ █ ▀█▀ █▄█   ▄▀█ █▀▀ █▀▀ █▄░█ ▀█▀ █▀
+█▀▄ ██▄ █▀█ █▄▄ █ ░█░ ░█░   █▀█ █▄█ ██▄ █░▀█ ░█░ ▄█
 """
 
 COLORS = [
@@ -51,18 +56,18 @@ ANIMAL_EMOJIS = {
 EMOJI_LIST = random.sample(list(ANIMAL_EMOJIS.values()), k=len(ANIMAL_EMOJIS))
 
 SCENE_DEFAULT = "auto shop"
-CONFLICT_DEFAULT = "money."
+CONFLICT_DEFAULT = "who should be running the auto shop they work at"
 
 DEFAULT_PLAYERS = [
     {
         "name": "Mark",
-        "personality": "hothead",
-        "relationship_to_target": "He calls Billy dad. He thinks he's too old to run things.",
+        "personality": "hothead, not clever",
+        "relationship_to_target": "Billy is Mark's elderly dad",
     },
     {
         "name": "Billy",
-        "personality": "calm, but a schemer",
-        "relationship_to_target": "He thinks Mark is too rash and emotionally unstable to make decisions.",
+        "personality": "calm, scheming",
+        "relationship_to_target": "Mark is Billy's son, who he thinks is rash",
     },
 ]
 GENERIC_SIMS_STATEMENTS = [

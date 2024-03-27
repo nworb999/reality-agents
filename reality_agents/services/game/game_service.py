@@ -4,8 +4,6 @@ from reality_agents.domain.scene import Scene, initialize_scene, generate_areas
 from reality_agents.data.repository import create_memory_entry
 
 # handles gameplay experience, like creating the characters and managing the script
-# also
-# how to manage speaking order in here
 
 
 class ConversationService:
@@ -19,7 +17,6 @@ class ConversationService:
             )
             for character in characters
         ]
-        print(self.characters)
         self.game = GameLogic(self.characters, conflict, scene)
 
         # TODO fix scene logic

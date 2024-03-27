@@ -63,7 +63,11 @@ class ConversationManager:
         )
 
     def _get_prompt(
-        self, current_speaker: Dict[str, str], target: Dict[str, str], convo_state: str
+        self,
+        current_speaker: Dict[str, str],
+        target: Dict[str, str],
+        convo_state: str,
+        utterance: str,
     ):
         return format_prompt(
             convo_state=convo_state,
@@ -71,16 +75,8 @@ class ConversationManager:
             character=current_speaker,
             scene=self.scene,
             target=target,
+            utterance=utterance,
         )
-
-    def _update_target_psyche(
-        self, target: Dict[str, str], script: List[Dict[str, str]]
-    ):
-        if self.turn != 0:
-            target.update_psyche(
-                conflict=self.conflict,
-                convo_history=[entry["dialogue"] for entry in script[:3]],
-            )
 
     def _handle_ending_convo(
         self, current_speaker: Dict[str, str], script: List[Dict[str, str]]
@@ -108,7 +104,12 @@ class ConversationManager:
         script: List[Dict[str, str]],
         convo_state: str,
     ):
-        prompt = self._get_prompt(current_speaker, target, convo_state)
+        prompt = self._get_prompt(
+            current_speaker=current_speaker,
+            target=target,
+            convo_state=convo_state,
+            utterance=script[-1]["dialogue"] if self.turn != 0 else None,
+        )
         return get_response(
             prompt,
             past_responses=None
@@ -118,8 +119,11 @@ class ConversationManager:
 
     def next_line(self, script: List[Dict[str, str]]):
         current_speaker_index = self.speaking_order.next_speaker_index()
+
         current_speaker = self.characters[current_speaker_index]
+
         target = self.characters[(current_speaker_index + 1) % len(self.characters)]
+
         convo_state = self._get_convo_state(current_speaker)
 
         if convo_state == "ending":
@@ -129,7 +133,6 @@ class ConversationManager:
                 current_speaker, target, script, convo_state
             )
 
-        self._update_target_psyche(target, script)
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1
 
