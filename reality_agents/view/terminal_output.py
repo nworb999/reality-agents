@@ -51,7 +51,8 @@ def display_end():
 
 def display_dialogue(char_index, character, dialogue):
     formatted_name = f"{character} {get_emoji_by_index(char_index)}"
-    formatted_dialogue = f"{parse_utterance(dialogue, [character])}\n\n"
+    response = f"Sure, here's a response from {character}:"
+    formatted_dialogue = f"{parse_utterance(dialogue, [character, response])}\n\n"
 
     print(center_name(formatted_name.upper()))
     print(center_text(formatted_dialogue))

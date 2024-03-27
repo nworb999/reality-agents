@@ -16,7 +16,9 @@ class Intention:
         self.objective = None
         self.intention = None
 
-    def initialize_objective(self, emotional_state, conflict, relationship_to_target):
+    def initialize_objective(
+        self, emotional_state, conflict, scene, relationship_to_target, utterance=None
+    ):
         retries = 0
         max_retries = 3
         formatted_response = {}
@@ -28,37 +30,37 @@ class Intention:
         ):
             prompt = format_objective_init_prompt(
                 persona=self.persona,
+                scene=scene,
                 conflict=conflict,
                 relationship_to_target=relationship_to_target,
                 emotional_state=emotional_state,
+                utterance=utterance,
             )
             raw_response = get_response(prompt=prompt)
             formatted_response = parse_initial_objective(raw_response)
             self.objective = formatted_response["objective"]
             self.tactics = formatted_response["tactics"]
-            print(formatted_response["objective"])
             retries += 1
 
-        # and first intention as a bullet point
-
-    def initialize_intention(self, emotional_state):
+    def initialize_intention(self, emotional_state, utterance=None):
         prompt = format_init_intention_prompt(
             objective=self.objective,
             persona=self.persona,
             tactics=self.tactics,
             emotional_state=emotional_state,
+            utterance=utterance,
         )
         self.intention = parse_init_intention(get_response(prompt))
-        print("INTENTION", self.intention)
 
-    def update_intention(self, conflict, emotional_state, convo_history):
+    def update_intention(self, memory, emotional_state, utterance):
         if self.objective == "END CONVERSATION":
             self.intention = "END CONVERSATION"
         else:
             prompt = format_update_intention_prompt(
+                memory=memory,
                 emotional_state=emotional_state,
-                objective=self.objective,
-                utterance=convo_history[-1],
+                current_tactic=self.intention,
+                utterance=utterance,
             )
             self.intention = get_response(prompt)
 
@@ -71,13 +73,15 @@ class Intention:
     def get_intention(self):
         return self.intention
 
-    def _is_objective_fulfilled(self, conflict, emotional_state, convo_history):
+    def _is_objective_fulfilled(self, conflict, emotional_state, utterance):
+        # move this logic up into psyche
+        # use updated convo summary
         prompt = format_is_objective_fulfilled_prompt(
             objective=self.objective,
             persona=self.persona,
             conflict=conflict,
             emotional_state=emotional_state,
-            convo_history=convo_history,
+            utterance=utterance,
         )
         response = get_response(prompt)
         return starts_with_yes(response) == "Yes"

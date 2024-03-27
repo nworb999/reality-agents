@@ -1,8 +1,4 @@
-from typing import Dict, List
-from reality_agents.domain.emotion import EmotionalState
 from reality_agents.domain.psyche import Psyche
-
-# eventually Dict[str, str] for personality
 
 
 class Character:
@@ -12,14 +8,24 @@ class Character:
         self.relationship_to_target = relationship_to_target
         self.psyche: Psyche = Psyche(self.personality, self.relationship_to_target)
 
-    def initialize_psyche(self, conflict: str, relationship_to_target: str):
-        self.psyche.initialize_state(conflict, relationship_to_target)
+    def initialize_psyche(
+        self, conflict: str, scene: str, relationship_to_target: str, utterance: str
+    ):
+        self.psyche.initialize_state(
+            conflict=conflict,
+            relationship_to_target=relationship_to_target,
+            utterance=utterance,
+            scene=scene,
+        )
 
-    def update_psyche(self, conflict: str, convo_history: List[str]):
-        self.psyche.update_state(convo_history=convo_history, conflict=conflict)
+    def update_psyche(self, conflict: str, utterance: str):
+        self.psyche.update_state(utterance=utterance, conflict=conflict)
 
     def get_emotional_state(self):
         return self.psyche.get_emotional_state()
+
+    def get_memory(self):
+        return self.psyche.get_memory()
 
     def get_objective(self):
         return self.psyche.get_objective()

@@ -24,9 +24,19 @@ class GameState:
             order_type=order_type,
         )
 
-    def _initialize_characters_psyche(self, conflict):
-        for char in self.characters:
-            char.initialize_psyche(conflict, char.relationship_to_target)
+    def initialize_character_psyche(self, character, utterance=None):
+        character.initialize_psyche(
+            conflict=self.conflict,
+            scene=self.scene,
+            relationship_to_target=character.relationship_to_target,
+            utterance=utterance,
+        )
+
+    def update_character_psyche(self, character, utterance):
+        character.update_psyche(
+            conflict=self.conflict,
+            utterance=utterance,
+        )
 
     def start_new_conversation(
         self, conflict=None, scene=None, order_type=DEFAULT_ORDER_TYPE
@@ -38,8 +48,7 @@ class GameState:
         self.current_conversation = self._create_conversation(
             conflict, scene, order_type
         )
-        self._initialize_characters_psyche(conflict or self.conflict)
-        self.current_turn += 1
+        self.initialize_character_psyche(self.characters[0])
 
     def _archive_current_conversation(self):
         if self.current_conversation:
@@ -50,12 +59,16 @@ class GameState:
         self.current_conversation = None
 
     def continue_conversation(self, script):
+        if self.current_turn == 1:
+            # initialize psyche for second character using first thing said
+            self.initialize_character_psyche(self.characters[1])
         (
             current_turn,
             current_speaker,
             target,
             utterance,
         ) = self.current_conversation.next_line(script)
+        self.update_character_psyche(target, utterance)
         self.current_turn = current_turn
         return current_turn, current_speaker, target, utterance
 

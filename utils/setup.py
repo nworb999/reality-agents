@@ -39,6 +39,7 @@ def game_loop(test_flag=False):
             break  # Exit the while loop on KeyboardInterrupt
         except Exception:
             handle_unexpected_error(test_flag)
+        break
 
 
 def play_game(test_flag):

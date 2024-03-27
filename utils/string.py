@@ -5,6 +5,14 @@ import re
 THEN_PRESS_ENTER = " (then press enter) "
 
 
+def parse_convo_summary(input_string):
+    return input_string.strip()
+
+
+def remove_artifacts(input_string: str):
+    return input_string.replace(".,", ",").replace("..", ".")
+
+
 def parse_init_intention(input_string):
     return input_string.strip().lower().replace("intention:", "")
 
@@ -83,10 +91,8 @@ def parse_emotion_response(input_string):
 def check_yes_or_no(input_string):
     input_string = input_string.lower().strip()
     if "yes" in input_string:
-        print("YES in string")
         return True
     elif "no" or "not" in input_string:
-        print("NO in string")
         return False
     else:
         return None
