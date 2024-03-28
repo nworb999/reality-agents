@@ -1,13 +1,15 @@
 import os
-import sys
 import signal
-import argparse
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from reality_agents.api.routes import router
+from utils.middleware import signal_handler
+from utils.middleware import parse_arguments
 from utils.setup import setup_main_ascii, game_loop
-from utils.ssh_tunnel import start_tunnel, stop_tunnel
+from utils.ssh_tunnel import start_tunnel
+from utils.logger import logger
 
 load_dotenv()
 
@@ -17,32 +19,29 @@ local_port = int(os.environ.get("LOCAL_PORT"))
 ssh_user = os.environ.get("SSH_USERNAME")
 ssh_keyfile = os.environ.get("SSH_KEYFILE")
 
+allowed_origins = [
+    "http://localhost:8000",  # Assuming your frontend is running on localhost:3000
+    "https://your-frontend-domain.com",
+]
 
-app = FastAPI()  # Create a FastAPI app
-app.include_router(router)  # Include the router
+app = FastAPI(debug=True)  # Create a FastAPI app
+app.include_router(router, prefix="/api/game")  # Include the router
 
-
-def signal_handler(signum, frame):
-    print("Shutting down...")
-    stop_tunnel()
-    sys.exit(0)
-
-
-def parse_arguments():
-    parser = argparse.ArgumentParser(description="A reality TV script generator.")
-    parser.add_argument("--test", action="store_true", help="Run quickly in test mode")
-    parser.add_argument(
-        "--production",
-        action="store_true",
-        help="Run in production mode with the SSH tunnel open",
-    )
-    return parser.parse_args()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow specific HTTP methods
+    allow_headers=["*"],  # Allow specific headers
+)
 
 
 def main():
     args = parse_arguments()
     test_flag = args.test
     production_flag = args.production
+    if production_flag:
+        test_flag = True
 
     setup_main_ascii(test_flag)
 

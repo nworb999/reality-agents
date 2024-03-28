@@ -1,3 +1,4 @@
+from utils.logger import logger
 from reality_agents.services.game.game_service import (
     ConversationService as GameService,
 )

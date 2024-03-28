@@ -1,8 +1,18 @@
 import re
-import ast
 import re
+import logging
 
 THEN_PRESS_ENTER = " (then press enter) "
+
+
+# Set up a logging handler to capture print statements
+class PrintCaptureHandler(logging.Handler):
+    def __init__(self):
+        super().__init__()
+        self.latest_message = ""
+
+    def emit(self, record):
+        self.latest_message = self.format(record)
 
 
 def parse_convo_summary(input_string):

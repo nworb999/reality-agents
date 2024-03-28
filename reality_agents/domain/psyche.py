@@ -39,7 +39,6 @@ class Psyche:
         )
 
     def update_state(self, conflict: str, utterance):
-        # add upate convo_summary also -- in context of objectives and intentions
         self.update_emotional_state(utterance)
         self.update_intention(utterance)
         self.update_memory(conflict=conflict, utterance=utterance)

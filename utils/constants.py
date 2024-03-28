@@ -70,6 +70,7 @@ DEFAULT_PLAYERS = [
         "relationship_to_target": "Mark is Billy's son, who he thinks is rash",
     },
 ]
+
 GENERIC_SIMS_STATEMENTS = [
     "Fluffing the clouds...",
     "Adjusting the ambiance...",
