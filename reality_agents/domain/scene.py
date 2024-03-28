@@ -5,6 +5,7 @@ from utils.constants import GENERIC_SIMS_STATEMENTS
 
 
 def initialize_scene(scene, test_flag=False):
+    # get spin out of domain
     if not test_flag:
         clear_screen()
         intro_text()
