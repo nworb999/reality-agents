@@ -25,7 +25,7 @@ class GameController:
     def __init__(self, characters, conflict, scene, test_flag=False):
         with initialize_db_session(test_flag) as db:
             self.game_service = GameService(
-                characters=characters,
+                characters=[character.dict() for character in characters],
                 conflict=conflict,
                 scene=scene,
                 test_flag=test_flag,

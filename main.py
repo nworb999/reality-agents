@@ -5,8 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from reality_agents.api.routes import router
-from utils.middleware import signal_handler
-from utils.middleware import parse_arguments
+from utils.middleware import signal_handler, parse_arguments, RequestLoggingMiddleware
 from utils.setup import setup_main_ascii, game_loop
 from utils.ssh_tunnel import start_tunnel
 from utils.logger import logger
@@ -20,20 +19,23 @@ ssh_user = os.environ.get("SSH_USERNAME")
 ssh_keyfile = os.environ.get("SSH_KEYFILE")
 
 allowed_origins = [
-    "http://localhost:8000",  # Assuming your frontend is running on localhost:3000
+    "http://localhost:8000",
     "https://your-frontend-domain.com",
 ]
 
-app = FastAPI(debug=True)  # Create a FastAPI app
-app.include_router(router, prefix="/api/game")  # Include the router
+app = FastAPI(debug=True)
+
+app.add_middleware(RequestLoggingMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allow specific HTTP methods
-    allow_headers=["*"],  # Allow specific headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+app.include_router(router, prefix="/api/game")
 
 
 def main():

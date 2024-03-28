@@ -14,45 +14,57 @@ game_controller = None
 @router.post("/create")
 def create_game(request: GameRequest):
     global game_controller
+    try:
+        game_controller = GameController(
+            characters=request.characters,
+            conflict=request.conflict,
+            scene=request.scene,
+            test_flag=True,
+        )
 
-    game_controller = GameController(
-        characters=request.characters,
-        conflict=request.conflict,
-        scene=request.scene,
-        test_flag=True,
-    )
-
-    game_controller.create_game()
-    return JSONResponse(
-        status_code=status.HTTP_201_CREATED,
-        content={"message": "Game created successfully"},
-    )
+        return JSONResponse(
+            status_code=status.HTTP_201_CREATED,
+            content={"message": "Game created successfully"},
+        )
+    except Exception as e:
+        logger.error(f"Error processing request: {e}", exc_info=True)
+        raise
 
 
 @router.post("/start")
 def start_game():
-    if game_controller is None:
+    try:
+        if game_controller is None:
+            return JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={"message": "Game not created"},
+            )
+        game_controller.start_game()
         return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={"message": "Game not created"},
+            status_code=status.HTTP_200_OK,
+            content={"message": "Game started successfully"},
         )
-    game_controller.start_game()
-    return JSONResponse(
-        status_code=status.HTTP_200_OK, content={"message": "Game started successfully"}
-    )
+    except Exception as e:
+        logger.error(f"Error processing request: {e}", exc_info=True)
+        raise
 
 
 @router.post("/update")
 def update():
-    if game_controller is None:
+    try:
+        if game_controller is None:
+            return JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={"message": "Game not started"},
+            )
+        game_controller.update()
         return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={"message": "Game not started"},
+            status_code=status.HTTP_200_OK,
+            content={"message": "Game updated successfully"},
         )
-    game_controller.update()
-    return JSONResponse(
-        status_code=status.HTTP_200_OK, content={"message": "Game updated successfully"}
-    )
+    except Exception as e:
+        logger.error(f"Error processing request: {e}", exc_info=True)
+        raise
 
 
 @router.websocket("/ws")
