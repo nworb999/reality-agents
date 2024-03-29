@@ -1,6 +1,7 @@
 import os
 import signal
 import uvicorn
+import asyncio
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +9,6 @@ from reality_agents.api.routes import router
 from utils.middleware import signal_handler, parse_arguments, RequestLoggingMiddleware
 from utils.setup import setup_main_ascii, game_loop
 from utils.ssh_tunnel import start_tunnel
-from utils.logger import logger
 
 load_dotenv()
 

@@ -1,5 +1,6 @@
 from reality_agents.domain.conversation import ConversationManager
 from utils.ascii import clear_screen, intro_text
+from utils.logger import logger
 
 DEFAULT_ORDER_TYPE = "sequential"
 
@@ -43,6 +44,7 @@ class GameState:
     ):
         clear_screen()
         intro_text()
+        logger.info("Generating conversation, this might take a while...")
         print("Generating conversation, this might take a while...")
         self._archive_current_conversation()
         self.current_conversation = self._create_conversation(
