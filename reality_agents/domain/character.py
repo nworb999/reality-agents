@@ -12,7 +12,6 @@ class Character:
     def initialize_psyche(
         self, conflict: str, scene: str, relationship_to_target: str, utterance: str
     ):
-        logger.info("im in the brain")
         self.psyche.initialize_state(
             conflict=conflict,
             relationship_to_target=relationship_to_target,

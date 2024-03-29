@@ -24,7 +24,19 @@ def create_game(request: GameRequest):
 
         return JSONResponse(
             status_code=status.HTTP_201_CREATED,
-            content={"message": "Game created successfully"},
+            content={
+                "message": "Game created successfully",
+                "logs": print_capture_handler.messages,
+            },
+        )
+    except ConnectionError as ce:
+        logger.error(f"Connection error: {ce}", exc_info=True)
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "message": "Connection error, please try again later",
+                "logs": print_capture_handler.messages,
+            },
         )
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
@@ -42,7 +54,19 @@ def start_game():
         game_controller.start_game()
         return JSONResponse(
             status_code=status.HTTP_200_OK,
-            content={"message": "Game started successfully"},
+            content={
+                "message": "Game started successfully",
+                "logs": print_capture_handler.messages,
+            },
+        )
+    except ConnectionError as ce:
+        logger.error(f"Connection error: {ce}", exc_info=True)
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "message": "Connection error, please try again later",
+                "logs": print_capture_handler.messages,
+            },
         )
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
@@ -62,6 +86,12 @@ def update():
             status_code=status.HTTP_200_OK,
             content={"message": "Game updated successfully"},
         )
+    except ConnectionError as ce:
+        logger.error(f"Connection error: {ce}", exc_info=True)
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={"message": "Connection error, please try again later"},
+        )
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
         raise
@@ -69,9 +99,13 @@ def update():
 
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        await asyncio.sleep(1)  # Adjust the frequency of messages as needed
-        if print_capture_handler.latest_message:
-            await websocket.send_text(print_capture_handler.latest_message)
-            print_capture_handler.latest_message = ""
+    try:
+        await websocket.accept()
+        while True:
+            await asyncio.sleep(1)  # Adjust the frequency of messages as needed
+            if print_capture_handler.latest_message:
+                await websocket.send_text(print_capture_handler.latest_message)
+                print_capture_handler.latest_message = ""
+    except ConnectionError as ce:
+        logger.error(f"Connection error: {ce}", exc_info=True)
+        await websocket.close()

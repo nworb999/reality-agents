@@ -13,12 +13,12 @@ else:
 class PrintCaptureHandler(logging.Handler):
     def __init__(self):
         super().__init__()
-        self.latest_message = ""
+        self.messages = []
 
     def emit(self, record):
         try:
             msg = self.format(record)
-            self.latest_message = msg
+            self.messages.append(msg)
             print(msg)  # Or you can log to a file or other destination
         except Exception:
             self.handleError(record)
@@ -31,7 +31,3 @@ logger.setLevel(logging.INFO)
 # Create and add the custom handler
 print_capture_handler = PrintCaptureHandler()
 logger.addHandler(print_capture_handler)
-
-# Optional: Add a formatter to the handler
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-print_capture_handler.setFormatter(formatter)
