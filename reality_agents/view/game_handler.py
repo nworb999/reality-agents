@@ -15,7 +15,7 @@ from utils.ascii import spin
 
 
 def play_conversation_game(
-    db, scene_cache=None, conflict_cache=None, characters_cache=None, test_flag=False
+    scene_cache=None, conflict_cache=None, characters_cache=None, test_flag=False
 ):
     if not test_flag:
         game_setup_ascii()
@@ -27,7 +27,7 @@ def play_conversation_game(
         return
 
     conversation_game_controller = ConversationGameController(
-        db, characters, conflict, scene, test_flag
+        characters, conflict, scene, test_flag
     )
     start_conversation_game(conversation_game_controller)
     game_loop(conversation_game_controller, characters)

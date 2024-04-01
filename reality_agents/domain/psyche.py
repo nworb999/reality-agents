@@ -1,6 +1,7 @@
 from reality_agents.domain.emotion import EmotionalState
 from reality_agents.domain.intention import Intention
-from typing import Dict, List
+
+from utils.logger import logger
 
 from reality_agents.domain.memory import Memory
 
@@ -18,6 +19,8 @@ class Psyche:
         self.memory = Memory()
 
     def update_memory(self, conflict, utterance=None):
+        logger.info("Updating memory...")
+        print("Updating memory...")
         self.memory.update_memory(
             conflict=conflict,
             personality=self.personality,
@@ -33,13 +36,14 @@ class Psyche:
     def initialize_state(
         self, conflict: str, scene: str, relationship_to_target: str, utterance: str
     ):
+        logger.info("Initializing emotional state...")
+        print("Initializing emotional state...")
         self._initialize_emotional_state(conflict, relationship_to_target, utterance)
         self._initialize_intention_and_objective(
             conflict=conflict, scene=scene, utterance=utterance
         )
 
     def update_state(self, conflict: str, utterance):
-        # add upate convo_summary also -- in context of objectives and intentions
         self.update_emotional_state(utterance)
         self.update_intention(utterance)
         self.update_memory(conflict=conflict, utterance=utterance)
@@ -55,6 +59,8 @@ class Psyche:
         )
 
     def update_emotional_state(self, utterance: str):
+        logger.info("Updating emotional state...")
+        print("Updating emotional state...")
         self.emotional_state.update(utterance)
 
     def get_intention(self):
@@ -62,16 +68,22 @@ class Psyche:
 
     def _initialize_intention_and_objective(self, conflict: str, scene, utterance):
         emotional_state = self.get_emotional_state()
+        logger.info("Initializing objective...")
+        print("Initializing objective...")
         self.intention.initialize_objective(
             scene=scene,
             emotional_state=emotional_state,
             conflict=conflict,
             relationship_to_target=self.relationship_to_target,
         )
+        logger.info("Initializing intention...")
+        print("Initializing intention...")
 
         self.intention.initialize_intention(emotional_state, utterance)
 
     def update_intention(self, utterance: str):
+        logger.info("Updating intention...")
+        print("Updating intention...")
         emotional_state = self.get_emotional_state()
         self.intention.update_intention(
             emotional_state=emotional_state, memory=self.memory, utterance=utterance
@@ -81,4 +93,6 @@ class Psyche:
         return self.intention.get_objective()
 
     def is_ending_conversation(self):
+        logger.info("Determining if conversation can end...")
+        print("Determining if conversation can end...")
         return self.intention.is_ending_conversation()

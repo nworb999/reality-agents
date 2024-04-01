@@ -8,6 +8,7 @@ from reality_agents.services.llm.prompt_injection import (
 )
 from reality_agents.services.llm.ollama_handler import get_response
 from utils.string import check_yes_or_no, parse_utterance
+from utils.logger import logger
 
 
 class SpeakingOrder:
@@ -135,5 +136,5 @@ class ConversationManager:
 
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1
-
+        logger.info(f"{current_speaker}: utterance")
         return self.turn, current_speaker, target, utterance

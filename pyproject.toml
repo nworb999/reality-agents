@@ -14,6 +14,8 @@ sshtunnel = "^0.4.0"
 requests = "^2.31.0"
 requests-mock = "^1.11.0"
 python-dotenv = "^1.0.1"
+fastapi = "^0.110.0"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"

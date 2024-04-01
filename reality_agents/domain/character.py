@@ -1,3 +1,4 @@
+from utils.logger import logger
 from reality_agents.domain.psyche import Psyche
 
 
