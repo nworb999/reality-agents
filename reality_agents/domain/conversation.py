@@ -7,7 +7,7 @@ from reality_agents.services.llm.prompt_injection import (
     format_prompt,
 )
 from reality_agents.services.llm.ollama_handler import get_response
-from utils.string import check_yes_or_no, parse_utterance
+from utils.string import check_yes_or_no
 from utils.logger import logger
 
 

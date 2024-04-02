@@ -21,6 +21,8 @@ ssh_keyfile = os.environ.get("SSH_KEYFILE")
 allowed_origins = [
     "http://localhost:8000",
     "https://your-frontend-domain.com",
+    f"http://{imagination_ip}:{imagination_port}",
+    f"http://localhost:{local_port}",
 ]
 
 app = FastAPI(debug=True)
