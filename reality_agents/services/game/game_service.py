@@ -37,7 +37,7 @@ class ConversationService:
             return {"status": "Game over: conversation ended"}
         if self.game.is_game_over() == "Game over: cutoff reached":
             return {"status": "Game over: cutoff reached"}
-
+        print("here", self.script)
         (
             current_turn,
             current_character,
