@@ -31,4 +31,4 @@ main_event_loop = asyncio.get_event_loop()
 print_capture_handler = PrintCaptureHandler(main_event_loop)
 logger.addHandler(print_capture_handler)
 
-logger.info("Logger setup complete")
+print("Logger setup complete")

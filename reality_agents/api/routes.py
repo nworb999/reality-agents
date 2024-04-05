@@ -21,6 +21,7 @@ def create_game(request: GameRequest):
             conflict=request.conflict,
             scene=request.scene,
             test_flag=True,
+            max_turns=request.max_turns if request.max_turns else 10,
         )
 
         return JSONResponse(

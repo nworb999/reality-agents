@@ -105,7 +105,6 @@ class ConversationManager:
         script: List[Dict[str, str]],
         convo_state: str,
     ):
-        print(script)
         prompt = self._get_prompt(
             current_speaker=current_speaker,
             target=target,
@@ -137,5 +136,5 @@ class ConversationManager:
 
         self.speaking_turns[current_speaker_index] += 1
         self.turn += 1
-        logger.info(f"{current_speaker}: utterance")
+        logger.info(f"{current_speaker.name}: {utterance}")
         return self.turn, current_speaker, target, utterance

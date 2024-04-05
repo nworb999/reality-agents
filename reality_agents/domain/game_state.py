@@ -26,6 +26,7 @@ class GameState:
         )
 
     def initialize_character_psyche(self, character, utterance=None):
+        print(f"FOR {character.name}")
         character.initialize_psyche(
             conflict=self.conflict,
             scene=self.scene,

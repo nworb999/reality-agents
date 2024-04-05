@@ -8,7 +8,7 @@ from reality_agents.data.repository import create_memory_entry
 
 
 class ConversationService:
-    def __init__(self, db, characters, conflict, scene, test_flag=False):
+    def __init__(self, db, characters, conflict, scene, test_flag=False, max_turns=10):
         self.db = db
         self.characters = [
             Character(
@@ -18,7 +18,7 @@ class ConversationService:
             )
             for character in characters
         ]
-        self.game = GameLogic(self.characters, conflict, scene)
+        self.game = GameLogic(self.characters, conflict, scene, max_turns)
 
         # TODO fix scene logic
         self.scene = Scene(scene)
@@ -37,7 +37,6 @@ class ConversationService:
             return {"status": "Game over: conversation ended"}
         if self.game.is_game_over() == "Game over: cutoff reached":
             return {"status": "Game over: cutoff reached"}
-        print("here", self.script)
         (
             current_turn,
             current_character,

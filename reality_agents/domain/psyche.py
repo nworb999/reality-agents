@@ -36,7 +36,7 @@ class Psyche:
     def initialize_state(
         self, conflict: str, scene: str, relationship_to_target: str, utterance: str
     ):
-        logger.info("Initializing emotional state...")
+        logger.info("Initializing emotional state for...")
         print("Initializing emotional state...")
         self._initialize_emotional_state(conflict, relationship_to_target, utterance)
         self._initialize_intention_and_objective(

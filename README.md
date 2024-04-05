@@ -13,17 +13,12 @@ If you're connecting to a local LLM with ollama, you also need to run `ollama se
  poetry run python main.py
 ```
 
-## tests
-
-```bash
-poetry run pytest
-```
-
 
 ## architecture
 
 Read more [here](./reality_agents/README.md)
 
-## frameworks
 
-In the future, I might need to convert this project into a web-based application. In that case, I would use a framework like FastAPI. 
+## reflections
+
+I would have added frontend functionality, asynchronous programming and websockets from the get-go.  I would have grouped prompts more from the beginning based on the associated step.  I also would have started using Pydantic types sooner.  

@@ -22,9 +22,10 @@ def initialize_db_session(test_flag=False):
 
 
 class GameController:
-    def __init__(self, characters, conflict, scene, test_flag=False):
+    def __init__(self, characters, conflict, scene, test_flag=False, max_turns=10):
         with initialize_db_session(test_flag) as db:
             self.game_service = GameService(
+                db=db,
                 characters=[
                     character.dict() if hasattr(character, "dict") else character
                     for character in characters
@@ -32,7 +33,7 @@ class GameController:
                 conflict=conflict,
                 scene=scene,
                 test_flag=test_flag,
-                db=db,
+                max_turns=max_turns,
             )
 
     def start_game(self):

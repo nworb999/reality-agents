@@ -13,3 +13,4 @@ class GameRequest(BaseModel):
     conflict: str
     scene: str
     test_flag: bool
+    max_turns: int
