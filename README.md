@@ -5,6 +5,7 @@
 After cloning the repository, you need to set up the project environment using Poetry. If you haven't already installed Poetry, you can find installation instructions on the [Poetry website](https://python-poetry.org/docs/).
 
 If you're connecting to a local LLM with ollama, you also need to run `ollama serve` in the imagination server (or wherever ollama is hosted) to launch the instance. 
+- update -- this might not be necessary anymore
 
  ```bash
  poetry install
