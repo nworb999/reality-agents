@@ -10,7 +10,7 @@ If you're connecting to a local LLM with ollama, you also need to run `ollama se
  poetry install
  poetry shell # use virtual environment
  poetry run python --version # confirm version matches the pyproject.toml
- poetry run python main.py
+ poetry run python main.py --test
 ```
 
 
