@@ -17,7 +17,7 @@ def get_response(prompt, past_responses=None):
 
     data = {
         # "model": "mixtral:latest",
-        "model": "llama2:70b",
+        "model": "llama3:70b",
         # "model": "dolphin-mixtral",
         "messages": history,
         "stream": False,
