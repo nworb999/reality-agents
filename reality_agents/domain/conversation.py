@@ -6,7 +6,7 @@ from reality_agents.services.llm.prompt_injection import (
     format_intention_to_end_conversation_prompt,
     format_prompt,
 )
-from reality_agents.services.llm.ollama_handler import get_response
+from reality_agents.services.llm.handler import get_response
 from utils.string import check_yes_or_no
 from utils.logger import logger
 

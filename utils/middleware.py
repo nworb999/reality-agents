@@ -6,6 +6,8 @@ from reality_agents.api.types import GameRequest
 from starlette.middleware.base import BaseHTTPMiddleware
 from utils.ssh_tunnel import stop_tunnel
 
+models = ["openai", "ollama"]
+
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
@@ -33,5 +35,8 @@ def parse_arguments():
         "--production",
         action="store_true",
         help="Run in production mode with the SSH tunnel open",
+    )
+    parser.add_argument(
+        "--model", type=str, choices=models, help="The language model provider to use."
     )
     return parser.parse_args()

@@ -1,4 +1,4 @@
-from reality_agents.services.llm.ollama_handler import get_response
+from reality_agents.services.llm.handler import get_response
 from reality_agents.services.llm.prompt_injection import (
     format_init_intention_prompt,
     format_objective_init_prompt,
