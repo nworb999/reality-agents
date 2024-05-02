@@ -12,6 +12,7 @@ class Character:
     def initialize_psyche(
         self, conflict: str, scene: str, relationship_to_target: str, utterance: str
     ):
+        logger.info(f"{self.name} initializing psyche...")
         self.psyche.initialize_state(
             conflict=conflict,
             relationship_to_target=relationship_to_target,
@@ -20,6 +21,7 @@ class Character:
         )
 
     def update_psyche(self, conflict: str, utterance: str):
+        logger.info(f"{self.name} updating psyche...")
         self.psyche.update_state(utterance=utterance, conflict=conflict)
 
     def get_emotional_state(self):

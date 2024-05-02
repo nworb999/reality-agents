@@ -15,7 +15,6 @@ class GameLogic:
         self.game_state.end_current_conversation()
         self.game_state.start_new_conversation()
         # initialize psyche for first character only
-        print(f"FOR {self.characters[0].name}")
         self.game_state.initialize_character_psyche(self.characters[0])
 
     def update_game(self, script):

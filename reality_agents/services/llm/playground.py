@@ -1,4 +1,4 @@
-from reality_agents.services.llm.ollama_handler import get_response
+from reality_agents.services.llm.handler import get_response
 from reality_agents.services.llm.prompt_injection import format_prompt
 from utils.ssh_tunnel import start_tunnel, stop_tunnel
 

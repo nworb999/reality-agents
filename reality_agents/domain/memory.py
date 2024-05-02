@@ -1,5 +1,5 @@
 from reality_agents.services.llm.prompt_injection import format_convo_summary_prompt
-from reality_agents.services.llm.ollama_handler import get_response
+from reality_agents.services.llm.handler import get_response
 from utils.string import parse_convo_summary
 
 

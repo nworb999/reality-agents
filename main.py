@@ -9,6 +9,7 @@ from reality_agents.api.routes import router
 from utils.middleware import signal_handler, parse_arguments, RequestLoggingMiddleware
 from utils.setup import setup_main_ascii, game_loop
 from utils.ssh_tunnel import start_tunnel
+import reality_agents.services.llm.handler as handler
 
 load_dotenv()
 
@@ -39,9 +40,13 @@ app.add_middleware(
 
 app.include_router(router, prefix="/api/game")
 
+model = "ollama"
+
 
 def main():
     args = parse_arguments()
+    if args.model:
+        handler.model = args.model
     test_flag = args.test
     production_flag = args.production
     if production_flag:

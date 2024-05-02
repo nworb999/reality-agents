@@ -2,7 +2,7 @@ from reality_agents.services.llm.prompt_injection import (
     format_emotion_init_prompt,
     format_emotion_update_prompt,
 )
-from reality_agents.services.llm.ollama_handler import get_response
+from reality_agents.services.llm.handler import get_response
 from utils.string import parse_emotion_response
 
 
