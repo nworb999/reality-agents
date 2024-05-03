@@ -1,5 +1,6 @@
 __pycache__/
 .venv/
+.ssh_id_rsa
 .github/
 *.py[cod]
 .pytest_cache/

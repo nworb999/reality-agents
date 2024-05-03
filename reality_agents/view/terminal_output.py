@@ -3,7 +3,13 @@ import textwrap
 from utils.string import parse_utterance
 from reality_agents.view.utils import get_emoji_by_index
 
-TERMINAL_WIDTH = os.get_terminal_size().columns
+DEFAULT_TERMINAL_WIDTH = 80
+
+try:
+    TERMINAL_WIDTH = os.get_terminal_size().columns
+except OSError:
+    TERMINAL_WIDTH = DEFAULT_TERMINAL_WIDTH
+
 PADDING = 17
 
 # TODO print out char by char
