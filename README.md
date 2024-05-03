@@ -5,8 +5,8 @@ If you're connecting to a local LLM with ollama, you may also need to run `ollam
 
  ```bash
  python3 -m venv reality-env
- pip install -r requirements.txt
  source reality-env/bin/activate
+ pip install -r requirements.txt
  python main.py --test
 ```
 
