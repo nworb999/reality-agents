@@ -2,12 +2,21 @@
 
 ## setup
 If you're connecting to a local LLM with ollama, you may also need to run `ollama serve` in the imagination server (or wherever ollama is hosted) to launch the instance. 
-
  ```bash
  python3 -m venv reality-env
  source reality-env/bin/activate
  pip install -r requirements.txt
  python main.py --test
+```
+
+This currently expects an SSH tunnel to a remote server that has ollama running.  In the future, I can add a flag to turn that off.  The environment variables go as follows:
+
+```
+IMAGINATION_IP=
+IMAGINATION_PORT=11434 # ollama port
+LOCAL_PORT= # arbitrary
+SSH_USERNAME=
+SSH_KEYFILE=
 ```
 
 
