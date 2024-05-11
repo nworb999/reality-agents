@@ -40,7 +40,7 @@ def parse_arguments():
         "--model", type=str, choices=models, help="The language model provider to use."
     )
     parser.add_argument(
-        "--no_tunnel",
+        "--no-tunnel",
         action="store_true",
         help="Don't open an SSH tunnel to the remote server",
     )

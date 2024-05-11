@@ -10,6 +10,9 @@ If you're connecting to a local LLM with ollama, you may also need to run `ollam
  python main.py --test
 ```
 
+If you're running on a server where ollama is running, make the LOCAL_PORT in the `.env` 11434 and leave the imagination (remote) server variables blank.  Then run `python main.py --test --no-tunnel`.
+
+
 
 ## architecture
 
