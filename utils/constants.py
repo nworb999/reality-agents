@@ -1,5 +1,16 @@
 import random
 from colorama import Fore
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+IMAGINATION_IP = os.environ.get("IMAGINATION_IP")
+IMAGINATION_PORT = int(os.environ.get("IMAGINATION_PORT"))
+LOCAL_PORT = int(os.environ.get("LOCAL_PORT"))
+SSH_USERNAME = os.environ.get("SSH_USERNAME")
+SSH_KEYFILE = os.environ.get("SSH_KEYFILE")
+
 
 ASCII_INTRO_OLD = """
 █▀█ █░█ █▄▄ █░░ █ █▀▀   █▀▀ ▀▄▀ █▀█ █▀▀ █▀█ █ █▀▄▀█ █▀▀ █▄░█ ▀█▀   █ █
