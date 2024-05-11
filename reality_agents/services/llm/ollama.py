@@ -1,12 +1,13 @@
 import requests
 import json
 from utils.string import remove_artifacts
+from utils.constants import LOCAL_PORT
 
 # TODO put this in utils, not in service layer
 
 
 def get_response(prompt, past_responses=None):
-    url = "http://localhost:12345/api/chat"
+    url = f"http://localhost:{LOCAL_PORT}/api/chat"
     if past_responses is None:
         history = []
     else:
