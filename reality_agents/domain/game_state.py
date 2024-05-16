@@ -45,7 +45,7 @@ class GameState:
         clear_screen()
         intro_text()
         logger.info("Generating conversation, this might take a while...")
-        print("Generating conversation, this might take a while...")
+        # print("Generating conversation, this might take a while...")
         self._archive_current_conversation()
         self.current_conversation = self._create_conversation(
             conflict, scene, order_type
