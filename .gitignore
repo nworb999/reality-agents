@@ -7,5 +7,3 @@ __pycache__/
 .env
 .DS_Store
 reality-env/
-moody-env/
-real-env/
