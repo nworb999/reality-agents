@@ -5,6 +5,5 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .env
+.DS_Store
 reality-env/
-moody-env/
-real-env/
