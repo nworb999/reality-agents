@@ -1,4 +1,4 @@
-# reality agents
+# reality agents 👺
 
 ## setup
 If you're connecting to a local LLM with ollama, you may also need to run `ollama serve` in the imagination server (or wherever ollama is hosted) to launch the instance. 
