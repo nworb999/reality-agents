@@ -12,7 +12,7 @@ def get_response(prompt, past_responses=None):
     handler = response_handlers.get(model)
     if handler:
         response = handler(prompt, past_responses)
-        lines = response.split("\n")[0][:200]
+        lines = response.split("\n")[0][:90]
         logger.info(f"Response: {lines}...")
         return response
     else:

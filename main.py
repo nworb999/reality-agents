@@ -18,8 +18,8 @@ from utils.constants import (
 
 
 allowed_origins = [
-    "http://localhost:8000",
-    "https://your-frontend-domain.com",
+    "http://localhost:8080",
+    "https://nworb999.github.io/reality-agents-ui/",
     f"http://{IMAGINATION_IP}:{IMAGINATION_PORT}",
     f"http://localhost:{LOCAL_PORT}",
 ]

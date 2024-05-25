@@ -16,6 +16,8 @@ game_controller = None
 def create_game(request: GameRequest):
     global game_controller
     try:
+        print_capture_handler.clear_logs()
+
         game_controller = GameController(
             characters=request.characters,
             conflict=request.conflict,
@@ -84,7 +86,6 @@ def update():
             status_code=status.HTTP_200_OK,
             content={
                 "message": "Game updated successfully",
-                "logs": print_capture_handler.logs,
             },
         )
     except ConnectionError as ce:
@@ -96,3 +97,27 @@ def update():
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
         raise
+
+
+@router.get("/logs")
+def get_logs():
+    try:
+        if game_controller is None:
+            return JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={"message": "Game not started or no logs available"},
+            )
+        # Assume print_capture_handler is accessible and holds the latest logs
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "message": "Logs fetched successfully",
+                "logs": print_capture_handler.logs,
+            },
+        )
+    except Exception as e:
+        logger.error(f"Error fetching logs: {e}", exc_info=True)
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"message": "Internal server error"},
+        )
