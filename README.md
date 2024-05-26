@@ -1,5 +1,8 @@
 # reality agents 👺
 
+<img width="1011" alt="chart" src="https://github.com/nworb999/reality-agents/assets/20407156/81ac27ac-3f53-483f-843a-1415c8d9fda6">
+
+
 ## setup
 If you're connecting to a local LLM with ollama, you may also need to run `ollama serve` in the imagination server (or wherever ollama is hosted) to launch the instance. 
  ```bash
