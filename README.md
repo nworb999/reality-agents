@@ -1,4 +1,5 @@
 # reality agents 👺
+[Try our beta now!](https://nworb999.github.io/reality-agents-ui/)
 
 <img width="1011" alt="chart" src="https://github.com/nworb999/reality-agents/assets/20407156/81ac27ac-3f53-483f-843a-1415c8d9fda6">
 
