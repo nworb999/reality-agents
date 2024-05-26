@@ -8,6 +8,7 @@ class Character:
         self.personality: str = personality
         self.relationship_to_target = relationship_to_target
         self.psyche: Psyche = Psyche(self.personality, self.relationship_to_target)
+        self.psyche_initialized = False
 
     def initialize_psyche(
         self, conflict: str, scene: str, relationship_to_target: str, utterance: str
@@ -19,9 +20,11 @@ class Character:
             utterance=utterance,
             scene=scene,
         )
+        self.psyche_initialized = True
 
     def update_psyche(self, conflict: str, utterance: str):
-        logger.info(f"{self.name} updating psyche...")
+        if self.psyche_initialized:
+            logger.info(f"{self.name} updating psyche...")
         self.psyche.update_state(utterance=utterance, conflict=conflict)
 
     def get_emotional_state(self):
