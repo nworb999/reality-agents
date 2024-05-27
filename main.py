@@ -19,7 +19,7 @@ from utils.constants import (
 
 allowed_origins = [
     "http://localhost:8080",
-    "https://nworb999.github.io/reality-agents-ui/",
+    "https://nworb999.github.io/reality-agents-ui",
     f"http://{IMAGINATION_IP}:{IMAGINATION_PORT}",
     f"http://localhost:{LOCAL_PORT}",
 ]
@@ -38,6 +38,17 @@ app.add_middleware(
 
 app.include_router(router, prefix="/api/game")
 
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "up"}
+
+
 model = "ollama"
 
 
@@ -46,7 +57,11 @@ def main():
     if args.model:
         handler.model = args.model
     test_flag = args.test
-    production_flag = args.production
+
+    if os.getenv("ENV") == "production":
+        production_flag = True
+    else:
+        production_flag = args.production
     if production_flag:
         test_flag = True
 
@@ -66,8 +81,9 @@ def main():
     if not production_flag:
         game_loop(test_flag)
 
+    port = int(os.getenv("PORT", 4321))
     if production_flag:
-        uvicorn.run(app, host="0.0.0.0", port=4321)  # Start the FastAPI server
+        uvicorn.run(app, host="0.0.0.0", port=port)  # Start the FastAPI server
         signal.signal(signal.SIGINT, signal_handler)
         signal.signal(signal.SIGTERM, signal_handler)
         print("Production mode: Tunnel is open. Press Ctrl+C to stop.")

@@ -14,5 +14,5 @@ EXPOSE 80
 
 ENV NAME World
 
-CMD ["python", "main.py", "--test"]
+CMD ["python", "main.py", "--production"]
 
