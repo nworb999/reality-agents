@@ -105,17 +105,25 @@ class ConversationManager:
         script: List[Dict[str, str]],
         convo_state: str,
     ):
+        if script and self.turn != 0:
+            last_utterance = script[-1]["dialogue"]
+        else:
+            last_utterance = None
         prompt = self._get_prompt(
             current_speaker=current_speaker,
             target=target,
             convo_state=convo_state,
-            utterance=script[-1]["dialogue"] if self.turn != 0 else None,
+            utterance=last_utterance,
         )
+
+        if self.turn > 0 and len(script) >= 3:
+            past_responses = [entry["dialogue"] for entry in script[:3]]
+        else:
+            past_responses = None
+
         return get_response(
             prompt,
-            past_responses=None
-            if self.turn == 0
-            else [entry["dialogue"] for entry in script[:3]],
+            past_responses=past_responses,
         )
 
     def next_line(self, script: List[Dict[str, str]]):
