@@ -1,0 +1,18 @@
+runtime: custom  
+env: flex
+entrypoint: gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b :$PORT main:app
+
+env_variables:    # Define environment variables
+  ENV: 'production'
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 3
+  cool_down_period_sec: 60
+  cpu_utilization:
+    target_utilization: 0.5
+
+resources:
+  cpu: 2
+  memory_gb: 4
+  disk_size_gb: 10

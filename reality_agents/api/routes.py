@@ -1,6 +1,6 @@
 from utils.logger import logger
 import asyncio
-from fastapi import APIRouter, WebSocket, status
+from fastapi import APIRouter, WebSocket, status, Response
 from starlette.websockets import WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from reality_agents.api.controller import GameController
