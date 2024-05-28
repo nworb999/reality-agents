@@ -11,15 +11,26 @@ models = ["openai", "ollama"]
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        body = await request.body()
-        # print(GameRequest.model_json_schema())
-        # try:
-        #     body_json = json.loads(body)
-        #     print("Request body:", body_json)
-        # except json.JSONDecodeError:
-        #     print("Request body is not JSON")
+        if (
+            request.method != "OPTIONS"
+        ):  # Skip middleware processing for OPTIONS requests
+            body = await request.body()
+            try:
+                body_json = json.loads(body)
+                print("Request body:", body_json)
+            except json.JSONDecodeError:
+                print("Request body is not JSON")
         response = await call_next(request)
         return response
+        # body = await request.body()
+        # # print(GameRequest.model_json_schema())
+        # # try:
+        # #     body_json = json.loads(body)
+        # #     print("Request body:", body_json)
+        # # except json.JSONDecodeError:
+        # #     print("Request body is not JSON")
+        # response = await call_next(request)
+        # return response
 
 
 def signal_handler(signum, frame):
