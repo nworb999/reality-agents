@@ -18,7 +18,7 @@ def get_response(prompt, past_responses=None):
     messages.append({"role": "user", "content": prompt})
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo-0125",  # Ensure you specify the correct model, e.g., gpt-3.5-turbo if needed
+        model="gpt-4o-2024-05-13",  # Ensure you specify the correct model, e.g., gpt-3.5-turbo if needed
         messages=messages,
     )
 

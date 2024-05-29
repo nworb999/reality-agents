@@ -21,5 +21,5 @@ ENV ENV production
 
 
 #CMD ["python", "main.py", "--test"]
-CMD ["python", "main.py", "--production"]
+CMD ["python", "main.py", "--production",  "--no-tunnel",  "--model openai"]
 
