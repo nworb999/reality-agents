@@ -64,6 +64,9 @@ def main():
     if args.model:
         handler.model = args.model
     test_flag = args.test
+    cuttlefish_mode = args.cuttlefish
+    if cuttlefish_mode:
+        test_flag = True
 
     if os.getenv("ENV") == "production":
         production_flag = True
@@ -86,7 +89,7 @@ def main():
         )
 
     if not production_flag:
-        game_loop(test_flag)
+        game_loop(test_flag, cuttlefish_mode)
 
     port = int(os.getenv("PORT", 4321))
     if production_flag:

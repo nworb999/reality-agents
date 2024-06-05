@@ -55,4 +55,9 @@ def parse_arguments():
         action="store_true",
         help="Don't open an SSH tunnel to the remote server",
     )
+    parser.add_argument(
+        "--cuttlefish",
+        action="store_true",
+        help="Use the Cuttlefish mode for generating scenarios",
+    )
     return parser.parse_args()

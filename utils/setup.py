@@ -15,12 +15,12 @@ def setup_main_ascii(test_flag=False):
         spin()
 
 
-def game_loop(test_flag=False):
+def game_loop(test_flag=False, cuttlefish_flag=False):
     while True:
         try:
-            play_game(test_flag)
+            play_game(test_flag, cuttlefish_flag)
         except ConnectionError:  # just replay (with cache)
-            play_game(test_flag)
+            play_game(test_flag, cuttlefish_flag)
         except KeyboardInterrupt:
             handle_keyboard_interrupt(test_flag)
             break  # Exit the while loop on KeyboardInterrupt
@@ -30,8 +30,10 @@ def game_loop(test_flag=False):
 
 
 # this should be happening in back end
-def play_game(test_flag):
-    play_conversation_game(SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE, test_flag)
+def play_game(test_flag, cuttlefish_flag):
+    play_conversation_game(
+        SCENE_CACHE, CONFLICT_CACHE, CHARACTERS_CACHE, test_flag, cuttlefish_flag
+    )
 
 
 def handle_keyboard_interrupt(test_flag):
