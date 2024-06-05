@@ -23,6 +23,12 @@ SSH_USERNAME=
 SSH_KEYFILE=
 ```
 
+If you're running on a cuttlefish, run this:
+
+```
+python main.py --cuttlefish --no-tunnel --model openai
+```
+
 
 ## architecture
 
