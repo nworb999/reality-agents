@@ -2,6 +2,7 @@ import openai
 import os
 from utils.string import remove_artifacts
 from dotenv import load_dotenv
+import time
 
 # TODO put this in utils, not in service layer
 
@@ -11,6 +12,7 @@ client = openai.OpenAI(api_key=os.environ.get("OPENAI_KEY"))
 
 
 def get_response(prompt, past_responses=None):
+    time.sleep(4)
     if past_responses is None:
         past_responses = []
 

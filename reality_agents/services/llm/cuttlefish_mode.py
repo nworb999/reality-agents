@@ -11,7 +11,12 @@ def format_character_name_response(character_response):
     if match:
         return match.group(1).strip()
     else:
-        return character_response.strip()
+        return (
+            character_response.strip()
+            .replace("Sure! How about the name", "")
+            .replace("?", "")
+            .replace("**", "")
+        )
 
 
 def generate_cuttlefish_scenario():
