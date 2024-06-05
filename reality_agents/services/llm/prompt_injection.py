@@ -1,6 +1,6 @@
 from typing import Optional
 
-template = "Provide one sentence."
+template = "Provide one sentence.  Be as aggressive as possible."
 
 # TODO refactor as args objects
 # TODO separate into separate files -- prompt templates
